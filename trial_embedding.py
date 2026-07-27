@@ -41,12 +41,17 @@ class CriterionEncoder(nn.Module):
             nn.Linear(embed_dim, embed_dim),
         )
 
-    def _meta_features(self, criterion: Criterion, device) -> torch.Tensor:
-        op_onehot = torch.zeros(len(_OPERATORS), device=device)
-        op_onehot[_OP_TO_IDX[criterion.operator]] = 1.0
-        value = torch.tensor([criterion.value if criterion.value is not None else 0.0], device=device)
-        weight = torch.tensor([criterion.severity_weight], device=device)
-        return torch.cat([op_onehot, torch.tanh(value), weight])
+    def _meta_features(self, criterion, device):
+        # Safely retrieve severity_weight with a default fallback of 1.0
+        weight_val = getattr(criterion, 'severity_weight', 1.0)
+        weight = torch.tensor([weight_val], dtype=torch.float32, device=device)
+        
+        # Safely retrieve operator encoding or default to 0
+        op_val = getattr(criterion, 'operator', None)
+        op_code = op_val.value if hasattr(op_val, 'value') else 0
+        op_tensor = torch.tensor([op_code], dtype=torch.float32, device=device)
+        
+        return torch.cat([weight, op_tensor], dim=-1)
 
     def forward(self, concept_embedding: torch.Tensor, criterion: Criterion) -> torch.Tensor:
         meta = self._meta_features(criterion, concept_embedding.device)

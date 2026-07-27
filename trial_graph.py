@@ -256,12 +256,25 @@ class Operator(Enum):
 
 @dataclass
 class Criterion:
-    entity_type: str
-    entity_code: str
-    operator: Operator
-    value: Optional[float] = None
-    max_value: Optional[float] = None
-    weight: float = 1.0
+    def __init__(
+        self,
+        entity_code: str,
+        entity_type: str = "diagnosis",
+        operator: Operator = Operator.EXISTS,
+        value: float = None,
+        max_value: float = None,
+        is_inclusion: bool = True,
+        severity_weight: float = 1.0,
+        raw_entity: str = ""
+    ):
+        self.entity_code = entity_code
+        self.entity_type = entity_type
+        self.operator = operator
+        self.value = value
+        self.max_value = max_value
+        self.is_inclusion = is_inclusion
+        self.severity_weight = severity_weight
+        self.raw_entity = raw_entity
 
 
 @dataclass
@@ -281,18 +294,40 @@ class PatientClinicalState:
 
     @classmethod
     def build_from_tables(cls, subject_id: int, diag_df, rx_df, labs_df):
-        state = cls(subject_id)
-        p_diag = diag_df[diag_df['SUBJECT_ID'] == subject_id]
-        state.diagnosis_codes = set(p_diag['ICD10_CODE'].astype(str).unique())
+            state = cls(subject_id)
+            
+            # 1. Diagnoses
+            p_diag = diag_df[diag_df['SUBJECT_ID'] == subject_id]
+            if 'ICD10_CODE' in p_diag.columns:
+                state.diagnosis_codes = set(p_diag['ICD10_CODE'].astype(str).unique())
+            elif 'ICD9_CODE' in p_diag.columns:
+                state.diagnosis_codes = set(p_diag['ICD9_CODE'].astype(str).unique())
 
-        p_rx = rx_df[rx_df['SUBJECT_ID'] == subject_id]
-        state.medication_codes = set(p_rx['NDC'].astype(str).unique())
+            # 2. Medications
+            p_rx = rx_df[rx_df['SUBJECT_ID'] == subject_id]
+            if 'NDC' in p_rx.columns:
+                state.medication_codes = set(p_rx['NDC'].astype(str).unique())
 
-        p_labs = labs_df[labs_df['SUBJECT_ID'] == subject_id]
-        for _, row in p_labs.iterrows():
-            state.lab_last_values[str(row['ITEMID'])] = float(row['VALUENUM'])
-        return state
+            # 3. Lab values with dynamic column lookup fallback
+            p_labs = labs_df[labs_df['SUBJECT_ID'] == subject_id]
+            
+            # Detect which column holds the numerical lab value
+            value_col = None
+            for col in ['VALUENUM', 'VALUE', 'VAL_NUM', 'valuenum', 'value']:
+                if col in p_labs.columns:
+                    value_col = col
+                    break
 
+            if value_col is not None:
+                for _, row in p_labs.iterrows():
+                    try:
+                        val = float(row[value_col])
+                        if not np.isnan(val):
+                            state.lab_last_values[str(row['ITEMID'])] = val
+                    except (ValueError, TypeError):
+                        continue
+
+            return state
 
 def _match_single(state: PatientClinicalState, c: Criterion) -> float:
     if c.entity_type == "diagnosis":

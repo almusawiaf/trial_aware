@@ -233,6 +233,8 @@ def build_evaluation_matrices(cfg: Config):
     labs_df = pd.read_parquet(os.path.join(cfg.OUTPUT_DIR, "labs_clean.parquet"))
 
     subject_ids = sorted(diag_df['SUBJECT_ID'].unique(), key=int)
+    
+    # Calls the updated build_from_tables method from trial_graph.py
     patient_states = {
         sid: PatientClinicalState.build_from_tables(sid, diag_df, rx_df, labs_df)
         for sid in subject_ids

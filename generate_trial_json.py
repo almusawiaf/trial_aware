@@ -252,6 +252,7 @@
 # generate_trial_json.py
 import json
 import logging
+import os
 from config import Config
 from ontology_loader import DynamicOntologyMapper
 from preprocessor import MIMICDataPreprocessor
@@ -262,20 +263,28 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def main():
     cfg = Config()
     
-    # Preprocessor initializes and exposes icd9_to_icd10_map
+    # 1. Initialize preprocessor & get crosswalk
     pp = MIMICDataPreprocessor(cfg)
     icd10_map = getattr(pp, 'icd9_to_icd10_map', {})
 
+    # 2. Load ontology tables using cfg.DATA_DIR or MIMIC_DIR
+    data_dir = getattr(cfg, 'DATA_DIR', getattr(cfg, 'MIMIC_DIR', './data'))
     mapper = DynamicOntologyMapper(icd9_to_icd10_map=icd10_map)
-    mapper.load_icd9_and_patient_tables(data_dir=cfg.DATA_DIR)
+    mapper.load_icd9_and_patient_tables(data_dir=data_dir)
 
-    # Load raw clinical trials JSON
-    raw_trials_path = "raw_clinical_trials.json"
-    if not os.path.exists(raw_trials_path):
-        logging.error(f"Cannot find {raw_trials_path}. Provide structured_clinical_trials.json directly or supply raw input.")
+    # 3. Locate clinical trials input file
+    input_path = None
+    for candidate in ["raw_clinical_trials.json", "structured_clinical_trials.json"]:
+        if os.path.exists(candidate):
+            input_path = candidate
+            break
+
+    if not input_path:
+        logging.error("No clinical trial JSON file found! Please provide raw_clinical_trials.json or structured_clinical_trials.json.")
         return
 
-    with open(raw_trials_path, "r") as f:
+    logging.info(f"Processing trial criteria from: {input_path}")
+    with open(input_path, "r") as f:
         raw_trials = json.load(f)
 
     structured_trials = []
@@ -284,18 +293,24 @@ def main():
         raw_criteria = trial.get("criteria", [])
         
         for c in raw_criteria:
-            text = c.get("text", "") if isinstance(c, dict) else str(c)
+            text = c.get("raw_entity", c.get("text", "")) if isinstance(c, dict) else str(c)
             raw_entity, entity_type, entity_code = mapper.match_entity(text)
             
+            # If dynamic mapper didn't match a new code, attempt converting existing entity_code
+            if not entity_code or entity_code == "UNKNOWN_CODE":
+                existing_code = c.get("entity_code", "") if isinstance(c, dict) else ""
+                if existing_code and existing_code != "UNKNOWN_CODE":
+                    entity_code = mapper._to_icd10(existing_code)
+
             processed_criteria.append({
                 "raw_entity": raw_entity or text,
-                "entity_type": entity_type or "diagnosis",
+                "entity_type": entity_type or c.get("entity_type", "diagnosis"),
                 "entity_code": entity_code or "UNKNOWN_CODE",
                 "operator": c.get("operator", "EXISTS") if isinstance(c, dict) else "EXISTS",
                 "value": c.get("value", None) if isinstance(c, dict) else None,
                 "max_value": c.get("max_value", None) if isinstance(c, dict) else None,
                 "is_inclusion": c.get("is_inclusion", True) if isinstance(c, dict) else True,
-                "severity_weight": 1.0
+                "severity_weight": c.get("severity_weight", 1.0) if isinstance(c, dict) else 1.0
             })
 
         structured_trials.append({
@@ -315,5 +330,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import os
     main()
