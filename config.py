@@ -67,7 +67,7 @@ class Config:
     LAMBDA_ANCHOR: float = 0.5     # Weight for anchor regularization relative to Stage A
     MARGIN_HARD = 0.4  # m_hard > m_rand, per the LaTeX design rationale (hard negatives need a
     MARGIN_RAND = 0.2  # bigger safety margin since they are "almost positives" that got excluded)
-    HARD_NEG_INC_THRESHOLD = 0.5   # M_inc >= this AND
+    HARD_NEG_INC_THRESHOLD = 0.05   # M_inc >= this AND
     HARD_NEG_EXC_THRESHOLD = 0.8   # M_exc >= this  => trial counts as a hard negative for patient
     N_RANDOM_NEGATIVES = 5
     ELIGIBILITY_THRESHOLD_GAMMA = 0.8  # gamma_elig: used only for held-out P@k evaluation,

@@ -75,20 +75,22 @@ class TrialEncoder(nn.Module):
         return (attn.unsqueeze(-1) * Z).sum(dim=0)               # [d]
 
 
-def get_concept_embedding(entity_type: str, entity_code: str,
+def get_concept_embedding(entity_type: str, 
+                           entity_code: str,
                            entity_maps: Dict[str, Dict[str, int]],
                            post_gnn_embeddings: Dict[str, torch.Tensor],
-                           embed_dim: int, device) -> torch.Tensor:
+                           embed_dim: int, 
+                           device) -> torch.Tensor:
     """Looks up the post-GNN embedding for a criterion's target concept node."""
-    node_map = entity_maps[entity_type]
-    if entity_code not in node_map:
-        # Concept never observed in this institution's graph -- fall back to
-        # a zero vector rather than crashing; this also means such criteria
-        # contribute nothing to z_inc/z_exc, which is the conservative choice.
-        return torch.zeros(embed_dim, device=device)
-    idx = node_map[entity_code]
-    return post_gnn_embeddings[entity_type][idx]
+    # Safely fetch the entity map for diagnosis, medication, lab, procedure, etc.
+    node_map = entity_maps.get(entity_type)
 
+    # If entity_type is missing from entity_maps (e.g., 'procedure') or code is missing/unknown:
+    if node_map is None or entity_code not in node_map:
+        return torch.zeros(embed_dim, device=device)
+
+    node_idx = node_map[entity_code]
+    return post_gnn_embeddings[entity_type][node_idx]
 
 def encode_trial(trial: Trial,
                   entity_maps: Dict[str, Dict[str, int]],

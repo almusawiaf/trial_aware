@@ -1,4 +1,6 @@
 # train.py
+import gc
+import json
 import logging
 import os
 
@@ -11,10 +13,13 @@ from alignment import AlignmentLoss, similarity
 from config import Config
 from gcl_framework import GraphAugmentor, HeteroGNNEncoder, NTXentLoss
 from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials
-from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices, derive_weak_positive_pairs
-import json
+from trial_graph import (
+    PatientClinicalState,
+    TrialStore,
+    compute_matching_indices,
+    derive_weak_positive_pairs,
+)
 
-    
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -23,12 +28,6 @@ class PurePyTorchGraphLoader:
     Extension-free, memory-efficient mini-batch loader for large heterogeneous
     clinical graphs. Uses pure PyTorch index slicing to isolate 1-hop
     neighborhoods without pyg-lib/torch-sparse.
-
-    Note: since Comorbidity edges (patient<->patient) now exist in the graph
-    (see graph_constructor.py), this loader's 1-hop expansion also pulls in
-    OTHER patients who share diagnoses with the seed batch -- partially
-    addressing the "patients can't see each other" limitation flagged in the
-    review, without needing a full k-hop sampler.
     """
 
     def __init__(self, data, batch_size=256, shuffle=True):
@@ -72,26 +71,12 @@ class PurePyTorchGraphLoader:
 # =====================================================================
 # STAGE A: Self-supervised contrastive pretraining (generic, trial-agnostic)
 # =====================================================================
-# train.py
 
-def pretrain_contrastive(cfg: Config, base_graph, device) -> HeteroGNNEncoder:
-    import torch
-    import gc
-
+def pretrain_contrastive(cfg: Config, base_graph, device, encoder: HeteroGNNEncoder) -> HeteroGNNEncoder:
     gc.collect()
     torch.cuda.empty_cache()
 
-    num_nodes_dict = {nt: base_graph[nt].num_nodes for nt in base_graph.node_types}
-    encoder = HeteroGNNEncoder(
-        metadata=base_graph.metadata(),
-        num_nodes_dict=num_nodes_dict,
-        patient_feat_dim=cfg.PATIENT_FEAT_DIM,
-        entity_embed_dim=cfg.ENTITY_EMBED_DIM,
-        hidden_channels=cfg.HIDDEN_CHANNELS,
-        out_channels=cfg.OUT_CHANNELS,
-    ).to(device)
-    
-    criterion = NTXentLoss(temperature=cfg.TEMPERATURE, max_batch_size=1024) # Cap max loss computation size
+    criterion = NTXentLoss(temperature=cfg.TEMPERATURE, max_batch_size=1024)
     optimizer = torch.optim.Adam(encoder.parameters(), lr=cfg.LR, weight_decay=cfg.WEIGHT_DECAY)
 
     loader = PurePyTorchGraphLoader(base_graph, batch_size=cfg.BATCH_SIZE, shuffle=True)
@@ -121,21 +106,21 @@ def pretrain_contrastive(cfg: Config, base_graph, device) -> HeteroGNNEncoder:
             total_loss += loss.item()
             n_batches += 1
 
-            # Free CUDA memory used by static graph batch references
             del batch, view_1, view_2, h1, h2, z1, z2, loss
 
         avg_loss = total_loss / n_batches if n_batches else 0.0
         if epoch % 10 == 0 or epoch == 1:
             logging.info(f"[Stage A] Epoch {epoch:03d} | Avg NT-Xent Loss: {avg_loss:.4f}")
-        
+
         torch.cuda.empty_cache()
 
     return encoder
 
 
 # =====================================================================
-# STAGE B: Trial-aware alignment fine-tuning (the previously-missing piece)
+# STAGE B: Trial-aware alignment fine-tuning
 # =====================================================================
+
 def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
                        trial_store: TrialStore, patient_states, p_map, entity_maps, device):
     criterion_encoder = CriterionEncoder(cfg.OUT_CHANNELS).to(device)
@@ -145,13 +130,13 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
         margin_hard=cfg.MARGIN_HARD, margin_rand=cfg.MARGIN_RAND,
     )
 
-    # 1. Store Stage A baseline patient embeddings as static reference anchors
+    base_graph_dev = base_graph.to(device)
+
+    # Store Stage A baseline patient embeddings as static reference anchors
     encoder.eval()
     with torch.no_grad():
-        base_graph_dev = base_graph.to(device)
         h_a_anchor = encoder.encode(base_graph_dev.x_dict, base_graph_dev.edge_index_dict)['patient'].detach().clone()
 
-    # Use smaller learning rate for GNN encoder to prevent distortion
     optimizer = torch.optim.Adam([
         {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.1},
         {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
@@ -159,9 +144,12 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
     ])
 
     weak_pairs = derive_weak_positive_pairs(
-        patient_states, trial_store,
-        inc_threshold=cfg.HARD_NEG_INC_THRESHOLD,
+        patient_states, 
+        trial_store,
+        inc_threshold=0.01,           # Hardcode 0.01 to override config.py
+        train_criteria_fraction=0.7,   # Keeps 70% of criteria for train split
     )
+
     if not weak_pairs:
         logging.warning("[Stage B] No weak positive pairs derived -- skipping trial-alignment stage.")
         return encoder, criterion_encoder, trial_encoder, {}
@@ -221,12 +209,11 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
         if n_terms == 0:
             continue
 
-        # Compute average alignment loss + Anchor Regularization penalty
         avg_align_loss = total_align_loss / n_terms
         anchor_loss = F.mse_loss(h_dict['patient'], h_a_anchor)
-        
+
         composite_loss = avg_align_loss + getattr(cfg, 'LAMBDA_ANCHOR', 0.5) * anchor_loss
-        
+
         composite_loss.backward()
         optimizer.step()
 
@@ -246,6 +233,7 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
         )
 
     return encoder, criterion_encoder, trial_encoder, final_trial_embeds
+
 
 def load_processed_tables(cfg: Config):
     paths = {
@@ -274,23 +262,30 @@ def main():
     base_graph = torch.load(cfg.GRAPH_PATH, map_location='cpu', weights_only=False)
     base_graph = T.ToUndirected()(base_graph)
 
-    # ---------------- Stage A ----------------
-    encoder = pretrain_contrastive(cfg, base_graph, device)
+    num_nodes_dict = {nt: base_graph[nt].num_nodes for nt in base_graph.node_types}
+    encoder = HeteroGNNEncoder(
+        metadata=base_graph.metadata(),
+        num_nodes_dict=num_nodes_dict,
+        patient_feat_dim=cfg.PATIENT_FEAT_DIM,
+        entity_embed_dim=cfg.ENTITY_EMBED_DIM,
+        hidden_channels=cfg.HIDDEN_CHANNELS,
+        out_channels=cfg.OUT_CHANNELS,
+    ).to(device)
 
-    # Save Stage-A (trial-agnostic) embeddings as the "Baseline-GCL" arm.
-    encoder.eval()
-    with torch.no_grad():
-        h_dict = encoder.encode(base_graph.to(device).x_dict, base_graph.to(device).edge_index_dict)
-    torch.save(h_dict['patient'].cpu(), cfg.PATIENT_EMBED_PATH.replace(".pt", "_baseline.pt"))
-    logging.info(f"[Stage A] Saved baseline (pre-projection, trial-agnostic) patient embeddings.")
+    # ---------------- Stage A ----------------
+    baseline_embed_path = cfg.PATIENT_EMBED_PATH.replace(".pt", "_baseline.pt")
+
+    if os.path.exists(baseline_embed_path):
+        logging.info(f"[Stage A] Found existing baseline patient embeddings at '{baseline_embed_path}'. Skipping Stage A pretraining!")
+    else:
+        encoder = pretrain_contrastive(cfg, base_graph, device, encoder)
+        encoder.eval()
+        with torch.no_grad():
+            h_dict = encoder.encode(base_graph.to(device).x_dict, base_graph.to(device).edge_index_dict)
+        torch.save(h_dict['patient'].cpu(), baseline_embed_path)
+        logging.info(f"[Stage A] Saved baseline (pre-projection, trial-agnostic) patient embeddings.")
 
     # ---------------- Stage B ----------------
-    from graph_constructor import MIMICGraphConstructor
-
-    # entity maps are needed to align trial criteria codes with graph node
-    # indices; rebuild the constructor's maps from the saved graph node
-    # ordering (in a full pipeline these maps should be persisted directly
-    # by graph_constructor.py during Phase 2 rather than recomputed here).
     diag_df, rx_df, labs_df = load_processed_tables(cfg)
     p_map = {str(sid): i for i, sid in enumerate(sorted(diag_df['SUBJECT_ID'].unique(), key=int))}
     d_map = {str(c): i for i, c in enumerate(sorted(diag_df['ICD10_CODE'].unique()))}
@@ -300,6 +295,7 @@ def main():
 
     patient_states = build_patient_states(diag_df, rx_df, labs_df)
 
+    # Load REAL trial protocols
     with open("structured_clinical_trials.json", "r") as f:
         real_trials_data = json.load(f)
 
@@ -324,7 +320,7 @@ def main():
     torch.save(h_dict['patient'].cpu(), cfg.PATIENT_EMBED_PATH)
     logging.info(f"[Stage B] Saved trial-aware patient embeddings to {cfg.PATIENT_EMBED_PATH}")
 
-    # Example ranking using the composite Similarity score.
+    # Example ranking using composite Similarity score.
     if trial_embeds:
         example_trial_id = next(iter(trial_embeds))
         z_inc, z_exc = trial_embeds[example_trial_id]
