@@ -1,0 +1,2851 @@
+[
+  {
+    "nct_id": "NCT07728695",
+    "title": "Assessing the Mechanisms and Impact of a Novel Cannabinoid Product for Gynecologic Pain",
+    "conditions": [
+      "Endometriosis",
+      "Adenomyosis",
+      "Chronic Pelvic Inflammatory Disease"
+    ],
+    "phase": "PHASE1",
+    "sample_size": 60,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Provides informed consent",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_84041ee8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Sex assigned female at birth",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2a496a58",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Capable of having menstrual cycles",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c23ed7d5",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Endorses one of the following gynecologic pain conditions: endometriosis, adenomyosis, chronic pelvic inflammatory disease (PID)",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1c183b18",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Stable medication/psychotherapy regimens for at least 3 months prior to starting the study, including hormonal contraceptives",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_0812947d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Willingness to participate in the PK procedures (i.e., agree to an indwelling catheter with repeated blood collection)",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_13a40375",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Meets criteria for DSM-5 classification of current substance use disorder, psychotic disorder, bipolar disorder, or an eating disorder",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_92cc8b3c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Currently uses cannabinoid products",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d20157d1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Positive urine pregnancy test, are trying to become pregnant, or are currently breastfeeding",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_de561b7a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Presence of a serious or unstable medical illness, including liver/kidney disease, cardiovascular disease, neurological disorder, and conditions or medications that impact drug absorption or gastric e",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_e724ece0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Comorbid neuropathic pain or cancer-related pain",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_159f6636",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Disclosure of a genetic polymorphism affecting CYP2C9 function",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cc33d2af",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Liver function test (LFT) values \\>3x the upper limit of normal (ULN) at the baseline visit",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d1690df4",
+        "operator": "GT",
+        "value": 3.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728682",
+    "title": "Transit Bipartition After Sleeve Gastrectomy",
+    "conditions": [
+      "Obesity & Overweight",
+      "Gastroesophageal Reflux (GERD)",
+      "Weight Recurrence",
+      "Bariatric Surgery"
+    ],
+    "phase": "NA",
+    "sample_size": 40,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Age 18 years or older; Previous sleeve gastrectomy for the treatment of obesity; Follow-up at the HCRP gastrosurgery/bariatric surgery outpatient clinic through 2026; Clinical evaluation supporting re",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_a28ea104",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Liver cirrhosis; Absence of willingness to undergo a new surgical procedure.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_8d924de0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728669",
+    "title": "Digital Dietary Intervention for Patients Receiving GLP-1 Receptor Agonist Therapy",
+    "conditions": [
+      "Type 2 Diabetes Mellitus (T2DM)",
+      "Obesity (Disorder)",
+      "Overweight",
+      "Metabolic Syndrome"
+    ],
+    "phase": "NA",
+    "sample_size": 120,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Age 21-65 years inclusive at the time of signing informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d26d80cc",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Male or female.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_dc43f5fa",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Overweight with at least one comorbidity, including diabetes mellitus; arterial hypertension of at least 130/85 mmHg or use of antihypertensive medication; dyslipidemia defined as triglycerides of at ",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_d92663eb",
+        "operator": "LTE",
+        "value": 130.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "For participants with overweight: body mass index of 25.0-29.9 kg/m² for the Caucasian population or 23.0-27.4 kg/m² for the Asian population, together with abdominal obesity defined as waist circumfe",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_346edc9e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Class I-III obesity where diet combined with physical activity has been ineffective, defined as weight loss of less than 5% over 3 months.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_28c88f0c",
+        "operator": "LT",
+        "value": 5.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Class I obesity: body mass index of 30.0-34.9 kg/m² for the Caucasian population or 27.5-32.4 kg/m² for the Asian population.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9d45eb70",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Class II obesity: body mass index of 35.0-39.9 kg/m² for the Caucasian population or 32.5-37.4 kg/m² for the Asian population.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_285e3b23",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Type 2 diabetes mellitus with HbA1c of at least 6.5% (48 mmol/mol), fasting glucose of at least 6.1 mmol/L in capillary whole blood or at least 7.0 mmol/L in venous plasma, glucose of at least 11.1 mm",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_7132a474",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Body mass index of at least 25 kg/m² and no more than 40 kg/m² at screening.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_18ca384a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Already receiving, or prescribed, GLP-1 receptor agonist therapy with semaglutide by the treating physician independently of the study. The study does not prescribe or modify this therapy.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_1cc41a32",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Stable doses of medications for chronic conditions, including antihypertensive agents and statins, for at least 8 weeks before screening.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_d5c61733",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ownership of an iOS or Android smartphone with internet access and willingness to download and use the \"NutriSteppe\" application if assigned to the intervention group.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f5f4e1d5",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability and willingness to provide written informed consent and comply with study procedures.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_e1f25dea",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Women of childbearing potential must use effective contraception throughout the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d29d173d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Diagnosis of type 1 diabetes mellitus.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c71f1aa1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of diabetic ketoacidosis or hyperglycemic hyperosmolar state.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f696013b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Initiation of GLP-1 receptor agonist therapy less than 4 weeks before screening.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_8b228631",
+        "operator": "LT",
+        "value": 1.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Current insulin therapy.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_537e88d8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Personal or family history of medullary thyroid carcinoma.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ebca288f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Personal history of multiple endocrine neoplasia type 2 (MEN2).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_fbf6304c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of acute or chronic pancreatitis.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_fcc9b1d2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active gallbladder disease or history of gallbladder disease within 6 months before screening.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_4b292ec8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe gastrointestinal disease, including gastroparesis.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_00099a86",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Major cardiovascular event within 6 months before screening, including myocardial infarction, stroke, transient ischemic attack, unstable angina, coronary artery bypass grafting, or percutaneous coron",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_90bdc25e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Uncontrolled arterial hypertension, defined as systolic blood pressure above 160 mmHg or diastolic blood pressure above 100 mmHg at screening.",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_7477dc7c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Chronic kidney disease with an estimated glomerular filtration rate below 30 mL/min/1.73 m² using the MDRD or CKD-EPI formula.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e816f039",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe hepatic impairment classified as Child-Pugh class C, or ALT or AST greater than three times the upper limit of normal.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6128604e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active malignancy or history of malignancy within 5 years, except successfully treated basal cell or squamous cell carcinoma of the skin.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_be116895",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Established HIV infection, active hepatitis B defined as HBsAg positive with detectable HBV DNA, or hepatitis C virus infection.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_33a1e9a6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of bariatric surgery or bariatric surgery planned during the study.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_9f5b1513",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Anorexia nervosa, bulimia nervosa, or binge eating disorder diagnosed or active within the past year.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c5807dc8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnancy or breastfeeding.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a9894bb7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Planning pregnancy during the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_79a0559a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Woman of childbearing potential unwilling to use effective contraception.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_bb595064",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Use of weight-loss medication, including orlistat, phentermine, combinations with topiramate, naltrexone-bupropion, or other weight-loss medication within 3 months before screening.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_abca1954",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Use of systemic corticosteroids, excluding inhaled or topical corticosteroids, for more than 2 weeks within 3 months before screening.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cfb14321",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Use of antipsychotic medication associated with significant weight gain unless used at a stable dose for more than 6 months.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_bae955e0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Participation in another interventional clinical study within 30 days before screening.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2a45b72f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Known hypersensitivity to semaglutide or any excipient.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7d1133f3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "No smartphone or unwillingness to use digital health technology.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9912d3f2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe mental disorder impairing the ability to provide informed consent or comply with the protocol.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_432e06b8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active alcohol or drug dependence within the past year.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_b5201c0b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Any condition that, in the investigator's opinion, may compromise participant safety or the integrity of the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_be3aaaca",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728656",
+    "title": "Endothelial Extracellular Vesicles as Biomarkers of Endothelial Activation in Pregnant Women With Hypertensive Disorders of Pregnancy",
+    "conditions": [
+      "Hypertensive Disorder of Pregnancy",
+      "Gestational Hypertension",
+      "Preeclampsia"
+    ],
+    "phase": "NA",
+    "sample_size": 80,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Pregnant women aged ≥18 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7a56e389",
+        "operator": "GTE",
+        "value": 18.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Singleton pregnancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c6028f96",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to provide written informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ba231462",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Normotensive pregnancy or diagnosis of gestational hypertension or preeclampsia according to current clinical guidelines.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_33ae02a1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to comply with study procedures.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_f0afbb37",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Chronic hypertension diagnosed before pregnancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_06095eff",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Multiple pregnancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_75ce0c14",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pre-existing diabetes mellitus.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_69cb948c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Chronic kidney disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f7d51efd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Autoimmune disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_45fcd0b1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Known cardiovascular disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1f49bb8d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active infection or inflammatory disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_3f9da91b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Malignancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6d762fb4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability or unwillingness to provide informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_73b407df",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728643",
+    "title": "Endothelial Extracellular Vesicles as Biomarkers of Endothelial Activation in Children With Newly Diagnosed Hypertension",
+    "conditions": [
+      "Pediatric Hypertension",
+      "Primary Hypertension",
+      "Endothelial Dysfunction"
+    ],
+    "phase": "NA",
+    "sample_size": 80,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Children and adolescents aged 6-17 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_91f21e62",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Written informed consent from a parent or legal guardian and assent from the participant when appropriate.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_08224694",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Normotensive status or newly diagnosed, previously untreated primary hypertension according to current pediatric hypertension guidelines.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f6f754b2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to comply with study procedures.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_f0afbb37",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Secondary hypertension.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_db8c18ed",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Previous antihypertensive treatment.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_57655cbd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Congenital heart disease or other significant cardiovascular disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d4745647",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Diabetes mellitus.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a149c125",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Chronic kidney disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f7d51efd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Autoimmune or chronic inflammatory disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_870e6953",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Acute infection at the time of enrollment.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_71aacf10",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Malignancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6d762fb4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Use of medications known to affect endothelial function.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_c99bfe1c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to comply with study procedures.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_4e60bbc4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728630",
+    "title": "Endothelial Extracellular Vesicles as Biomarkers of Endothelial Activation in Adults With Newly Diagnosed Hypertension",
+    "conditions": [
+      "Hypertension",
+      "Endothelial Function"
+    ],
+    "phase": "NA",
+    "sample_size": 80,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Adults aged 18 years or older.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8425b74b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability and willingness to provide written informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_0063ba25",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Normotensive individuals or individuals with newly diagnosed, previously untreated primary hypertension, classified according to the European Society of Hypertension (ESH) guidelines.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_3d10d5e8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to comply with all study procedures.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_ee4d09e4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Secondary hypertension.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_db8c18ed",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Previous treatment with antihypertensive medication.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_b9f3a2ad",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of cardiovascular disease (except newly diagnosed primary hypertension in the hypertensive group).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_58a48cc2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Diabetes mellitus.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a149c125",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Chronic kidney disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f7d51efd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Cerebrovascular disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b33df164",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Peripheral arterial disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d258011b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Acute or chronic inflammatory or infectious disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2334f4b0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active malignancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a6b27599",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnancy or breastfeeding.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a9894bb7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Current use of oral contraceptives, hormone replacement therapy, or medications known to affect endothelial function.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_e90373ce",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability or unwillingness to provide informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_73b407df",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728617",
+    "title": "Acute Effects of Thoracolumbar Fascia Myofascial Release on Cortical Activity: A Sham-Controlled Trial",
+    "conditions": [
+      "Healty Volunteers"
+    ],
+    "phase": "NA",
+    "sample_size": 124,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Age 18-25 years",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ec6918e0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Self-reported healthy status",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6fa90aaf",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Literate in Turkish",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8e5ddd96",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active epilepsy or seizure history",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e74e1312",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Diagnosed psychiatric disorder",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e346b054",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Neurological disorder",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ecf8b6ae",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Cardiac arrhythmia, pacemaker, or heart disease",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_16291422",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active use of psychotropic, beta-blocker, anticholinergic, or antihistaminic medication",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_28b2f6e2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Recreational substance use within the past month",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c25cea59",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active scalp lesion or dermatological pathology",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2002eaf8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active chronic low back pain",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_5a911eb6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of lumbar disc herniation",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b1b0b6e0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of lumbar/thoracic spine surgery",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_14ef5d16",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active skin lesion on the back",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8c21ad6e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728604",
+    "title": "Effect of Digital Follow-up Supported Patient Education on Immunosuppressive Medication Adherence and Quality of Life After Liver Transplantation",
+    "conditions": [
+      "Liver Transplantation",
+      "Medication Adherence"
+    ],
+    "phase": "NA",
+    "sample_size": 48,
+    "overall_status": "COMPLETED",
+    "criteria": [
+      {
+        "raw_entity": "Age 18 years or older.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_45bdd1b8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having undergone liver transplantation.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_38d1295f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Currently receiving immunosuppressive therapy after liver transplantation.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_b6336bf3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to read and write in Turkish.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_0e90a59a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ability to use a smartphone to receive and follow digital messages.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ef184328",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Willingness to participate voluntarily in the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cc006a8f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Provision of written informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ec0dda53",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Experiencing an acute rejection episode during the study period.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_af7e87a3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Presence of cognitive, psychiatric, or communication problems that would interfere with participation in the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_0eafe2d4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to regularly follow digital messages.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cfbe1241",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Difficulty reading and understanding Turkish.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a4bd99e4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to maintain communication throughout the study period.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6bd4fdd4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Refusal to participate in the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1a2e9fe5",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728591",
+    "title": "Blood-based sEV Proteins for Early Detection of 2 Diabetes",
+    "conditions": [
+      "Obesity & Overweight",
+      "Prediabetes / Type 2 Diabetes"
+    ],
+    "phase": "NA",
+    "sample_size": 120,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Hong Kong citizens;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_5ea9589f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Male or female;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7af31c37",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Aged 40-59 years;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6053446c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able and willing to provide written informed consent;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9c065569",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Willing to undergo BMI assessment and fasting blood collection after an overnight fast of at least 8 hours.",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_3ac5d2e0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Cardiovascular disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7f4e63c2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of surgery, as specified in the study protocol.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_567cfea1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Infectious disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b6e98e6c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Osteoarthritis.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_43b35aa1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Genetic disease.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6c1ef564",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnancy or breastfeeding.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a9894bb7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Suspected pregnancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f3db68f8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728578",
+    "title": "Effect of Pilates Training Versus High Intensity Interval Training on Cardiorespiratory Fitness in Asthmatic Patients",
+    "conditions": [
+      "Asthma"
+    ],
+    "phase": "NA",
+    "sample_size": 51,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "51 patients diagnosed with a clinical diagnosis of asthma and a history of respiratory illness, aged between 30 and 40 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_bcc62748",
+        "operator": "BETWEEN",
+        "value": 1.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Medically stable and capable of performing physical exercise.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_5f8b975c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "All participants provided written informed consent before enrollment.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_5213827f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "body mass index 25.0 - 29.9 (overweight)",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d5903d25",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Patients with partially controlled asthma according to the Asthma Control Questionnaire (ACQ) from 0 to 1.5.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b54cd86d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Participants with musculoskeletal limitations, cardiovascular instability, or any contraindications to exercise were excluded.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_eebc2bcc",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Uncontrolled hypertension.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7a239a7d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Cognitive impaired patients.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_aa7b750b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe Anemic patients.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_00e1c7a7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnancy.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2593ea88",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Recent cardiothoracic surgery.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_a4b5bca3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728565",
+    "title": "Long-term Evaluation of Quality of Life and Aesthetic Outcomes After Autologous Breast Reconstruction Using the Profunda Artery Perforator (PAP) Flap",
+    "conditions": [
+      "Breast Cancer",
+      "Acquired Absence of Breast",
+      "Autologous Breast Reconstruction"
+    ],
+    "phase": "NA",
+    "sample_size": 264,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Female patients aged 18 years or older.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a6f8b041",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of unilateral or bilateral breast reconstruction using a profunda artery perforator (PAP) flap.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9dc153ae",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Breast reconstruction performed between 2014 and 2024 at the European Georges Pompidou Hospital.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_36148c63",
+        "operator": "BETWEEN",
+        "value": 2014.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to understand study procedures and complete study questionnaires.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_873d98f6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Provided non-opposition/consent to participate according to French regulations.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_aa01a480",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Patients younger than 18 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a694f35e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Breast reconstruction performed using techniques other than PAP flap.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6b8ab336",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Breast reconstruction performed outside the study period (2014-2024).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d4a8f68d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Patients under legal protection measures.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e018cfcf",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe cognitive impairment or major psychiatric disorder preventing questionnaire completion.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_020d42d7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Hearing impairment preventing participation in the interview process.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b594ab9b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Insufficient French language proficiency.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1f4461bd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Missing essential clinical data.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ae0761cb",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Explicit refusal to participate.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9e66763c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728552",
+    "title": "7-Day MEMO Patch Monitoring for Arrhythmia Detection in Patients With Palpitations",
+    "conditions": [
+      "Arrhythmia",
+      "Palpitations",
+      "Syncope"
+    ],
+    "phase": "NA",
+    "sample_size": 60,
+    "overall_status": "COMPLETED",
+    "criteria": [
+      {
+        "raw_entity": "Adults aged 19 years or older who visit the study site during the study period with symptoms such as palpitations or syncope and are considered to require 24-hour ambulatory electrocardiographic monit",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_34329137",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able and willing to provide voluntary written informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_482da802",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to wear the MEMO Patch™ continuously for 7 days.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8916357f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "A self-reported history of an allergic skin reaction to previously used adhesive products.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_dc07028e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Planned electrical cardioversion, catheter ablation, or surgical treatment for an arrhythmia during the study period.",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_507a846b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728539",
+    "title": "Comparative Evaluation of the Efficacy and Safety of High-Power Short-Duration Radiofrequency Ablation and Standard Low-Power Ablation in Catheter Treatment of Atrial Fibrillation",
+    "conditions": [
+      "Atrial Fibrillation (AF)",
+      "Stroke",
+      "Acute Cerebrovascular Accident",
+      "Atrial Fibrillation Recurrent",
+      "Death"
+    ],
+    "phase": "NA",
+    "sample_size": 196,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Age over 18 years old;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ff43c379",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Atrial fibrillation resistant to antiarrhythmic therapy;",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_fd3bd24f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Paroxysmal form of atrial fibrillation;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_61dfe89f",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Persistent form of atrial fibrillation;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_60025ce2",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "The patient's consent to participate in the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_facac086",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Age under 18 and over 80 years old;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_dd6d1418",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "The presence of another cardiac pathology requiring surgical treatment;",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_cdec18f5",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Congenital heart defects;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a28a08db",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Previous \"open\" cardiac surgery;",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_6d7f17f4",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Bone marrow diseases;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b34b20f1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pathology of the blood coagulation system;",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_93bc8eb1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "The left ventricular ejection fraction is less than 40%;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_bc35eda0",
+        "operator": "LT",
+        "value": 40.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Moderate to severe renal insufficiency (creatinine clearance \\<50 ml/min);",
+        "entity_type": "lab",
+        "entity_code": "EXTRACTED_c540869e",
+        "operator": "LT",
+        "value": 50.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Drug-resistant hypertension (despite hypotensive therapy);",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_ab128844",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Organically altered mitral valve;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_dded2f00",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "There are reasons to assume that the patient will not show up for subsequent visits (control points of the study) for various reasons;",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f3d1aae5",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "The patient's participation in another clinical trial.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_3a32450d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728526",
+    "title": "The Effects of Vestibulo-Ocular Reflex Exercises Added to Postural Stabilization Training in Chronic Ankle Instability",
+    "conditions": [
+      "Ankle Sprains",
+      "Ankle Sprain Strain",
+      "Ankle Inversion Sprain"
+    ],
+    "phase": "NA",
+    "sample_size": 56,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Being between 18 and 35 years of age.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cd878677",
+        "operator": "BETWEEN",
+        "value": 18.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Being classified as a Tier 2 athlete according to the McKay et al. Participant Classification Framework (trained/developmental level).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_89688958",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a history of at least one lateral ankle sprain (LAS) occurring at least 12 months before enrollment, resulting in swelling, pain, and functional impairment, and followed by persistent instabili",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_0cac0136",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having the most recent ankle sprain at least 3 months before study enrollment.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_21bd9af1",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a history of recurrent ankle sprains or episodes of \"giving way.\"",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_cb17b1a3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a diagnosis of unilateral chronic ankle instability (CAI).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_0fff2976",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a Cumberland Ankle Instability Tool - Turkish Version (CAIT-T) score of ≤24.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f5840766",
+        "operator": "LTE",
+        "value": 24.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a Foot and Ankle Ability Measure (FAAM) score of \\<90%.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d2f25774",
+        "operator": "LT",
+        "value": 90.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Having a Foot and Ankle Ability Measure Sports subscale (FAAM-S) score of \\<80%.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_4f22bef9",
+        "operator": "LT",
+        "value": 80.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "A side-to-side difference of ≥2.5 cm in Weight-Bearing Lunge Test distance, with the affected side demonstrating less dorsiflexion than the unaffected side.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d25704b1",
+        "operator": "GTE",
+        "value": 2.5,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of acute lateral ankle sprain within the last 3 months.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1576b983",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of lower extremity surgery.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_e3265d60",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of acute injury to other musculoskeletal structures of the lower extremity joints within the last 3 months that affected joint integrity and function and caused interruption of desired physica",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c3dff73e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "History of balance or vestibular disorders, including cerebellar, vestibular, cochlear, or inner ear dysfunction.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a06d6b52",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Visual problems that may affect the administration or interpretation of the Dynamic Visual Acuity Test, including a history of amblyopia, diplopia, or significant visual loss.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b9f97840",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Persistent symptoms related to a previous concussion or traumatic brain injury.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_eb818fb6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728513",
+    "title": "Improving AI-Assisted Medical Diagnosis and Triage by the General Public",
+    "conditions": [
+      "AI-Assisted Diagnosis",
+      "Large Language Models"
+    ],
+    "phase": "NA",
+    "sample_size": 220,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Enrolled student or employed administrative staff at LUMS.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_fa950eff",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "18 years of age or older.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b45d072a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to read and understand English.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_819821ee",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Individuals with any formal education or professional training in medicine, nursing, or any other healthcare profession.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_282cc4a3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728500",
+    "title": "The Effects of Menthol and Cold Spray Applications on Thirst and Comfort in Bariatric Surgery",
+    "conditions": [
+      "Thirst in Bariatric Surgery Patients"
+    ],
+    "phase": "NA",
+    "sample_size": 180,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "• Patients who are 18 years of age or older,",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_588d02ce",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "who undergo bariatric surgery under general anesthesia,",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_4c77f4cb",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "who do not have oral or nasal diseases, or vision, hearing, speech, or comprehension problems,",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8a0bfc39",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "who are classified as grade I or II according to the American Society of Anesthesiologists (ASA) Physical Status Classification System,",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_3c0e4701",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "who are not allergic to menthol,",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_252e8122",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "who do not have severe vomiting, and • whose preoperative fasting and thirst period is 8 hours.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c85e80dd",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Patients with impaired oral and tongue mucosal integrity prior to surgery, Patients with any neurological, kidney, heart or lung disease with cognitive impairment and those using psychoactive drugs wi",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_98cc8d0c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728487",
+    "title": "Study of AT-587 in Healthy Subjects",
+    "conditions": [
+      "Hepatitis E"
+    ],
+    "phase": "PHASE1",
+    "sample_size": 62,
+    "overall_status": "RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Body mass index (BMI) of 18-29 kg/m2",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1e76352d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Must agree to use protocol-specified methods of contraception",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_18de31bc",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Negative pregnancy test",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_66ccaaab",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Willing to comply with the study requirements and to provide written informed consent",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_38f4a657",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnant or breastfeeding",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_973960bc",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Abuse of alcohol or drugs",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_1125250e",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Use of other investigational drugs within 30 days of dosing",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_d395c0be",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Other clinically significant medical conditions",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_8c7c0f1b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728474",
+    "title": "LCS103 Herbal Formula for Secondary Prevention of Non-Muscle Invasive Urothelial Carcinoma of the Bladder",
+    "conditions": [
+      "Non-muscle Invasive Bladder Cancer (NMIBC)"
+    ],
+    "phase": "NA",
+    "sample_size": 60,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Men and women aged ≥ 18 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_86d7e1e7",
+        "operator": "GTE",
+        "value": 18.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Non-muscle invasive urothelial carcinoma, histologically confirmed by TURBT procedure within 3 months before enrollment.",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_16fb5746",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Complete resection of bladder tumor in recent TURBT.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f945cd22",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to provide informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_6b80ceb9",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to swallow tablets (esophageal stricture, feeding through gastrostomy).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_91e736a0",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Ineligibility for SOC therapy such as BCG instillations (where appropriate).",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_9513057a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Upper tract urothelial carcinoma within the past 2 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_862af16c",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Any malignancy other than NMIBC, active or systemically treated within the past 2 years (not including localized cutaneous basal cell or squamous cell carcinoma).",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_c0bb1136",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Estimated life expectancy \\< 5 years.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f0bfa34c",
+        "operator": "LT",
+        "value": 5.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Pregnant women, and women planning future pregnancy or wishing to preserve fertility.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b451b4c3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Investigator evaluation of a physical or mental condition limiting a patient's ability to participate in the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_3c3498f9",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728461",
+    "title": "Menopause and Compassionate Living Education",
+    "conditions": [
+      "Mindfulness Compassionate Living Training"
+    ],
+    "phase": "NA",
+    "sample_size": 68,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Women who are in the menopausal period.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d9113dd3",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Aged 45 years or older.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b583dd45",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Registered at the participating primary healthcare center.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_bebdd70b",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to read and understand Turkish.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_eaf06047",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "At least a primary school graduate.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_dc8e00c7",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Willing to participate and provide written informed consent.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_d340b623",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to attend the online Compassionate Living Education sessions.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b2b776fc",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Able to complete the study questionnaires.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e7d9266d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Failure to complete the study questionnaires.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_f8935f15",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Failure to attend the Compassionate Living Education sessions.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2be5a4a6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Withdrawal of informed consent at any stage of the study.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a8b626a8",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Inability to complete the post-intervention assessment.",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_e7346354",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  },
+  {
+    "nct_id": "NCT07728448",
+    "title": "Predictors of Pulmonary Embolism in Interstitial Lung Disease With Worsening Symptoms",
+    "conditions": [
+      "Pulmonary Embolism",
+      "Interstitial Lung Disease",
+      "Idiopathic Pulmonary Fibrosis",
+      "Connective Tissue Disease-associated Interstitial Lung Disease"
+    ],
+    "phase": "NA",
+    "sample_size": 70,
+    "overall_status": "NOT_YET_RECRUITING",
+    "criteria": [
+      {
+        "raw_entity": "Age ≥ 18 years",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_4a5fe9b6",
+        "operator": "GTE",
+        "value": 18.0,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Confirmed diagnosis of ILD based on multidisciplinary discussion and HRCT findings, with or without histopathological confirmation",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_645df671",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Acute unexplained worsening of dyspnea, hypoxemia, chest pain, syncope, or clinical suspicion of PE",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_a08ee376",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Undergoing CTPA as part of routine clinical management",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_2e0216f9",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Provision of informed consent",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_9f1417db",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": true,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Age \\< 18 years",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ed8ab7e4",
+        "operator": "LT",
+        "value": 18.0,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Previously diagnosed acute pulmonary embolism receiving anticoagulant therapy",
+        "entity_type": "medication",
+        "entity_code": "EXTRACTED_f1e2e781",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Active malignancy",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_1c801b3d",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Known inherited or acquired thrombophilia",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_b4bc347a",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Acute myocardial infarction or ischemic stroke within the previous month",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_ba6c6894",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Major surgery or trauma within four weeks",
+        "entity_type": "procedure",
+        "entity_code": "EXTRACTED_2cb6cd06",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      },
+      {
+        "raw_entity": "Severe renal impairment contraindicating contrast-enhanced CTPA",
+        "entity_type": "diagnosis",
+        "entity_code": "EXTRACTED_7bccc2e6",
+        "operator": "EXISTS",
+        "value": null,
+        "max_value": null,
+        "is_inclusion": false,
+        "severity_weight": 1.0
+      }
+    ]
+  }
+]

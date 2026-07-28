@@ -69,12 +69,12 @@ def similarity(z_patient: torch.Tensor, z_trial_inc: torch.Tensor,
                z_trial_exc: torch.Tensor, eta: float = 1.0) -> torch.Tensor:
     """
     Similarity(P_i, T_j) = cos(z_Pi, z_Tj^inc) - eta * cos(z_Pi, z_Tj^exc)
-
-    This is the inference-time ranking score used for P@k / ETE@k once
-    trial coordinates are split into inclusion/exclusion halves -- without
-    it, "rank candidates by Similarity(P_i, T_j)" is not a well-defined
-    operation.
     """
-    inc_sim = F.cosine_similarity(z_patient.unsqueeze(0), z_trial_inc.unsqueeze(0)).squeeze(0)
-    exc_sim = F.cosine_similarity(z_patient.unsqueeze(0), z_trial_exc.unsqueeze(0)).squeeze(0)
+    # Ensure all tensors are on the same device and properly shaped
+    z_patient = z_patient.squeeze()
+    z_trial_inc = z_trial_inc.squeeze()
+    z_trial_exc = z_trial_exc.squeeze()
+    
+    inc_sim = F.cosine_similarity(z_patient.unsqueeze(0), z_trial_inc.unsqueeze(0)).item()
+    exc_sim = F.cosine_similarity(z_patient.unsqueeze(0), z_trial_exc.unsqueeze(0)).item()
     return inc_sim - eta * exc_sim

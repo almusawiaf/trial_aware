@@ -68,19 +68,17 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
     # Move graph to device
     base_graph_dev = base_graph.to(device)
 
-    # Store initial embeddings for anchor loss (DO NOT detach - we want gradients)
-    # We'll compute anchor embeddings on-the-fly instead of detaching
+    # Store initial embeddings for anchor loss
     encoder.eval()
     with torch.no_grad():
-        # Store the initial patient embeddings as reference (these are frozen)
         h_a_anchor = encoder.encode(
             base_graph_dev.x_dict, 
             base_graph_dev.edge_index_dict
-        )['patient'].detach().clone()  # Keep this detached as the target
+        )['patient'].detach().clone()
 
-    # Optimizer with different learning rates
+    # FIX 1: Increase encoder learning rate
     optimizer = torch.optim.Adam([
-        {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.1},
+        {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.5},  # Changed from 0.1 to 0.5
         {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
         {'params': trial_encoder.parameters(), 'lr': cfg.ALIGN_LR},
     ])
@@ -179,24 +177,33 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
         # Compute average alignment loss
         avg_align_loss = total_align_loss / n_terms
         
-        # Compute anchor loss - THIS IS THE FIX
-        # Use MSE between current patient embeddings and initial reference embeddings
-        # The current embeddings are from the trainable encoder, so gradients will flow
+        # FIX 2: Compute anchor loss with proper scaling
         anchor_loss = F.mse_loss(h_dict['patient'], h_a_anchor)
         
-        # Get anchor weight from config with default
-        anchor_weight = getattr(cfg, 'LAMBDA_ANCHOR', 0.5)
+        # FIX 3: Reduce anchor weight to allow more flexibility
+        anchor_weight = getattr(cfg, 'LAMBDA_ANCHOR', 0.1)  # Reduced from 0.5 to 0.1
         composite_loss = avg_align_loss + anchor_weight * anchor_loss
 
         # Backward pass
         composite_loss.backward()
         
-        # Gradient clipping to prevent exploding gradients
-        torch.nn.utils.clip_grad_norm_(encoder.parameters(), max_norm=1.0)
-        torch.nn.utils.clip_grad_norm_(criterion_encoder.parameters(), max_norm=1.0)
-        torch.nn.utils.clip_grad_norm_(trial_encoder.parameters(), max_norm=1.0)
+        # Gradient clipping with adjusted thresholds
+        torch.nn.utils.clip_grad_norm_(encoder.parameters(), max_norm=0.5)  # Reduced from 1.0
+        torch.nn.utils.clip_grad_norm_(criterion_encoder.parameters(), max_norm=0.5)
+        torch.nn.utils.clip_grad_norm_(trial_encoder.parameters(), max_norm=0.5)
         
         optimizer.step()
+
+        # FIX 4: Add gradient monitoring for debugging
+        if epoch % 5 == 0 or epoch == 1:
+            total_grad_norm = 0
+            for p in encoder.parameters():
+                if p.grad is not None:
+                    total_grad_norm += p.grad.norm().item() ** 2
+            logging.info(
+                f"[DEBUG] Epoch {epoch} | Grad norm: {total_grad_norm ** 0.5:.6f} | "
+                f"Anchor loss: {anchor_loss.item():.6f}"
+            )
 
         # Log progress
         logging.info(
@@ -212,10 +219,10 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
             'total_loss': composite_loss.item()
         })
         
-        # Early stopping if loss converges
-        if epoch > 5:
+        # Early stopping with relaxed tolerance
+        if epoch > 10:  # Increased from 5 to 10
             recent_losses = [l['total_loss'] for l in loss_history[-5:]]
-            if all(abs(recent_losses[i] - recent_losses[i-1]) < 1e-4 for i in range(1, len(recent_losses))):
+            if all(abs(recent_losses[i] - recent_losses[i-1]) < 1e-5 for i in range(1, len(recent_losses))):
                 logging.info(f"[Stage B] Early stopping at epoch {epoch} - loss converged.")
                 break
 
@@ -333,6 +340,10 @@ def main():
 
     trial_store = TrialStore.from_records(real_trials_data)
     logging.info(f"Loaded {len(trial_store.trials)} REAL clinical trials into Stage B!")
+
+    # FIX 5: Print config for debugging
+    logging.info(f"[Config] ALIGN_LR: {cfg.ALIGN_LR}, LAMBDA_ANCHOR: {getattr(cfg, 'LAMBDA_ANCHOR', 0.1)}")
+    logging.info(f"[Config] EPOCHS_ALIGN: {cfg.EPOCHS_ALIGN}, OUT_CHANNELS: {cfg.OUT_CHANNELS}")
 
     # Run Stage B alignment
     encoder, criterion_encoder, trial_encoder, trial_embeds = align_with_trials(

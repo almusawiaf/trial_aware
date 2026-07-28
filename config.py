@@ -63,17 +63,17 @@ class Config:
     # ------------------------------------------------------------------
     # Trial-aware alignment (Phase 4 -- new, mirrors the LaTeX methodology)
     # ------------------------------------------------------------------
-    EPOCHS_ALIGN = 50              # INCREASED: from 5 to 50 for better convergence
+    EPOCHS_ALIGN = 100              # INCREASED: from 5 to 50 for better convergence
     ALIGN_LR = 1e-4
-    LAMBDA_1 = 1.0     # weight on the positive-attraction + hard-negative-repulsion terms
-    LAMBDA_2 = 2.5     # weight on the random-negative-repulsion term
+    LAMBDA_1 = 2.0     # weight on the positive-attraction + hard-negative-repulsion terms
+    LAMBDA_2 = 4.0     # weight on the random-negative-repulsion term
     LAMBDA_ANCHOR = 0.5     # Weight for anchor regularization relative to Stage A (FIXED: removed colon)
-    MARGIN_HARD = 0.4  # m_hard > m_rand, per the LaTeX design rationale (hard negatives need a
-    MARGIN_RAND = 0.2  # bigger safety margin since they are "almost positives" that got excluded)
-    HARD_NEG_INC_THRESHOLD = 0.05   # M_inc >= this AND
-    HARD_NEG_EXC_THRESHOLD = 0.8   # M_exc >= this  => trial counts as a hard negative for patient
+    MARGIN_HARD = 0.6  # m_hard > m_rand, per the LaTeX design rationale (hard negatives need a
+    MARGIN_RAND = 0.3  # bigger safety margin since they are "almost positives" that got excluded)
+    HARD_NEG_INC_THRESHOLD = 0.3   # M_inc >= this AND
+    HARD_NEG_EXC_THRESHOLD = 0.3   # M_exc >= this  => trial counts as a hard negative for patient
     N_RANDOM_NEGATIVES = 5
-    ELIGIBILITY_THRESHOLD_GAMMA = 0.8  # gamma_elig: used only for held-out P@k evaluation,
+    ELIGIBILITY_THRESHOLD_GAMMA = 0.6  # gamma_elig: used only for held-out P@k evaluation,
                                         # NEVER for generating training positives (avoids the
                                         # train/eval circularity flagged in the methodology review)
 

@@ -1,332 +1,357 @@
-# import json
-# import re
-# from typing import Any, Dict, List, Optional, Tuple
-# from config import Config
-# from ontology_loader import DynamicOntologyMapper
-# from pydantic import BaseModel, Field
-# import requests
-# import spacy
-
-# from criteria_parser import (
-#     ACRONYM_MAP,
-#     extract_numeric_bounds,
-#     find_nearest_entity,
-#     is_negated_near,
-#     is_stop_entity,
-#     sanitize_entity_text,
-# )
-
-# nlp = spacy.load("en_ner_bc5cdr_md")
-
-# config = Config()
-# mapper = DynamicOntologyMapper()
-# mapper.load_icd9_and_patient_tables(data_dir=config.DATA_DIR)
-
-# FUZZY_MATCH_THRESHOLD = 85.0
-
-
-# class CriterionTriplet(BaseModel):
-#     raw_entity: str
-#     entity_type: str
-#     entity_code: str
-#     operator: str = "EXISTS"
-#     value: Optional[float] = None
-#     max_value: Optional[float] = None
-#     is_inclusion: bool
-#     severity_weight: float = 1.0
-
-
-# class StructuredTrialRecord(BaseModel):
-#     nct_id: str
-#     title: str
-#     conditions: List[str]
-#     phase: str
-#     sample_size: Optional[int] = None
-#     criteria: List[CriterionTriplet] = Field(default_factory=list)
-
-
-# class DynamicCriteriaParser:
-
-#     def clean_rule_text(self, text: str) -> str:
-#         return re.sub(r"^\s*[\*\-\•\d+\.]+\s*", "", text).strip()
-
-#     def _extract_entities(self, doc: "spacy.tokens.Doc") -> List[str]:
-#         candidates = [ent.text for ent in doc.ents] + [
-#             chunk.text for chunk in doc.noun_chunks
-#         ]
-
-#         cleaned_candidates = []
-#         seen = set()
-
-#         for cand in candidates:
-#             # 1. Split compound entities separated by slashes or 'or'/'and'
-#             sub_terms = re.split(r"\s+(?:or|and)\s+|[\/]", cand, flags=re.IGNORECASE)
-
-#             for term in sub_terms:
-#                 cand_clean = sanitize_entity_text(term)
-                
-#                 if is_stop_entity(cand_clean):
-#                     continue
-                    
-#                 key = cand_clean.lower()
-#                 if key in seen:
-#                     continue
-                    
-#                 seen.add(key)
-#                 cleaned_candidates.append(cand_clean)
-
-#         return cleaned_candidates
-
-#     def _resolve_entity_type_code(self, entity_text: str) -> Tuple[str, str]:
-#         entity_lower = entity_text.lower()
-#         if entity_lower in ACRONYM_MAP:
-#             return ACRONYM_MAP[entity_lower]
-#         _, entity_type, entity_code = mapper.match_term(
-#             entity_text, threshold=FUZZY_MATCH_THRESHOLD
-#         )
-#         return entity_type, entity_code
-
-#     def parse_criteria_line(
-#         self, text: str, is_inclusion_context: bool
-#     ) -> List[CriterionTriplet]:
-#         cleaned_text = self.clean_rule_text(text)
-#         if len(cleaned_text) < 4:
-#             return []
-
-#         if re.search(
-#             r"\b(years? old|age|aged|male|female|gender|sex|patients? aged)\b",
-#             cleaned_text,
-#             re.IGNORECASE,
-#         ):
-#             return []
-
-#         doc = nlp(cleaned_text)
-#         op_type, val, max_val, number_span = extract_numeric_bounds(cleaned_text)
-#         entities = self._extract_entities(doc)
-
-#         if not entities:
-#             return []
-
-#         nearest = None
-#         # 🚨 شبكة الأمان: إذا وجدنا رقمًا حقيقيًا بالسطر
-#         if op_type != "EXISTS":
-#             nearest = find_nearest_entity(cleaned_text, entities, number_span)
-            
-#             # إذا فشلت المطابقة الحرفية (Silent Drop Hazard)، تفادَ الضياع وأسند للكيان الأول كـ Fallback
-#             if nearest is None and len(entities) > 0:
-#                 nearest = entities[0]
-#                 # print(f"⚠️ [FALLBACK APPLIED] Numeric bound {op_type}:{val} assigned to fallback entity '{nearest}' in line: '{text}'")
-
-#         extracted_triplets = []
-#         for entity_name in entities:
-#             entity_type, entity_code = self._resolve_entity_type_code(entity_name)
-#             negated = is_negated_near(cleaned_text, entity_name)
-#             effective_is_inclusion = (
-#                 is_inclusion_context if not negated else not is_inclusion_context
-#             )
-
-#             # الاقتران بالرقم فقط إذا كان هو الكيان المحدد أو الكيان الاحتياطي (Fallback)
-#             if entity_name == nearest:
-#                 triplet = CriterionTriplet(
-#                     raw_entity=entity_name,
-#                     entity_type=entity_type,
-#                     entity_code=entity_code,
-#                     operator=op_type,
-#                     value=val,
-#                     max_value=max_val,
-#                     is_inclusion=effective_is_inclusion,
-#                     severity_weight=1.0,
-#                 )
-#             else:
-#                 triplet = CriterionTriplet(
-#                     raw_entity=entity_name,
-#                     entity_type=entity_type,
-#                     entity_code=entity_code,
-#                     operator="EXISTS",
-#                     value=None,
-#                     max_value=None,
-#                     is_inclusion=effective_is_inclusion,
-#                     severity_weight=1.0,
-#                 )
-#             extracted_triplets.append(triplet)
-
-#         return extracted_triplets
-
-#     def parse_full_eligibility_text(
-#         self, raw_criteria: str
-#     ) -> List[CriterionTriplet]:
-#         all_triplets = []
-#         is_inclusion_context = True
-#         lines = raw_criteria.split("\n")
-
-#         for line in lines:
-#             line_str = line.strip()
-#             if not line_str:
-#                 continue
-
-#             if re.search(r"inclusion criteria", line_str, re.IGNORECASE):
-#                 is_inclusion_context = True
-#                 continue
-#             elif re.search(r"exclusion criteria", line_str, re.IGNORECASE):
-#                 is_inclusion_context = False
-#                 continue
-
-#             triplets = self.parse_criteria_line(
-#                 line_str, is_inclusion_context=is_inclusion_context
-#             )
-#             all_triplets.extend(triplets)
-
-#         return all_triplets
-
-
-# class ClinicalTrialJsonExtractor:
-
-#     def __init__(self):
-#         self.parser = DynamicCriteriaParser()
-#         self.api_url = "https://clinicaltrials.gov/api/v2/studies"
-
-#     def fetch_raw_trials(
-#         self, query: str, max_results: int = 5
-#     ) -> List[Dict[str, Any]]:
-#         params = {
-#             "query.cond": query,
-#             "pageSize": max_results,
-#             "fields": "NCTId,BriefTitle,ConditionsModule,DesignModule,EligibilityModule",
-#         }
-#         response = requests.get(self.api_url, params=params, timeout=12)
-#         if response.status_code == 200:
-#             return response.json().get("studies", [])
-#         return []
-
-#     def generate_json_records(
-#         self, query: str, max_results: int = 5
-#     ) -> List[Dict[str, Any]]:
-#         raw_studies = self.fetch_raw_trials(query, max_results)
-#         structured_records = []
-
-#         for study in raw_studies:
-#             protocol = study.get("protocolSection", {})
-
-#             nct_id = protocol.get("identificationModule", {}).get("nctId", "UNKNOWN")
-#             title = protocol.get("identificationModule", {}).get(
-#                 "briefTitle", "No Title"
-#             )
-#             conditions = protocol.get("conditionsModule", {}).get("conditions", [])
-
-#             design = protocol.get("designModule", {})
-#             phases = design.get("phases", ["Not specified"])
-#             phase_str = ", ".join(phases)
-#             sample_size = design.get("enrollmentInfo", {}).get("count", None)
-
-#             eligibility = protocol.get("eligibilityModule", {})
-#             raw_criteria = eligibility.get("eligibilityCriteria", "")
-#             parsed_triplets = self.parser.parse_full_eligibility_text(raw_criteria)
-
-#             record = StructuredTrialRecord(
-#                 nct_id=nct_id,
-#                 title=title,
-#                 conditions=conditions,
-#                 phase=phase_str,
-#                 sample_size=sample_size,
-#                 criteria=parsed_triplets,
-#             )
-#             structured_records.append(record.model_dump())
-
-#         return structured_records
-
-
-# if __name__ == "__main__":
-#     extractor = ClinicalTrialJsonExtractor()
-#     query_term = "Alzheimer"
-#     output_filename = "structured_clinical_trials.json"
-
-#     print(f"Fetching and processing trials for: '{query_term}'...")
-#     json_data = extractor.generate_json_records(query=query_term, max_results=5)
-
-#     with open(output_filename, "w", encoding="utf-8") as f:
-#         json.dump(json_data, f, indent=2, ensure_ascii=False)
-
-#     print(f"\n[SUCCESS] Processed {len(json_data)} trials successfully.")
-#     print(f"[OUTPUT] Dataset saved to: {output_filename}")
-
 # generate_trial_json.py
 import json
 import logging
 import os
+import requests
+import time
+from typing import List, Dict, Any, Optional
+from datetime import datetime
 from config import Config
 from ontology_loader import DynamicOntologyMapper
 from preprocessor import MIMICDataPreprocessor
 
+from clinical_trials_api import ClinicalTrialsFetcher
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+class TrialCriteriaParser:
+    """Parse raw eligibility criteria into structured format."""
+    
+    def __init__(self, mapper: DynamicOntologyMapper):
+        self.mapper = mapper
+        
+        # Common medical entities and their patterns
+        self.entity_patterns = {
+            'diagnosis': ['diagnosis of', 'diagnosed with', 'history of', 'has', 'with'],
+            'medication': ['treated with', 'taking', 'on', 'using', 'medication'],
+            'lab': ['creatinine', 'hemoglobin', 'glucose', 'blood', 'pressure', 'LVEF'],
+            'procedure': ['surgery', 'procedure', 'transplant', 'bypass', 'stent'],
+        }
+        
+        # Operator mapping from text
+        self.operator_map = {
+            '>': 'GT', 'greater than': 'GT', 'above': 'GT', 'higher than': 'GT',
+            '>=': 'GTE', 'greater than or equal': 'GTE', 'at least': 'GTE',
+            '<': 'LT', 'less than': 'LT', 'below': 'LT', 'lower than': 'LT',
+            '<=': 'LTE', 'less than or equal': 'LTE', 'at most': 'LTE',
+            '=': 'EQ', 'equal to': 'EQ', 'exactly': 'EQ',
+            'between': 'BETWEEN',
+            'exists': 'EXISTS',
+            'not exists': 'NOT_EXISTS',
+        }
+        
+        # Normal ranges for lab values (for normalization)
+        self.lab_ranges = {
+            'creatinine': (0.4, 1.5),
+            'hemoglobin': (10, 18),
+            'glucose': (70, 140),
+            'potassium': (3.5, 5.5),
+            'sodium': (135, 145),
+            'LVEF': (0, 100),
+        }
+    
+    def parse_criteria_text(self, criteria_text: str) -> List[Dict]:
+        """
+        Parse raw eligibility criteria text into structured triplets.
+        This is a simplified stub - you'd want a proper NER+RE system here.
+        """
+        structured = []
+        
+        # Split into lines/sentences
+        lines = [l.strip() for l in criteria_text.split('\n') if l.strip()]
+        
+        is_inclusion_section = True
+        
+        for line in lines:
+            # Detect inclusion/exclusion sections
+            lower_line = line.lower()
+            if 'inclusion' in lower_line:
+                is_inclusion_section = True
+                continue
+            elif 'exclusion' in lower_line:
+                is_inclusion_section = False
+                continue
+            
+            # Skip short lines or headings
+            if len(line) < 10 or line.endswith(':'):
+                continue
+            
+            # Try to extract entity, operator, value
+            criterion = self._extract_single_criterion(line, is_inclusion_section)
+            if criterion:
+                structured.append(criterion)
+        
+        return structured
+    
+    def _extract_single_criterion(self, text: str, is_inclusion: bool) -> Optional[Dict]:
+        """Extract a single criterion from text."""
+        # Simplified extraction - you'd want more sophisticated parsing
+        
+        # Try to identify operator
+        operator = 'EXISTS'
+        value = None
+        max_value = None
+        
+        for op_text, op_code in self.operator_map.items():
+            if op_text in text.lower():
+                operator = op_code
+                # Try to extract numeric value
+                import re
+                numbers = re.findall(r'(\d+\.?\d*)', text)
+                if numbers and op_code in ['GT', 'GTE', 'LT', 'LTE', 'EQ']:
+                    value = float(numbers[0])
+                elif numbers and op_code == 'BETWEEN' and len(numbers) >= 2:
+                    value = float(numbers[0])
+                    max_value = float(numbers[1])
+                break
+        
+        # Identify entity type
+        entity_type = 'diagnosis'
+        entity_code = None
+        
+        for etype, keywords in self.entity_patterns.items():
+            if any(keyword in text.lower() for keyword in keywords):
+                entity_type = etype
+                break
+        
+        # Try to map to ontology
+        matched_entity = self.mapper.match_entity(text)
+        if matched_entity:
+            _, entity_type, entity_code = matched_entity
+        else:
+            # Fallback: create a hash-based code
+            import hashlib
+            entity_code = f"UNK_{hashlib.md5(text.encode()).hexdigest()[:8]}"
+        
+        return {
+            'raw_entity': text,
+            'entity_type': entity_type,
+            'entity_code': entity_code or 'UNKNOWN_CODE',
+            'operator': operator,
+            'value': value,
+            'max_value': max_value,
+            'is_inclusion': is_inclusion,
+            'severity_weight': 1.0
+        }
 
 
 def main():
     cfg = Config()
     
-    # 1. Initialize preprocessor & get crosswalk
+    # Initialize preprocessor & get crosswalk
     pp = MIMICDataPreprocessor(cfg)
     icd10_map = getattr(pp, 'icd9_to_icd10_map', {})
-
-    # 2. Load ontology tables using cfg.DATA_DIR or MIMIC_DIR
+    
+    # Initialize ontology mapper
     data_dir = getattr(cfg, 'DATA_DIR', getattr(cfg, 'MIMIC_DIR', './data'))
     mapper = DynamicOntologyMapper(icd9_to_icd10_map=icd10_map)
     mapper.load_icd9_and_patient_tables(data_dir=data_dir)
-
-    # 3. Locate clinical trials input file
-    input_path = None
-    for candidate in ["raw_clinical_trials.json", "structured_clinical_trials.json"]:
-        if os.path.exists(candidate):
-            input_path = candidate
-            break
-
-    if not input_path:
-        logging.error("No clinical trial JSON file found! Please provide raw_clinical_trials.json or structured_clinical_trials.json.")
-        return
-
-    logging.info(f"Processing trial criteria from: {input_path}")
-    with open(input_path, "r") as f:
-        raw_trials = json.load(f)
-
-    structured_trials = []
-    for trial in raw_trials:
-        processed_criteria = []
-        raw_criteria = trial.get("criteria", [])
-        
-        for c in raw_criteria:
-            text = c.get("raw_entity", c.get("text", "")) if isinstance(c, dict) else str(c)
-            raw_entity, entity_type, entity_code = mapper.match_entity(text)
+    
+    # Initialize trial fetcher
+    fetcher = ClinicalTrialsFetcher()
+    parser = TrialCriteriaParser(mapper)
+    
+    # ============================================================
+    # CONFIGURATION: Adjust these parameters to get more trials
+    # ============================================================
+    
+    # List of conditions relevant to your MIMIC cohort
+    # Expand this list to get more trials
+    conditions = [
+        "heart failure",           # Common in MIMIC
+        "myocardial infarction",   # Heart attack
+        "diabetes",                # Very common
+        "pneumonia",               # Common ICU condition
+        "sepsis",                  # Critical care
+        "acute kidney injury",     # Common in ICU
+        "chronic obstructive pulmonary disease",
+        "stroke",
+        "atrial fibrillation",
+        "hypertension",
+        "hyperlipidemia",
+        "cancer",
+        "breast cancer",
+        "lung cancer",
+        "colorectal cancer",
+        "prostate cancer",
+        "leukemia",
+        "lymphoma",
+        "multiple sclerosis",
+        "rheumatoid arthritis",
+        "osteoarthritis",
+        "depression",
+        "anxiety",
+        "schizophrenia",
+        "alzheimer's disease",
+        "parkinson's disease",
+        "epilepsy",
+        "migraine",
+        "asthma",
+        "chronic kidney disease",
+        "liver disease",
+        "hepatitis",
+        "hiv",
+        "tuberculosis",
+        "covid-19",
+        "influenza",
+        "urinary tract infection",
+        "deep vein thrombosis",
+        "pulmonary embolism",
+    ]
+    
+    # Trial parameters
+    max_trials_per_condition = 10   # Increase for more trials
+    total_trials_target = 100       # Target total number of trials
+    statuses = ["COMPLETED", "RECRUITING", "ACTIVE_NOT_RECRUITING"]
+    phases = ["PHASE2", "PHASE3", "PHASE2/PHASE3"]
+    min_study_size = 50
+    
+    # ============================================================
+    # Fetch trials
+    # ============================================================
+    
+    all_trials = []
+    trial_ids_seen = set()
+    
+    for status in statuses:
+        for phase in phases:
+            for condition in conditions:
+                if len(all_trials) >= total_trials_target:
+                    break
+                
+                logging.info(f"Fetching trials for: {condition} | Status: {status} | Phase: {phase}")
+                
+                try:
+                    trials = fetcher.search_trials(
+                        condition=condition,
+                        max_results=min(max_trials_per_condition, total_trials_target - len(all_trials)),
+                        status=status,
+                        phase=phase,
+                        min_study_size=min_study_size,
+                        years_back=10
+                    )
+                    
+                    # Deduplicate
+                    for trial in trials:
+                        nct_id = trial.get('nct_id')
+                        if nct_id and nct_id not in trial_ids_seen:
+                            trial_ids_seen.add(nct_id)
+                            all_trials.append(trial)
+                            logging.info(f"  Added trial {nct_id}: {trial.get('title', '')[:50]}...")
+                    
+                except Exception as e:
+                    logging.error(f"Error fetching trials for {condition}: {e}")
+                    continue
+                
+                # Rate limiting
+                time.sleep(0.5)
             
-            # If dynamic mapper didn't match a new code, attempt converting existing entity_code
-            if not entity_code or entity_code == "UNKNOWN_CODE":
-                existing_code = c.get("entity_code", "") if isinstance(c, dict) else ""
-                if existing_code and existing_code != "UNKNOWN_CODE":
-                    entity_code = mapper._to_icd10(existing_code)
-
-            processed_criteria.append({
-                "raw_entity": raw_entity or text,
-                "entity_type": entity_type or c.get("entity_type", "diagnosis"),
-                "entity_code": entity_code or "UNKNOWN_CODE",
-                "operator": c.get("operator", "EXISTS") if isinstance(c, dict) else "EXISTS",
-                "value": c.get("value", None) if isinstance(c, dict) else None,
-                "max_value": c.get("max_value", None) if isinstance(c, dict) else None,
-                "is_inclusion": c.get("is_inclusion", True) if isinstance(c, dict) else True,
-                "severity_weight": c.get("severity_weight", 1.0) if isinstance(c, dict) else 1.0
-            })
-
-        structured_trials.append({
-            "nct_id": trial.get("nct_id", trial.get("id", "NCT_UNKNOWN")),
-            "title": trial.get("title", ""),
-            "conditions": trial.get("conditions", []),
-            "phase": trial.get("phase", "Phase 2/Phase 3"),
-            "sample_size": trial.get("sample_size", 100),
-            "criteria": processed_criteria
-        })
-
+            if len(all_trials) >= total_trials_target:
+                break
+        if len(all_trials) >= total_trials_target:
+            break
+    
+    logging.info(f"Fetched {len(all_trials)} unique trials")
+    
+    if not all_trials:
+        logging.error("No trials fetched! Check API connection.")
+        return
+    
+    # ============================================================
+    # Parse criteria and generate structured trials
+    # ============================================================
+    
+    structured_trials = []
+    
+    for trial_data in all_trials:
+        criteria_text = trial_data.get('eligibility_criteria', '')
+        
+        # Try to parse criteria text
+        parsed_criteria = parser.parse_criteria_text(criteria_text)
+        
+        # If parsing failed or produced no criteria, create a fallback
+        if not parsed_criteria:
+            logging.warning(f"No criteria parsed for {trial_data.get('nct_id')}, creating fallback criteria")
+            parsed_criteria = [
+                {
+                    "raw_entity": criteria_text[:200] if criteria_text else "Unknown criteria",
+                    "entity_type": "diagnosis",
+                    "entity_code": "UNKNOWN_CODE",
+                    "operator": "EXISTS",
+                    "value": None,
+                    "max_value": None,
+                    "is_inclusion": True,
+                    "severity_weight": 1.0
+                }
+            ]
+        
+        structured_trial = {
+            "nct_id": trial_data.get('nct_id', 'NCT_UNKNOWN'),
+            "title": trial_data.get('title', ''),
+            "conditions": trial_data.get('conditions', []),
+            "phase": trial_data.get('phase', 'PHASE2'),
+            "sample_size": trial_data.get('sample_size', 100),
+            "criteria": parsed_criteria
+        }
+        structured_trials.append(structured_trial)
+    
+    # ============================================================
+    # Split into train/evaluation sets
+    # ============================================================
+    
+    # Use 80% for training, 20% for held-out evaluation
+    split_idx = int(len(structured_trials) * 0.8)
+    
+    train_trials = structured_trials[:split_idx]
+    eval_trials = structured_trials[split_idx:]
+    
+    # ============================================================
+    # Save outputs
+    # ============================================================
+    
+    # Main file for training (Stage B)
     out_path = "structured_clinical_trials.json"
     with open(out_path, "w") as f:
-        json.dump(structured_trials, f, indent=2)
+        json.dump(train_trials, f, indent=2)
+    logging.info(f"Saved {len(train_trials)} training trials to {out_path}")
     
-    logging.info(f"Successfully generated ICD-10 aligned trials -> {out_path}")
+    # Held-out evaluation file
+    eval_path = "structured_clinical_trials_eval.json"
+    with open(eval_path, "w") as f:
+        json.dump(eval_trials, f, indent=2)
+    logging.info(f"Saved {len(eval_trials)} evaluation trials to {eval_path}")
+    
+    # Full dataset for reference
+    full_path = "structured_clinical_trials_full.json"
+    with open(full_path, "w") as f:
+        json.dump(structured_trials, f, indent=2)
+    logging.info(f"Saved {len(structured_trials)} total trials to {full_path}")
+    
+    # Summary statistics
+    logging.info("=" * 60)
+    logging.info("TRIAL DATASET SUMMARY")
+    logging.info("=" * 60)
+    logging.info(f"Total trials fetched: {len(all_trials)}")
+    logging.info(f"Trials with parsed criteria: {len(structured_trials)}")
+    logging.info(f"Training trials: {len(train_trials)}")
+    logging.info(f"Evaluation trials: {len(eval_trials)}")
+    
+    # Count by phase
+    phase_counts = {}
+    for t in structured_trials:
+        phase = t.get('phase', 'Unknown')
+        phase_counts[phase] = phase_counts.get(phase, 0) + 1
+    logging.info(f"Trials by phase: {phase_counts}")
+    
+    # Count by condition
+    condition_counts = {}
+    for t in structured_trials:
+        for cond in t.get('conditions', []):
+            condition_counts[cond] = condition_counts.get(cond, 0) + 1
+    top_conditions = sorted(condition_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+    logging.info(f"Top 10 conditions: {top_conditions}")
+    logging.info("=" * 60)
 
 
 if __name__ == "__main__":

@@ -8,13 +8,8 @@ patient embeddings produced by HeteroGNNEncoder.encode(), by:
      POST-GNN concept-node embedding with the criterion's operator/value/
      severity-weight metadata, and
   2. attention-pooling the inclusion-criteria z_c's into z_inc and the
-     exclusion-criteria z_c's into z_exc (TrialEncoder), using the SAME
-     shared pooling parameters for both groups (softmax computed
-     separately within each group), per the paper's formulation.
-
-Keeping trial coordinates in R^d (the GNN's post-conv output space, not the
-raw input-embedding space) is what makes `cos(z_P, z_T_inc)` meaningful --
-both patient and trial vectors are products of the same encoder.
+     exclusion-criteria z_c's into z_exc (TrialEncoder), using SEPARATE
+     pooling parameters for each group to allow distinct representations.
 """
 from typing import Dict, List, Tuple
 
@@ -25,7 +20,6 @@ import torch.nn.functional as F
 from trial_graph import Criterion, Operator, Trial
 
 _OPERATORS = list(Operator)
-_OP_TO_IDX = {op: i for i, op in enumerate(_OPERATORS)}
 
 
 class CriterionEncoder(nn.Module):
@@ -80,29 +74,39 @@ class CriterionEncoder(nn.Module):
 
     def forward(self, concept_embedding: torch.Tensor, criterion: Criterion) -> torch.Tensor:
         meta = self._meta_features(criterion, concept_embedding.device)
-        # Debug: print shapes if needed
-        # print(f"concept_embedding shape: {concept_embedding.shape}, meta shape: {meta.shape}")
         return self.mlp(torch.cat([concept_embedding, meta]))
 
 
 class TrialEncoder(nn.Module):
     """
     Attention-pools a list of z_c vectors into a single z_inc (or z_exc)
-    vector. Both coordinates use the SAME pooling parameters (w_pool,
-    W_pool), matching the finalized LaTeX formulation -- only the *group*
-    of criteria (inclusion vs. exclusion) differs, not the pooling function.
+    vector. Uses SEPARATE pooling parameters for inclusion and exclusion
+    to allow distinct representations for each group.
     """
 
     def __init__(self, embed_dim: int):
         super().__init__()
-        self.W_pool = nn.Linear(embed_dim, embed_dim, bias=False)
-        self.w_pool = nn.Linear(embed_dim, 1, bias=False)
+        # Separate pooling parameters for inclusion and exclusion
+        self.W_pool_inc = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.w_pool_inc = nn.Linear(embed_dim, 1, bias=False)
+        self.W_pool_exc = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.w_pool_exc = nn.Linear(embed_dim, 1, bias=False)
 
-    def pool(self, z_criteria: List[torch.Tensor]) -> torch.Tensor:
+    def pool_inc(self, z_criteria: List[torch.Tensor]) -> torch.Tensor:
+        """Pool inclusion criteria with inclusion-specific parameters."""
         if len(z_criteria) == 0:
             return None
         Z = torch.stack(z_criteria, dim=0)                      # [C, d]
-        scores = self.w_pool(torch.tanh(self.W_pool(Z))).squeeze(-1)  # [C]
+        scores = self.w_pool_inc(torch.tanh(self.W_pool_inc(Z))).squeeze(-1)  # [C]
+        attn = F.softmax(scores, dim=0)                         # beta_c / alpha_c
+        return (attn.unsqueeze(-1) * Z).sum(dim=0)               # [d]
+    
+    def pool_exc(self, z_criteria: List[torch.Tensor]) -> torch.Tensor:
+        """Pool exclusion criteria with exclusion-specific parameters."""
+        if len(z_criteria) == 0:
+            return None
+        Z = torch.stack(z_criteria, dim=0)                      # [C, d]
+        scores = self.w_pool_exc(torch.tanh(self.W_pool_exc(Z))).squeeze(-1)  # [C]
         attn = F.softmax(scores, dim=0)                         # beta_c / alpha_c
         return (attn.unsqueeze(-1) * Z).sum(dim=0)               # [d]
 
@@ -124,6 +128,7 @@ def get_concept_embedding(entity_type: str,
     node_idx = node_map[entity_code]
     return post_gnn_embeddings[entity_type][node_idx]
 
+
 def encode_trial(trial: Trial,
                   entity_maps: Dict[str, Dict[str, int]],
                   post_gnn_embeddings: Dict[str, torch.Tensor],
@@ -133,18 +138,27 @@ def encode_trial(trial: Trial,
                   device) -> Tuple[torch.Tensor, torch.Tensor]:
     """Returns (z_inc, z_exc) for a single trial, or zero vectors if a group is empty."""
 
-    def encode_group(criteria: List[Criterion]) -> torch.Tensor:
+    def encode_group(criteria: List[Criterion], pool_type: str = 'inc') -> torch.Tensor:
         z_list = []
         for c in criteria:
             concept_emb = get_concept_embedding(
                 c.entity_type, c.entity_code, entity_maps, post_gnn_embeddings, embed_dim, device
             )
             z_list.append(criterion_encoder(concept_emb, c))
-        pooled = trial_encoder.pool(z_list)
+        
+        if len(z_list) == 0:
+            return torch.zeros(embed_dim, device=device)
+        
+        # Use the appropriate pooling method
+        if pool_type == 'inc':
+            pooled = trial_encoder.pool_inc(z_list)
+        else:
+            pooled = trial_encoder.pool_exc(z_list)
+        
         return pooled if pooled is not None else torch.zeros(embed_dim, device=device)
 
-    z_inc = encode_group(trial.inclusion_criteria)
-    z_exc = encode_group(trial.exclusion_criteria)
+    z_inc = encode_group(trial.inclusion_criteria, 'inc')
+    z_exc = encode_group(trial.exclusion_criteria, 'exc')
     return z_inc, z_exc
 
 
