@@ -34,7 +34,8 @@ class CriterionEncoder(nn.Module):
     def __init__(self, embed_dim: int):
         super().__init__()
         self.embed_dim = embed_dim
-        meta_dim = len(_OPERATORS) + 2  # operator one-hot + normalized value + severity weight
+        # Operator one-hot + normalized value + severity weight
+        meta_dim = len(Operator) + 2  # 8 + 2 = 10
         self.mlp = nn.Sequential(
             nn.Linear(embed_dim + meta_dim, embed_dim),
             nn.ReLU(),
@@ -42,19 +43,45 @@ class CriterionEncoder(nn.Module):
         )
 
     def _meta_features(self, criterion, device):
-        # Safely retrieve severity_weight with a default fallback of 1.0
+        # 1. Severity weight
         weight_val = getattr(criterion, 'severity_weight', 1.0)
+        if not isinstance(weight_val, (int, float)):
+            weight_val = 1.0
         weight = torch.tensor([weight_val], dtype=torch.float32, device=device)
         
-        # Safely retrieve operator encoding or default to 0
-        op_val = getattr(criterion, 'operator', None)
-        op_code = op_val.value if hasattr(op_val, 'value') else 0
-        op_tensor = torch.tensor([op_code], dtype=torch.float32, device=device)
+        # 2. Normalized value
+        value_val = getattr(criterion, 'value', 0.0)
+        if not isinstance(value_val, (int, float)):
+            try:
+                value_val = float(value_val)
+            except (ValueError, TypeError):
+                value_val = 0.0
+        # Normalize (adjust max_value based on your data range)
+        max_value = 100.0  # Adjust based on your lab value ranges
+        value_norm = torch.tensor([value_val / max_value], dtype=torch.float32, device=device)
         
-        return torch.cat([weight, op_tensor], dim=-1)
+        # 3. Operator one-hot
+        op_val = getattr(criterion, 'operator', None)
+        if op_val is None:
+            op_idx = 0
+        elif hasattr(op_val, 'to_numeric'):
+            op_idx = op_val.to_numeric()
+        elif isinstance(op_val, int):
+            op_idx = op_val
+        else:
+            op_idx = 0
+        
+        num_operators = len(Operator)
+        op_one_hot = F.one_hot(torch.tensor(op_idx, device=device), 
+                               num_classes=num_operators).float()
+        
+        # Concatenate: [weight, value_norm, op_one_hot]
+        return torch.cat([weight, value_norm, op_one_hot], dim=-1)
 
     def forward(self, concept_embedding: torch.Tensor, criterion: Criterion) -> torch.Tensor:
         meta = self._meta_features(criterion, concept_embedding.device)
+        # Debug: print shapes if needed
+        # print(f"concept_embedding shape: {concept_embedding.shape}, meta shape: {meta.shape}")
         return self.mlp(torch.cat([concept_embedding, meta]))
 
 

@@ -1,5 +1,6 @@
 # config.py
 import os
+import torch
 
 
 class Config:
@@ -50,9 +51,11 @@ class Config:
     # Contrastive pretraining (Phase 3)
     # ------------------------------------------------------------------
     TEMPERATURE = 0.1
-    LR = 1e-3
+    GCL_LR = 1e-3                  # ADDED: Learning rate for contrastive pretraining
+    LR = 1e-3                      # Kept for backward compatibility
     WEIGHT_DECAY = 1e-4
-    EPOCHS_CONTRASTIVE = 100
+    EPOCHS_GCL = 100               # RENAMED: from EPOCHS_CONTRASTIVE to match train.py
+    EPOCHS_CONTRASTIVE = 100       # Kept for backward compatibility
     DROP_RATE_V1 = 0.15
     DROP_RATE_V2 = 0.20
     BATCH_SIZE = 256
@@ -60,11 +63,11 @@ class Config:
     # ------------------------------------------------------------------
     # Trial-aware alignment (Phase 4 -- new, mirrors the LaTeX methodology)
     # ------------------------------------------------------------------
-    EPOCHS_ALIGN = 5
+    EPOCHS_ALIGN = 50              # INCREASED: from 5 to 50 for better convergence
     ALIGN_LR = 1e-4
     LAMBDA_1 = 1.0     # weight on the positive-attraction + hard-negative-repulsion terms
     LAMBDA_2 = 2.5     # weight on the random-negative-repulsion term
-    LAMBDA_ANCHOR: float = 0.5     # Weight for anchor regularization relative to Stage A
+    LAMBDA_ANCHOR = 0.5     # Weight for anchor regularization relative to Stage A (FIXED: removed colon)
     MARGIN_HARD = 0.4  # m_hard > m_rand, per the LaTeX design rationale (hard negatives need a
     MARGIN_RAND = 0.2  # bigger safety margin since they are "almost positives" that got excluded)
     HARD_NEG_INC_THRESHOLD = 0.05   # M_inc >= this AND
@@ -79,6 +82,9 @@ class Config:
     # ------------------------------------------------------------------
     ETA_EXCLUSION_PENALTY = 1.0  # eta in Similarity(P_i, T_j) = cos(z_Pi, z_inc) - eta * cos(z_Pi, z_exc)
 
+    # ------------------------------------------------------------------
+    # Path properties
+    # ------------------------------------------------------------------
     @property
     def GRAPH_PATH(self):
         return os.path.join(self.OUTPUT_DIR, "hetero_graph.pt")
@@ -90,3 +96,68 @@ class Config:
     @property
     def TRIAL_EMBED_PATH(self):
         return os.path.join(self.OUTPUT_DIR, "trial_embeddings.pt")
+    
+    @property
+    def BASELINE_EMBED_PATH(self):
+        """Path for baseline (Stage A) patient embeddings."""
+        return os.path.join(self.OUTPUT_DIR, "patient_embeddings_baseline.pt")
+    
+    @property
+    def LOSS_HISTORY_PATH(self):
+        """Path for saving training loss history."""
+        return os.path.join(self.OUTPUT_DIR, "training_loss_history.csv")
+
+    # ------------------------------------------------------------------
+    # Device configuration
+    # ------------------------------------------------------------------
+    @property
+    def DEVICE(self):
+        """Get the appropriate torch device."""
+        return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    # ------------------------------------------------------------------
+    # Utility methods
+    # ------------------------------------------------------------------
+    def ensure_directories(self):
+        """Create output directories if they don't exist."""
+        os.makedirs(self.OUTPUT_DIR, exist_ok=True)
+        return self
+    
+    def to_dict(self):
+        """Convert config to dictionary for logging."""
+        return {
+            'DATA_DIR': self.DATA_DIR,
+            'OUTPUT_DIR': self.OUTPUT_DIR,
+            'OUT_CHANNELS': self.OUT_CHANNELS,
+            'HIDDEN_CHANNELS': self.HIDDEN_CHANNELS,
+            'EPOCHS_ALIGN': self.EPOCHS_ALIGN,
+            'EPOCHS_GCL': self.EPOCHS_GCL,
+            'LAMBDA_ANCHOR': self.LAMBDA_ANCHOR,
+            'LAMBDA_1': self.LAMBDA_1,
+            'LAMBDA_2': self.LAMBDA_2,
+            'MARGIN_HARD': self.MARGIN_HARD,
+            'MARGIN_RAND': self.MARGIN_RAND,
+            'TEMPERATURE': self.TEMPERATURE,
+            'DEVICE': str(self.DEVICE),
+        }
+    
+    def __repr__(self):
+        """Pretty print configuration."""
+        return f"Config(\n" + "\n".join(f"  {k}: {v}" for k, v in self.to_dict().items()) + "\n)"
+
+
+# Create a singleton instance for easy importing
+config = Config()
+
+
+# Quick test function
+if __name__ == "__main__":
+    cfg = Config()
+    cfg.ensure_directories()
+    print("Configuration loaded successfully:")
+    print(cfg)
+    print(f"\nGraph path: {cfg.GRAPH_PATH}")
+    print(f"Patient embed path: {cfg.PATIENT_EMBED_PATH}")
+    print(f"Trial embed path: {cfg.TRIAL_EMBED_PATH}")
+    print(f"Baseline embed path: {cfg.BASELINE_EMBED_PATH}")
+    print(f"Device: {cfg.DEVICE}")

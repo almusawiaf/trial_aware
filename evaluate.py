@@ -245,6 +245,12 @@ def build_evaluation_matrices(cfg: Config):
     h_baseline = torch.load(baseline_path, map_location='cpu')
     h_full = torch.load(cfg.PATIENT_EMBED_PATH, map_location='cpu')
     trial_embeds = torch.load(cfg.TRIAL_EMBED_PATH, map_location='cpu')
+    
+    for tid, (z_inc, z_exc) in trial_embeds.items():
+        print(f"Trial {tid}:")
+        print(f"  z_inc norm: {z_inc.norm().item():.4f}")
+        print(f"  z_exc norm: {z_exc.norm().item():.4f}")
+        print(f"  Cosine similarity: {F.cosine_similarity(z_inc, z_exc, dim=0).item():.4f}")
 
     trial_ids = [tid for tid in trial_store.trials.keys() if tid in trial_embeds]
 
