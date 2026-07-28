@@ -29,4 +29,4 @@ mkdir -p logs
 
 find . -type d -name "__pycache__" -exec rm -r {} +
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-python train.py
+python run.py

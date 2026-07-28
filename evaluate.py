@@ -23,19 +23,32 @@ def build_evaluation_matrices(cfg: Config):
         scores_full: (num_patients, num_trials) similarity scores from Stage B
     """
     
-    # 1. Load REAL clinical trials (NOT mock data!)
-    trial_json_path = "structured_clinical_trials.json"
-    if not os.path.exists(trial_json_path):
-        logging.error(f"Trial JSON not found at {trial_json_path}")
-        logging.info("Falling back to mock trials for evaluation...")
-        from mock_data import generate_mock_trials
-        real_trials_data = generate_mock_trials()
-    else:
-        with open(trial_json_path, "r") as f:
-            real_trials_data = json.load(f)
-        logging.info(f"Loaded {len(real_trials_data)} trials from {trial_json_path}")
+    # ============================================================
+    # 1. Load evaluation trials from the new location
+    # ============================================================
     
-    trial_store = TrialStore.from_records(real_trials_data)
+    eval_trials_path = cfg.EVAL_TRIALS_PATH
+    
+    if os.path.exists(eval_trials_path):
+        logging.info(f"Loading evaluation trials from: {eval_trials_path}")
+        with open(eval_trials_path, "r") as f:
+            eval_trials_data = json.load(f)
+        logging.info(f"Loaded {len(eval_trials_data)} evaluation trials")
+        trial_store = TrialStore.from_records(eval_trials_data)
+    else:
+        # Fallback: try the old location
+        logging.warning(f"Evaluation trials not found at {eval_trials_path}")
+        logging.warning("Falling back to old trial loading...")
+        
+        trial_json_path = "structured_clinical_trials.json"
+        if os.path.exists(trial_json_path):
+            with open(trial_json_path, "r") as f:
+                real_trials_data = json.load(f)
+        else:
+            from mock_data import generate_mock_trials
+            real_trials_data = generate_mock_trials()
+        
+        trial_store = TrialStore.from_records(real_trials_data)
 
     # 2. Load patient data tables
     diag_path = os.path.join(cfg.OUTPUT_DIR, "diagnoses_clean.parquet")
@@ -157,7 +170,6 @@ def build_evaluation_matrices(cfg: Config):
     logging.info(f"y_true - mean: {y_true.mean():.4f} ({y_true.sum()} positive pairs)")
 
     return y_true, scores_baseline, scores_full
-
 
 def evaluate_retrieval():
     """Main evaluation function."""

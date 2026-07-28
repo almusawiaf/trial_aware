@@ -4,14 +4,17 @@ import glob
 import re
 import hashlib
 
+# This is the one works
+# URL = "https://clinicaltrials.gov/search?viewType=Table#classicRedirect"
+
 def process_all_trials():
-    """Process all 100 trials from the downloaded JSON file."""
-    
+    """Process all 1000 trials from the downloaded JSON file."""
+    file_name = 'ctg-studies_1000.json'
     # Load the original downloaded file
-    with open('ctg-studies.json', 'r', encoding='utf-8-sig') as f:
+    with open(file_name, 'r', encoding='utf-8-sig') as f:
         all_trials = json.load(f)
     
-    print(f"Loaded {len(all_trials)} trials from ctg-studies.json")
+    print(f"Loaded {len(all_trials)} trials from {file_name}")
     
     structured_trials = []
     

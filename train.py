@@ -328,20 +328,35 @@ def main():
     patient_states = build_patient_states(diag_df, rx_df, labs_df)
     logging.info(f"Built clinical states for {len(patient_states)} patients")
 
-    # Load trials
-    trial_json_path = "structured_clinical_trials.json"
-    if not os.path.exists(trial_json_path):
-        logging.warning(f"Trial JSON not found at {trial_json_path}. Using mock trials instead.")
-        from mock_data import generate_mock_trials
-        real_trials_data = generate_mock_trials()
+    # ============================================================
+    # Load trials from the new location
+    # ============================================================
+    
+    train_trials_path = cfg.TRAIN_TRIALS_PATH
+    
+    if os.path.exists(train_trials_path):
+        logging.info(f"[Stage B] Loading training trials from: {train_trials_path}")
+        with open(train_trials_path, "r") as f:
+            train_trials_data = json.load(f)
+        logging.info(f"[Stage B] Loaded {len(train_trials_data)} training trials")
+        trial_store = TrialStore.from_records(train_trials_data)
     else:
-        with open(trial_json_path, "r") as f:
-            real_trials_data = json.load(f)
-
-    trial_store = TrialStore.from_records(real_trials_data)
+        # Fallback: try the old location
+        logging.warning(f"[Stage B] Training trials not found at {train_trials_path}")
+        logging.warning("[Stage B] Falling back to old trial loading...")
+        
+        trial_json_path = "structured_clinical_trials.json"
+        if not os.path.exists(trial_json_path):
+            logging.warning(f"Trial JSON not found at {trial_json_path}. Using mock trials instead.")
+            from mock_data import generate_mock_trials
+            real_trials_data = generate_mock_trials()
+        else:
+            with open(trial_json_path, "r") as f:
+                real_trials_data = json.load(f)
+        
+        trial_store = TrialStore.from_records(real_trials_data)
+    
     logging.info(f"Loaded {len(trial_store.trials)} REAL clinical trials into Stage B!")
-
-    # FIX 5: Print config for debugging
     logging.info(f"[Config] ALIGN_LR: {cfg.ALIGN_LR}, LAMBDA_ANCHOR: {getattr(cfg, 'LAMBDA_ANCHOR', 0.1)}")
     logging.info(f"[Config] EPOCHS_ALIGN: {cfg.EPOCHS_ALIGN}, OUT_CHANNELS: {cfg.OUT_CHANNELS}")
 
@@ -366,7 +381,6 @@ def main():
         h_dict = encoder.encode(graph_dev.x_dict, graph_dev.edge_index_dict)
     torch.save(h_dict['patient'].cpu(), cfg.PATIENT_EMBED_PATH)
     logging.info(f"[Stage B] Saved trial-aware patient embeddings to {cfg.PATIENT_EMBED_PATH}")
-
 
 if __name__ == "__main__":
     main()

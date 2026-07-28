@@ -1,5 +1,6 @@
 # run.py
 import os
+import json
 import logging
 import pandas as pd
 import torch
@@ -42,8 +43,68 @@ def save_processed_data(adm, diag, rx, labs, output_dir: str):
         labs.to_csv(os.path.join(output_dir, "labs_clean.csv"), index=False)
 
 
+def check_and_prepare_trials(cfg: Config):
+    """
+    Check for trials in the new location and copy them to the current directory
+    for backward compatibility.
+    """
+    train_trials_path = cfg.TRAIN_TRIALS_PATH
+    eval_trials_path = cfg.EVAL_TRIALS_PATH
+    
+    if os.path.exists(train_trials_path) and os.path.exists(eval_trials_path):
+        logging.info(f"[Trials] Using existing trials from: {cfg.TRIALS_DATA_DIR}")
+        
+        with open(train_trials_path, "r") as f:
+            train_trials = json.load(f)
+        with open(eval_trials_path, "r") as f:
+            eval_trials = json.load(f)
+        
+        logging.info(f"[Trials] Loaded {len(train_trials)} training trials")
+        logging.info(f"[Trials] Loaded {len(eval_trials)} evaluation trials")
+        
+        # Copy to current directory for backward compatibility
+        with open("structured_clinical_trials.json", "w") as f:
+            json.dump(train_trials, f, indent=2)
+        with open("structured_clinical_trials_eval.json", "w") as f:
+            json.dump(eval_trials, f, indent=2)
+        logging.info("[Trials] Copied trials to current directory for compatibility")
+        
+        return True
+    else:
+        logging.warning(f"[Trials] Trials not found at {cfg.TRIALS_DATA_DIR}")
+        logging.warning("[Trials] Will generate mock trials for testing...")
+        return False
+
+
 if __name__ == "__main__":
     config = Config()
+    config.ensure_directories()
+    
+    # ============================================================
+    # NEW: Check for trials in the new location
+    # ============================================================
+    logging.info("=" * 50)
+    logging.info("CHECKING FOR TRIAL DATA")
+    logging.info("=" * 50)
+    
+    trials_available = check_and_prepare_trials(config)
+    
+    if not trials_available:
+        logging.info("[Trials] No real trials found. Mock trials will be used.")
+        # Generate mock trials for testing
+        try:
+            from mock_data import generate_mock_trials
+            mock_trials = generate_mock_trials()
+            with open("structured_clinical_trials.json", "w") as f:
+                json.dump(mock_trials, f, indent=2)
+            logging.info("[Trials] Generated mock trials")
+        except ImportError:
+            logging.warning("[Trials] Could not import mock_data. Continuing without trials.")
+    
+    # ============================================================
+    # Run preprocessing and graph construction
+    # ============================================================
+    
     preprocessor = MIMICDataPreprocessor(config)
     graph_constructor = MIMICGraphConstructor(config)
 
