@@ -8,12 +8,11 @@
     ],
     "phase": "NA",
     "sample_size": 348,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Continuous single-lead electrocardiogram data collected through VitalDB at Seoul National University Hospital between September 1, 2022, and September 30, 2025",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2941",
+        "entity_code": "CODE_4917",
         "operator": "BETWEEN",
         "value": 1.0,
         "max_value": null,
@@ -23,7 +22,7 @@
       {
         "raw_entity": "* Participant aged 19 years or older at the time of electrocardiogram data collection",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8679",
+        "entity_code": "CODE_6220",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -33,7 +32,7 @@
       {
         "raw_entity": "* AF with RVR-positive group: atrial fibrillation followed by rapid ventricular response, defined as an average heart rate of 110 beats per minute or greater for at least 30 seconds, with available el",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3553",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -43,7 +42,7 @@
       {
         "raw_entity": "* AF with RVR-negative group: atrial fibrillation without rapid ventricular response, with 3 hours of electrocardiogram data available before a selected index time corresponding to a similar time duri",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7840",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -53,7 +52,7 @@
       {
         "raw_entity": "* If the relevant episode occurred within 2 hours after the start of electrocardiogram recording, availability of electrocardiogram data from the start of recording through up to 1 hour after the epis",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7173",
+        "entity_code": "CODE_5511",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -63,7 +62,7 @@
       {
         "raw_entity": "* Other data considered suitable for the study by the principal investigator",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3983",
+        "entity_code": "CODE_2511",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -73,7 +72,7 @@
       {
         "raw_entity": "* Electrocardiogram data considered to be of inadequate quality because of noise, poor equipment handling, unclear signals, artifacts, or similar problems",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3463",
+        "entity_code": "CODE_4462",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -83,7 +82,7 @@
       {
         "raw_entity": "* Electrocardiogram data with signal loss of 5 percent or greater",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2062",
+        "entity_code": "CODE_8203",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -93,7 +92,7 @@
       {
         "raw_entity": "* Electrocardiogram data with a heart rate below 30 beats per minute or above 300 beats per minute",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0499",
+        "entity_code": "CODE_3139",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -103,7 +102,7 @@
       {
         "raw_entity": "* Data collected from a participant who was pregnant or breastfeeding at the time of data collection",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7278",
+        "entity_code": "CODE_3971",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -113,7 +112,7 @@
       {
         "raw_entity": "* Data previously used for training or validation of the artificial intelligence model",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3029",
+        "entity_code": "CODE_3140",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -123,7 +122,7 @@
       {
         "raw_entity": "* Electrocardiogram data from a participant whose baseline heart rate remained at 110 beats per minute or greater irrespective of atrial fibrillation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4096",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -133,7 +132,7 @@
       {
         "raw_entity": "* Data considered unsuitable for this clinical study by the principal investigator",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6654",
+        "entity_code": "CODE_3871",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -154,12 +153,11 @@
     ],
     "phase": "NA",
     "sample_size": 150,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "1. Adults aged 19 to 80 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1211",
+        "entity_code": "CODE_7341",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -169,7 +167,7 @@
       {
         "raw_entity": "2. Participants who required ECG monitoring because of suspected arrhythmia associated with symptoms such as palpitations or dizziness; or participants with cryptogenic ischemic stroke or transient is",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4079",
+        "entity_code": "R002",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -179,7 +177,7 @@
       {
         "raw_entity": "3. Participants able to wear MEMO Patch V2 for 14 days.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2606",
+        "entity_code": "CODE_8570",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -189,7 +187,7 @@
       {
         "raw_entity": "4. Participants who received a detailed explanation of the study, fully understood it, and voluntarily provided written informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6582",
+        "entity_code": "CODE_2983",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -199,7 +197,7 @@
       {
         "raw_entity": "1. History of allergic reactions to adhesive products.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8879",
+        "entity_code": "CODE_2401",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -209,7 +207,7 @@
       {
         "raw_entity": "2. Participants who required inpatient management during the study because of atrial fibrillation, stroke, transient ischemic attack, another clinically significant condition as determined by the inve",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3683",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -219,7 +217,7 @@
       {
         "raw_entity": "3. Any other condition that, in the investigator's judgment, made the participant unsuitable for study participation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6386",
+        "entity_code": "CODE_5358",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -236,12 +234,11 @@
     ],
     "phase": "NA",
     "sample_size": 320,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Proven or suspected infection.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4699",
+        "entity_code": "CODE_3068",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -251,7 +248,7 @@
       {
         "raw_entity": "* Persistent arterial hypotension requiring norepinephrine administration to maintain a mean arterial pressure above 65 mmHg despite adequate fluid resuscitation.",
         "entity_type": "lab",
-        "entity_code": "CODE_7705",
+        "entity_code": "CODE_2474",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -261,7 +258,7 @@
       {
         "raw_entity": "* Hyperlactatemia \\> 2 mmol/L.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7278",
+        "entity_code": "CODE_1124",
         "operator": "GT",
         "value": 2.0,
         "max_value": null,
@@ -271,7 +268,7 @@
       {
         "raw_entity": "* Proven or suspected infection.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4699",
+        "entity_code": "CODE_3068",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -281,7 +278,7 @@
       {
         "raw_entity": "* Absence of persistent arterial hypotension requiring norepinephrine administration to maintain a mean arterial pressure above 65 mmHg.",
         "entity_type": "lab",
-        "entity_code": "CODE_1700",
+        "entity_code": "CODE_9535",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -291,7 +288,7 @@
       {
         "raw_entity": "* An increase of at least 2 points in the SOFA score attributable to infection.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3946",
+        "entity_code": "CODE_6107",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -301,7 +298,7 @@
       {
         "raw_entity": "* Acute cardiac disease, such as myocardial infarction.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3425",
+        "entity_code": "CODE_2944",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -311,7 +308,7 @@
       {
         "raw_entity": "* Persistent arterial hypotension requiring norepinephrine administration to maintain a mean arterial pressure above 65 mmHg despite adequate fluid resuscitation.",
         "entity_type": "lab",
-        "entity_code": "CODE_7705",
+        "entity_code": "CODE_2474",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -321,7 +318,7 @@
       {
         "raw_entity": "* Low cardiac output: cardiac index \\< 2.2 L/min/m\u00b2 or the need for inotropic support (including norepinephrine) to maintain a cardiac index \\> 2.2 L/min/m\u00b2.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7779",
+        "entity_code": "CODE_1611",
         "operator": "GT",
         "value": 2.2,
         "max_value": null,
@@ -331,7 +328,7 @@
       {
         "raw_entity": "* Elevated left ventricular filling pressures, measured invasively or estimated by echocardiography.",
         "entity_type": "lab",
-        "entity_code": "CODE_1451",
+        "entity_code": "CODE_4914",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -341,7 +338,7 @@
       {
         "raw_entity": "* Hyperlactatemia \\> 2 mmol/L.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7278",
+        "entity_code": "CODE_1124",
         "operator": "GT",
         "value": 2.0,
         "max_value": null,
@@ -351,7 +348,7 @@
       {
         "raw_entity": "* Absence of active or chronic disease.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0930",
+        "entity_code": "CODE_4764",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -361,7 +358,7 @@
       {
         "raw_entity": "* Absence of long-term medication use.",
         "entity_type": "medication",
-        "entity_code": "CODE_4554",
+        "entity_code": "CODE_1628",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -371,7 +368,7 @@
       {
         "raw_entity": "* No surgery or medication intake within the previous month.",
         "entity_type": "medication",
-        "entity_code": "CODE_9677",
+        "entity_code": "CODE_2396",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -381,7 +378,7 @@
       {
         "raw_entity": "* Absence of ongoing pregnancy.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5935",
+        "entity_code": "CODE_1459",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -391,7 +388,7 @@
       {
         "raw_entity": "* Non-smoker.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3942",
+        "entity_code": "CODE_9155",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -401,7 +398,7 @@
       {
         "raw_entity": "* Patients deprived of liberty by judicial or administrative decision.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4978",
+        "entity_code": "CODE_1965",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -411,7 +408,7 @@
       {
         "raw_entity": "* Patients admitted to the intensive care unit for more than 48 hours.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3957",
+        "entity_code": "CODE_4836",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -421,7 +418,7 @@
       {
         "raw_entity": "* Patients previously enrolled in an interventional study with overlapping follow-up.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9763",
+        "entity_code": "CODE_2822",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -431,7 +428,7 @@
       {
         "raw_entity": "* Patients benefiting from State Medical Aid (AME).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5059",
+        "entity_code": "CODE_2083",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -448,12 +445,11 @@
     ],
     "phase": "NA",
     "sample_size": 60,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Patients with electrocardiographically documented paroxysmal atrial fibrillation (AF), defined according to the European Heart Rhythm Association (EHRA) guidelines",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5215",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -463,7 +459,7 @@
       {
         "raw_entity": "* Contraindication to pulsed field ablation in the left atrium (e.g., presence of a left atrial appendage occlusion device).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2625",
+        "entity_code": "CODE_9571",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -473,7 +469,7 @@
       {
         "raw_entity": "* Contraindication to undergoing the procedure under general anesthesia.",
         "entity_type": "procedure",
-        "entity_code": "CODE_2646",
+        "entity_code": "CODE_4472",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -483,7 +479,7 @@
       {
         "raw_entity": "* Age \\>80 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3865",
+        "entity_code": "CODE_5129",
         "operator": "GT",
         "value": 80.0,
         "max_value": null,
@@ -493,7 +489,7 @@
       {
         "raw_entity": "* Markedly enlarged left atrium (diameter \\>50 mm on echocardiography, LAVI \\>50 mL/m\u00b2).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9286",
+        "entity_code": "CODE_6671",
         "operator": "GT",
         "value": 50.0,
         "max_value": null,
@@ -503,7 +499,7 @@
       {
         "raw_entity": "* Life expectancy \\<1 year.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5478",
+        "entity_code": "CODE_4289",
         "operator": "LT",
         "value": 1.0,
         "max_value": null,
@@ -513,7 +509,7 @@
       {
         "raw_entity": "* Acute life-threatening illness.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9011",
+        "entity_code": "CODE_2077",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -523,7 +519,7 @@
       {
         "raw_entity": "* Presence of left atrial thrombus.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6134",
+        "entity_code": "CODE_1208",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -533,7 +529,7 @@
       {
         "raw_entity": "* Secondary atrial fibrillation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0208",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -543,7 +539,7 @@
       {
         "raw_entity": "* Previous left atrial ablation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5664",
+        "entity_code": "CODE_4291",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -560,12 +556,11 @@
     ],
     "phase": "NA",
     "sample_size": 60,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "* Symptomatic adults who are 18 years and older with a heart failure diagnosis --Participants who are able to self-report their experience",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0940",
+        "entity_code": "CODE_8740",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -575,7 +570,7 @@
       {
         "raw_entity": "* English or Arabic speakers",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0377",
+        "entity_code": "CODE_4720",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -585,7 +580,7 @@
       {
         "raw_entity": "\\- Patients who have a record of cognitive impairment (e.g. Alzheimer's), major psychiatric disorders (e.g. Depression), or concurrent terminal illness (e.g. terminal cancers)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7726",
+        "entity_code": "CODE_4598",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -603,12 +598,11 @@
     ],
     "phase": "NA",
     "sample_size": 1271,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "* Attending primary or secondary school",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5657",
+        "entity_code": "CODE_1383",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -627,12 +621,11 @@
     ],
     "phase": "NA",
     "sample_size": 75,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Lower extremity injury of any etiology requiring current use of an AFO",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1450",
+        "entity_code": "CODE_3663",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -642,7 +635,7 @@
       {
         "raw_entity": "* Age 18-80 years",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8114",
+        "entity_code": "CODE_6073",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -652,7 +645,7 @@
       {
         "raw_entity": "* 100-275 lbs",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4770",
+        "entity_code": "CODE_0777",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -662,7 +655,7 @@
       {
         "raw_entity": "* Greater than 1 month of AFO experience",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1883",
+        "entity_code": "CODE_4681",
         "operator": "GT",
         "value": 1.0,
         "max_value": null,
@@ -672,7 +665,7 @@
       {
         "raw_entity": "* Use of an AFO for activities of daily living",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7227",
+        "entity_code": "CODE_5280",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -682,7 +675,7 @@
       {
         "raw_entity": "* English or Spanish speaking",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2980",
+        "entity_code": "CODE_3784",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -692,7 +685,7 @@
       {
         "raw_entity": "* Able to comply with study procedures",
         "entity_type": "procedure",
-        "entity_code": "CODE_8636",
+        "entity_code": "CODE_8678",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -702,7 +695,7 @@
       {
         "raw_entity": "* Body mass less than 100 or greater than 275 lbs.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0237",
+        "entity_code": "CODE_5860",
         "operator": "GT",
         "value": 100.0,
         "max_value": null,
@@ -712,7 +705,7 @@
       {
         "raw_entity": "* Over 80 years of age",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6651",
+        "entity_code": "CODE_9054",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -722,7 +715,7 @@
       {
         "raw_entity": "* Known cognitive impairment (e.g. diagnoses such as moderate/severe traumatic brain injury, dementia)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0271",
+        "entity_code": "CODE_7201",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -732,7 +725,7 @@
       {
         "raw_entity": "* Inability to comply with instructions.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8333",
+        "entity_code": "CODE_0845",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -742,7 +735,7 @@
       {
         "raw_entity": "* Pregnancy",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0692",
+        "entity_code": "CODE_6904",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -752,7 +745,7 @@
       {
         "raw_entity": "* Medical conditions that would preclude safe involvement",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0701",
+        "entity_code": "CODE_9206",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -762,7 +755,7 @@
       {
         "raw_entity": "* Unable to provide written informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2309",
+        "entity_code": "CODE_1113",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -783,12 +776,11 @@
     ],
     "phase": "NA",
     "sample_size": 5000,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* People with an MMSE score of 24-30 points and an additional MoCA score of 0-23 points",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1771",
+        "entity_code": "CODE_5157",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -798,7 +790,7 @@
       {
         "raw_entity": "* People with an MMSE score of 15-23 points",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3009",
+        "entity_code": "CODE_3004",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -808,7 +800,7 @@
       {
         "raw_entity": "* Living in a home environment",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5875",
+        "entity_code": "CODE_2435",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -818,7 +810,7 @@
       {
         "raw_entity": "* All types of MCI and dementia according to the ICD-10 classification (F06.7, F00-F03)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8467",
+        "entity_code": "CODE_1752",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -828,7 +820,7 @@
       {
         "raw_entity": "* Main residence in Bavaria",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5211",
+        "entity_code": "CODE_3064",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -838,7 +830,7 @@
       {
         "raw_entity": "* All age groups",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3630",
+        "entity_code": "CODE_4463",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -848,7 +840,7 @@
       {
         "raw_entity": "* People with an MMST score of 24-30 points and an additional MoCA score of 24-30 points",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7524",
+        "entity_code": "CODE_7846",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -858,7 +850,7 @@
       {
         "raw_entity": "* People with an MMST score of 0-14 points",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4507",
+        "entity_code": "CODE_1507",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -868,7 +860,7 @@
       {
         "raw_entity": "* Permanent residence in a nursing home",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3818",
+        "entity_code": "CODE_3907",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -878,7 +870,7 @@
       {
         "raw_entity": "* Psychiatric diagnoses (among others depression, schizophrenia, addiction)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0197",
+        "entity_code": "CODE_4398",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -888,7 +880,7 @@
       {
         "raw_entity": "* Deafness and/or blindness",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1652",
+        "entity_code": "CODE_4163",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -909,12 +901,11 @@
     ],
     "phase": "NA",
     "sample_size": 482,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Age 18 years or older",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4273",
+        "entity_code": "CODE_7914",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -924,7 +915,7 @@
       {
         "raw_entity": "* Hospitalized due to acute coronary syndrome (ACS) or congestive heart failure (CHF) and fulfilling the criteria for influenza vaccination according to the recommendations of the German Standing Vacc",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2783",
+        "entity_code": "CODE_8726",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -934,7 +925,7 @@
       {
         "raw_entity": "* Written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4636",
+        "entity_code": "CODE_7460",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -944,7 +935,7 @@
       {
         "raw_entity": "* Already received seasonal influenza vaccination in the current season, based on self-reported vaccination status and/or vaccination certificate",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2272",
+        "entity_code": "CODE_1324",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -954,7 +945,7 @@
       {
         "raw_entity": "* Laboratory-confirmed active influenza infection during the index hospitalization",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3715",
+        "entity_code": "CODE_2764",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -964,7 +955,7 @@
       {
         "raw_entity": "* Contraindication for vaccination (e.g., known allergy)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3481",
+        "entity_code": "CODE_3493",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -974,7 +965,7 @@
       {
         "raw_entity": "* Inability to provide written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2311",
+        "entity_code": "CODE_5588",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -993,12 +984,11 @@
     ],
     "phase": "EARLY_PHASE1",
     "sample_size": 88,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Male participant",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1509",
+        "entity_code": "CODE_2153",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1008,7 +998,7 @@
       {
         "raw_entity": "* Age between 18 and 55 years, both inclusive",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2715",
+        "entity_code": "CODE_4238",
         "operator": "BETWEEN",
         "value": 18.0,
         "max_value": null,
@@ -1018,7 +1008,7 @@
       {
         "raw_entity": "* Body Mass Index (BMI) between 20.0 and 29.9 kg/m\\^2, both inclusive",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6506",
+        "entity_code": "CODE_3577",
         "operator": "BETWEEN",
         "value": 20.0,
         "max_value": null,
@@ -1028,7 +1018,7 @@
       {
         "raw_entity": "* Male participant",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1509",
+        "entity_code": "CODE_2153",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1038,7 +1028,7 @@
       {
         "raw_entity": "* Age between 18 and 60 years, both inclusive",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8567",
+        "entity_code": "CODE_6607",
         "operator": "BETWEEN",
         "value": 18.0,
         "max_value": null,
@@ -1048,7 +1038,7 @@
       {
         "raw_entity": "* Body Mass Index (BMI) between 27.0 and 39.9 kg/m\\^2, both inclusive",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2450",
+        "entity_code": "CODE_9975",
         "operator": "BETWEEN",
         "value": 27.0,
         "max_value": null,
@@ -1058,7 +1048,7 @@
       {
         "raw_entity": "* Any clinically significant abnormal haematology, biochemistry, or urinalysis screening tests, as judged by the investigator",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4570",
+        "entity_code": "CODE_6985",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1068,7 +1058,7 @@
       {
         "raw_entity": "* Treatment for weight management within 3 months before randomization in this trial",
         "entity_type": "medication",
-        "entity_code": "CODE_6779",
+        "entity_code": "CODE_1653",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1091,12 +1081,11 @@
     ],
     "phase": "NA",
     "sample_size": 200,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "1. Adults aged 19 years or older",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6243",
+        "entity_code": "CODE_0676",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1106,7 +1095,7 @@
       {
         "raw_entity": "2. Patients with cardiac disease judged to require cardiac rehabilitation (e.g., heart failure, valvular heart disease, coronary artery disease, peripheral arterial disease)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1836",
+        "entity_code": "CODE_2634",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1116,7 +1105,7 @@
       {
         "raw_entity": "3. Able to be followed for at least 6 weeks during the study period",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6263",
+        "entity_code": "CODE_4817",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1126,7 +1115,7 @@
       {
         "raw_entity": "4. Able to consent to blood testing and PPG measurement at baseline and endpoint",
         "entity_type": "lab",
-        "entity_code": "CODE_1220",
+        "entity_code": "CODE_8964",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1136,7 +1125,7 @@
       {
         "raw_entity": "5. Able to use a smartphone application",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8086",
+        "entity_code": "CODE_6438",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1146,7 +1135,7 @@
       {
         "raw_entity": "1. Judged unable to undergo PPG measurement",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2242",
+        "entity_code": "CODE_0064",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1156,7 +1145,7 @@
       {
         "raw_entity": "2. Atrial fibrillation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0482",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1166,7 +1155,7 @@
       {
         "raw_entity": "3. Condition or disease making participation in cardiac rehabilitation difficult",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6209",
+        "entity_code": "CODE_1300",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1176,7 +1165,7 @@
       {
         "raw_entity": "4. Psychiatric illness, cognitive impairment, or expected poor adherence that may affect study participation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8702",
+        "entity_code": "CODE_9793",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1193,12 +1182,11 @@
     ],
     "phase": "NA",
     "sample_size": 400,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Parity: All parity levels accepted (Para 0, Para 1, Para 2-4, and Para 5 or more).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9985",
+        "entity_code": "CODE_7298",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1208,7 +1196,7 @@
       {
         "raw_entity": "* Pregnancy Stage: Currently in the second or third trimester of pregnancy (greater than 14 weeks gestation).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0030",
+        "entity_code": "CODE_7573",
         "operator": "GT",
         "value": 14.0,
         "max_value": null,
@@ -1218,7 +1206,7 @@
       {
         "raw_entity": "* Confirmed Iron Deficiency Anemia (IDA): Documented Hemoglobin (Hb) less than 11 g/dL AND Serum Ferritin less than 30 ng/mL.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8523",
+        "entity_code": "CODE_4560",
         "operator": "LT",
         "value": 11.0,
         "max_value": null,
@@ -1228,7 +1216,7 @@
       {
         "raw_entity": "1. Intolerance to oral iron therapy (e.g., severe nausea, severe constipation, or gastrointestinal distress).",
         "entity_type": "medication",
-        "entity_code": "CODE_5947",
+        "entity_code": "CODE_2948",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1238,7 +1226,7 @@
       {
         "raw_entity": "2. Failure to respond to oral iron therapy (defined as a Hemoglobin increase of less than 1 g/dL after 3 weeks of compliant oral intake).",
         "entity_type": "medication",
-        "entity_code": "CODE_5366",
+        "entity_code": "CODE_0496",
         "operator": "LT",
         "value": 2.0,
         "max_value": null,
@@ -1248,7 +1236,7 @@
       {
         "raw_entity": "3. Late presentation in the third trimester (greater than 34 weeks gestation) requiring rapid correction of anemia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9335",
+        "entity_code": "CODE_1401",
         "operator": "GT",
         "value": 3.0,
         "max_value": null,
@@ -1258,7 +1246,7 @@
       {
         "raw_entity": "4. Moderate to severe anemia at presentation (defined as Hemoglobin less than 9.0 g/dL).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4373",
+        "entity_code": "CODE_4858",
         "operator": "LT",
         "value": 4.0,
         "max_value": null,
@@ -1268,7 +1256,7 @@
       {
         "raw_entity": "* First trimester of pregnancy (less than or equal to 14 weeks gestation).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8198",
+        "entity_code": "CODE_4692",
         "operator": "LT",
         "value": 14.0,
         "max_value": null,
@@ -1278,7 +1266,7 @@
       {
         "raw_entity": "* Known hypersensitivity, allergy, or previous severe adverse reaction to intravenous iron formulations or any of their components.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4766",
+        "entity_code": "CODE_0316",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1288,7 +1276,7 @@
       {
         "raw_entity": "* Anemia due to causes other than iron deficiency (e.g., vitamin B12 or folate deficiency, hemoglobinopathies, anemia of chronic disease).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2779",
+        "entity_code": "CODE_5010",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1298,7 +1286,7 @@
       {
         "raw_entity": "* Active, severe systemic infection.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5636",
+        "entity_code": "CODE_2380",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1308,7 +1296,7 @@
       {
         "raw_entity": "* Relevant medical exclusions , such as severe hepatic or renal impairments",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8582",
+        "entity_code": "CODE_4676",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1325,12 +1313,11 @@
     ],
     "phase": "PHASE2",
     "sample_size": 6,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "1. Subjects between 12 and 45 years of age at the time of consent and are able to provide written informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3678",
+        "entity_code": "CODE_6089",
         "operator": "BETWEEN",
         "value": 1.0,
         "max_value": null,
@@ -1340,7 +1327,7 @@
       {
         "raw_entity": "2. Diagnosis of TDT, also known as \u03b2-thalassemia major, without genotype restriction, and a valid test report can be provided.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4613",
+        "entity_code": "CODE_7916",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1350,7 +1337,7 @@
       {
         "raw_entity": "3. A history of at least 100 mL/kg/year of pRBCs transfusion or \u2265 8 transfusions of pRBCs per year for previous 2 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6904",
+        "entity_code": "CODE_6567",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1360,7 +1347,7 @@
       {
         "raw_entity": "4. Sufficient blood transfusion for at least 3 months before screening (transfusion records can be provided), and Hb is maintained \u22659.0 g/dL before each transfusion.",
         "entity_type": "lab",
-        "entity_code": "CODE_9476",
+        "entity_code": "CODE_9774",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1370,7 +1357,7 @@
       {
         "raw_entity": "5. The level of ferritin \\<5000ng/mL; Cardiac magnetic resonance imaging (MRI) T2 and liver MRI T2 findings suggest iron overload at a moderate level or below.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1387",
+        "entity_code": "CODE_9644",
         "operator": "LT",
         "value": 5.0,
         "max_value": null,
@@ -1380,7 +1367,7 @@
       {
         "raw_entity": "6. Clinically stable, and eligible for autologous hematopoietic stem cell transplant (auto-HSCT).",
         "entity_type": "procedure",
-        "entity_code": "CODE_4633",
+        "entity_code": "CODE_5277",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1390,7 +1377,7 @@
       {
         "raw_entity": "7. Adequate organ function for the conditioning with busulfan.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5900",
+        "entity_code": "CODE_8029",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1400,7 +1387,7 @@
       {
         "raw_entity": "1. Uncorrected bleeding disorder;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0633",
+        "entity_code": "CODE_0620",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1410,7 +1397,7 @@
       {
         "raw_entity": "2. Uncontrolled epilepsy or mental disorders;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5267",
+        "entity_code": "CODE_0172",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1420,7 +1407,7 @@
       {
         "raw_entity": "3. Received hydroxyurea, ruxolitinib, decitabine, or cytarabine within 3 months prior to enrollment;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6013",
+        "entity_code": "CODE_6456",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1430,7 +1417,7 @@
       {
         "raw_entity": "4. Usage of psychoactive substance, drug, or alcohol abuse within six months prior to screening.",
         "entity_type": "medication",
-        "entity_code": "CODE_8504",
+        "entity_code": "CODE_7166",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1440,7 +1427,7 @@
       {
         "raw_entity": "5. Pulmonary hypertension without effective intervention.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4730",
+        "entity_code": "CODE_8205",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1450,7 +1437,7 @@
       {
         "raw_entity": "6. Persistent toxicity (\u2265 CTCAE grade 2) induced by previous treatment.",
         "entity_type": "medication",
-        "entity_code": "CODE_4914",
+        "entity_code": "CODE_4663",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1460,7 +1447,7 @@
       {
         "raw_entity": "7. Positive for anti-RBC antibodies.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3248",
+        "entity_code": "CODE_7917",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1470,7 +1457,7 @@
       {
         "raw_entity": "8. Positive for hepatitis B surface antigen (HBsAg) and HBV DNA copy number \\> upper limit of normal (ULN) (HBV DNA test not required for patients negative for HBsAg), positive for hepatitis C virus (",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9814",
+        "entity_code": "CODE_5033",
         "operator": "GT",
         "value": 8.0,
         "max_value": null,
@@ -1480,7 +1467,7 @@
       {
         "raw_entity": "9. Has or has had malignant tumors or myeloproliferative disease or immunodeficiency disease;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9478",
+        "entity_code": "CODE_3462",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1490,7 +1477,7 @@
       {
         "raw_entity": "10. Clinically significant and active bacterial, viral, fungal, or parasitic infection.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1992",
+        "entity_code": "CODE_4309",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1510,12 +1497,11 @@
     ],
     "phase": "PHASE2",
     "sample_size": 60,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* At least 18 years of age",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6790",
+        "entity_code": "CODE_4486",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1525,7 +1511,7 @@
       {
         "raw_entity": "* Eastern Cooperative Oncology Group (ECOG) performance status score of \u2264 2",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8146",
+        "entity_code": "CODE_4557",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1535,7 +1521,7 @@
       {
         "raw_entity": "* Triple-negative breast cancer as determined by the treating oncologist",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7986",
+        "entity_code": "CODE_5573",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1545,7 +1531,7 @@
       {
         "raw_entity": "* Completed standard of care neoadjuvant chemotherapy in the opinion of their treating oncologist",
         "entity_type": "medication",
-        "entity_code": "CODE_9687",
+        "entity_code": "CODE_3996",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1555,7 +1541,7 @@
       {
         "raw_entity": "* Patients whose tumors progress on neoadjuvant therapy may be enrolled",
         "entity_type": "medication",
-        "entity_code": "CODE_7424",
+        "entity_code": "CODE_4793",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1565,7 +1551,7 @@
       {
         "raw_entity": "* No clinical evidence of local or distant recurrence",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5346",
+        "entity_code": "CODE_9359",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1575,7 +1561,7 @@
       {
         "raw_entity": "* Plan to receive standard of care adjuvant directed therapy",
         "entity_type": "medication",
-        "entity_code": "CODE_6759",
+        "entity_code": "CODE_8267",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1585,7 +1571,7 @@
       {
         "raw_entity": "* Completed standard of care locoregional treatment, including definitive breast and lymph node surgery followed by standard radiation therapy, if recommended",
         "entity_type": "medication",
-        "entity_code": "CODE_0102",
+        "entity_code": "CODE_4984",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1595,7 +1581,7 @@
       {
         "raw_entity": "* Residual cancer burden (RCB) index 2 or 3 as calculated per routine anatomic pathology clinical standards",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0754",
+        "entity_code": "CODE_3078",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1605,7 +1591,7 @@
       {
         "raw_entity": "* Absolute neutrophil count (ANC) \u2265 800/\u03bcL (within 30 days of first study vaccine administration)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3145",
+        "entity_code": "CODE_8450",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1615,7 +1601,7 @@
       {
         "raw_entity": "* Hemoglobin (Hgb) \u2265 8 g/dL (within 30 days of first study vaccine administration)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6844",
+        "entity_code": "CODE_5462",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1625,7 +1611,7 @@
       {
         "raw_entity": "* Platelets \u2265 75,000/ \u03bcL (within 30 days of first study vaccine administration)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2626",
+        "entity_code": "CODE_8664",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1635,7 +1621,7 @@
       {
         "raw_entity": "* Total bilirubin \u2264 1.5 x institutional upper limit of normal (ULN), except patients with Gilbert's syndrome, in whom total bilirubin must be \\< 3.0 mg/dL (within 30 days of first study vaccine admini",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7724",
+        "entity_code": "CODE_6115",
         "operator": "LT",
         "value": 1.5,
         "max_value": null,
@@ -1645,7 +1631,7 @@
       {
         "raw_entity": "* Aspartate aminotransferase (AST)/alanine aminotransferase (ALT) \u2264 1.5 x institutional ULN (within 30 days of first study vaccine administration)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9034",
+        "entity_code": "CODE_4167",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1655,7 +1641,7 @@
       {
         "raw_entity": "* Creatinine \u2264 1.5 x ULN mg/dL or creatinine clearance \\> 60 mL/min (within 30 days of first study vaccine administration)",
         "entity_type": "lab",
-        "entity_code": "CODE_4264",
+        "entity_code": "CODE_5073",
         "operator": "GT",
         "value": 1.5,
         "max_value": null,
@@ -1665,7 +1651,7 @@
       {
         "raw_entity": "* At least 28 days post systemic steroids prior to enrollment, unless used as part of prophylaxis to prevent intravenous (IV) contrast reactions.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4995",
+        "entity_code": "CODE_6966",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1675,7 +1661,7 @@
       {
         "raw_entity": "* Topical, ocular, intra-articular, intranasal, inhalational corticosteroids (with minimal systemic absorption) are allowed",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5002",
+        "entity_code": "F983",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1685,7 +1671,7 @@
       {
         "raw_entity": "* Must have recovered from major infections and/or surgical procedures; and in the opinion of the investigator, not have any significant active concurrent medical illnesses or condition precluding pro",
         "entity_type": "medication",
-        "entity_code": "CODE_0705",
+        "entity_code": "CODE_0670",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1695,7 +1681,7 @@
       {
         "raw_entity": "* Patients of child-bearing potential must agree to use dual methods of contraception and have a negative urine pregnancy test at screening, and male patients must use an effective barrier method of c",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4965",
+        "entity_code": "CODE_3686",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1705,7 +1691,7 @@
       {
         "raw_entity": "* Toxicities related to prior exposure to immune checkpoint inhibitors for which immune checkpoint inhibitors cannot be safely continued as determined by study investigator",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9115",
+        "entity_code": "CODE_8918",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1715,7 +1701,7 @@
       {
         "raw_entity": "* Germline BRCA1 or BRCA2 mutations with adjuvant olaparib planned within the study period",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0151",
+        "entity_code": "CODE_7573",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1725,7 +1711,7 @@
       {
         "raw_entity": "* NOTE: If olaparib is not planned, then these patients are eligible",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7588",
+        "entity_code": "CODE_3319",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1735,7 +1721,7 @@
       {
         "raw_entity": "* Symptomatic restrictive cardiomyopathy",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6288",
+        "entity_code": "CODE_5202",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1745,7 +1731,7 @@
       {
         "raw_entity": "* Dilated cardiomyopathy",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7918",
+        "entity_code": "CODE_4251",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1755,7 +1741,7 @@
       {
         "raw_entity": "* Unstable angina within 4 months prior to enrollment",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9514",
+        "entity_code": "CODE_8891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1765,7 +1751,7 @@
       {
         "raw_entity": "* New York Heart Association functional class III-IV heart failure on active treatment",
         "entity_type": "medication",
-        "entity_code": "CODE_7980",
+        "entity_code": "CODE_1157",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1775,7 +1761,7 @@
       {
         "raw_entity": "* Symptomatic pericardial effusion",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6602",
+        "entity_code": "CODE_7853",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1785,7 +1771,7 @@
       {
         "raw_entity": "* Autoimmune disease requiring active systemic treatment",
         "entity_type": "medication",
-        "entity_code": "CODE_7167",
+        "entity_code": "CODE_8516",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1795,7 +1781,7 @@
       {
         "raw_entity": "* Known hypersensitivity reaction to the GM-CSF adjuvant; any known contra-indication to GM-CSF",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3099",
+        "entity_code": "CODE_0412",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1805,7 +1791,7 @@
       {
         "raw_entity": "* Pregnant or breast feeding",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4278",
+        "entity_code": "CODE_4814",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1815,7 +1801,7 @@
       {
         "raw_entity": "* Known history of human immunodeficiency virus (HIV) infection, hepatitis B (e.g., hepatitis B virus surface antigen \\[HBsAg\\] reactive), or hepatitis C (e.g., hepatitis C virus \\[HCV\\] ribonucleic a",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6391",
+        "entity_code": "CODE_1163",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1825,7 +1811,7 @@
       {
         "raw_entity": "* Major surgery within the 4 weeks prior to initiation of first study vaccine",
         "entity_type": "procedure",
-        "entity_code": "CODE_8109",
+        "entity_code": "CODE_7589",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1835,7 +1821,7 @@
       {
         "raw_entity": "* Enrollment in any other clinical protocol or investigational trial that involves concurrent administration of experimental therapy and/or therapeutic devices, or investigational drug. Patients who c",
         "entity_type": "medication",
-        "entity_code": "CODE_2713",
+        "entity_code": "Y048XXA",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1862,12 +1848,11 @@
     ],
     "phase": "NA",
     "sample_size": 45,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Participants must be between 18 and 30 years of age.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3387",
+        "entity_code": "CODE_6547",
         "operator": "BETWEEN",
         "value": 18.0,
         "max_value": null,
@@ -1877,7 +1862,7 @@
       {
         "raw_entity": "* Must be able to read, understand, and provide informed consent, in English.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6040",
+        "entity_code": "CODE_8944",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1887,7 +1872,7 @@
       {
         "raw_entity": "* Must be currently participating in an organized sport (e.g. collegiate, club, or competitive recreational level) or engaging in structured resistance training and athletic conditioning for recreatio",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3433",
+        "entity_code": "CODE_0675",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1897,7 +1882,7 @@
       {
         "raw_entity": "* Medically stable with no known contraindications to physical exertion.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1520",
+        "entity_code": "CODE_1926",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1907,7 +1892,7 @@
       {
         "raw_entity": "* Cleared for participation in strength or maximal-effort isometric testing.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4941",
+        "entity_code": "CODE_6291",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1917,7 +1902,7 @@
       {
         "raw_entity": "* Be able to perform lower extremity isometric testing without pain that limits maximal effort.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6725",
+        "entity_code": "CODE_3941",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1927,7 +1912,7 @@
       {
         "raw_entity": "* Must have 2 lower extremities capable to producing full range knee flexion and extension range of motion.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4259",
+        "entity_code": "CODE_2469",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1937,7 +1922,7 @@
       {
         "raw_entity": "* No medical condition that significantly alters lower extremity neuromuscular performance.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5660",
+        "entity_code": "CODE_1775",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1947,7 +1932,7 @@
       {
         "raw_entity": "* No history of lower extremity surgery in the past 12 months.",
         "entity_type": "procedure",
-        "entity_code": "CODE_7481",
+        "entity_code": "CODE_1717",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1957,7 +1942,7 @@
       {
         "raw_entity": "* Individuals younger than 18 or older than 30.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5013",
+        "entity_code": "CODE_7176",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1967,7 +1952,7 @@
       {
         "raw_entity": "* Acute lower extremity injury in the last 12 weeks.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6360",
+        "entity_code": "CODE_8933",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1977,7 +1962,7 @@
       {
         "raw_entity": "* Lower extremity surgery within the last 12 months.",
         "entity_type": "procedure",
-        "entity_code": "CODE_4038",
+        "entity_code": "CODE_4387",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1987,7 +1972,7 @@
       {
         "raw_entity": "* Pain in either lower extremity that would limit maximal physical exertion.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3296",
+        "entity_code": "CODE_4152",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -1997,7 +1982,7 @@
       {
         "raw_entity": "* History of neurological disorders, including but not limited to: Neuropathy, Stoke, MS, Parkinson's Disease, etc.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5639",
+        "entity_code": "CODE_7014",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2007,7 +1992,7 @@
       {
         "raw_entity": "* Use of medications that significantly impact neuromuscular performance, strength or fatigue.",
         "entity_type": "medication",
-        "entity_code": "CODE_5007",
+        "entity_code": "CODE_1709",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2017,7 +2002,7 @@
       {
         "raw_entity": "* No supplementation that affects neuromuscular performance, strength, or fatigue.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4544",
+        "entity_code": "CODE_3041",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2027,7 +2012,7 @@
       {
         "raw_entity": "* Unable to read and understand English.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8521",
+        "entity_code": "CODE_2431",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2037,7 +2022,7 @@
       {
         "raw_entity": "* Not in a vulnerable population: Pregnant, mentally or physically challenged, cognitively impaired.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4479",
+        "entity_code": "CODE_0864",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2055,12 +2040,11 @@
     ],
     "phase": "PHASE4",
     "sample_size": 200,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Age \\>18 years. Acute neurologic deficits due to cerebral ischemia/infarction. Clearly defined onset with duration from stroke onset of \\<4.5 hours. Significant neurological deficit (usually NIHSS s",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3223",
+        "entity_code": "CODE_5072",
         "operator": "GT",
         "value": 18.0,
         "max_value": null,
@@ -2070,7 +2054,7 @@
       {
         "raw_entity": "* CT brain shows showing evidence of intracranial hemorrhage",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8601",
+        "entity_code": "CODE_9754",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2080,7 +2064,7 @@
       {
         "raw_entity": "* CT brain showing acute or subacute infarct of size about \\>1/3 Middle Cerebral Artery territory.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1213",
+        "entity_code": "CODE_5299",
         "operator": "GT",
         "value": 1.0,
         "max_value": null,
@@ -2090,7 +2074,7 @@
       {
         "raw_entity": "* Arterial puncture at non compressible site in previous 7 days",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3598",
+        "entity_code": "CODE_4269",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2100,7 +2084,7 @@
       {
         "raw_entity": "* History of previous intracranial hemorrhage.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6643",
+        "entity_code": "CODE_1277",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2110,7 +2094,7 @@
       {
         "raw_entity": "* Intracranial neoplasm, AV malformation, or aneurysm",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1865",
+        "entity_code": "CODE_3888",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2120,7 +2104,7 @@
       {
         "raw_entity": "* Recent head injury OR intracranial or intraspinal surgery in last 3 mo.",
         "entity_type": "procedure",
-        "entity_code": "CODE_5359",
+        "entity_code": "CODE_4791",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2130,7 +2114,7 @@
       {
         "raw_entity": "* Persistent Elevated BP \\>185/110 mm Hg despite treatment.",
         "entity_type": "medication",
-        "entity_code": "CODE_7886",
+        "entity_code": "CODE_1134",
         "operator": "GT",
         "value": 185.0,
         "max_value": null,
@@ -2140,7 +2124,7 @@
       {
         "raw_entity": "* Active ongoing internal bleeding.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3412",
+        "entity_code": "CODE_7042",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2150,7 +2134,7 @@
       {
         "raw_entity": "* Platelet count \\<100 000/mm3.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0970",
+        "entity_code": "CODE_5891",
         "operator": "LT",
         "value": 100.0,
         "max_value": null,
@@ -2160,7 +2144,7 @@
       {
         "raw_entity": "* Current use of NOACs OR warfarin with INR \\>1.7 OR Inj.Enoxaparin/Heparin in therapeutic dose",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3749",
+        "entity_code": "Y048XXA",
         "operator": "GT",
         "value": 1.7,
         "max_value": null,
@@ -2170,7 +2154,7 @@
       {
         "raw_entity": "* Blood glucose concentration \\<2.7mmol/L (\\<50mg/dl).",
         "entity_type": "lab",
-        "entity_code": "CODE_6581",
+        "entity_code": "CODE_4714",
         "operator": "LT",
         "value": 2.7,
         "max_value": null,
@@ -2180,7 +2164,7 @@
       {
         "raw_entity": "Relative contraindications: (may consider IV alteplase on individual evaluation).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9575",
+        "entity_code": "CODE_3223",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2190,7 +2174,7 @@
       {
         "raw_entity": "* Seizure at onset with post ictal residual neurological deficit.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0383",
+        "entity_code": "CODE_4410",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2200,7 +2184,7 @@
       {
         "raw_entity": "* Signs of mild stroke in isolation or rapidly improving symptoms.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1817",
+        "entity_code": "CODE_3319",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2210,7 +2194,7 @@
       {
         "raw_entity": "* Pregnancy.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1095",
+        "entity_code": "CODE_7306",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2220,7 +2204,7 @@
       {
         "raw_entity": "* Recent GI or UT hemorrhage within the last 21 days.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3522",
+        "entity_code": "CODE_7039",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2230,7 +2214,7 @@
       {
         "raw_entity": "* Recent MI within previous 3 months (to exclude anterolateral infarct / STEMI)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4733",
+        "entity_code": "CODE_5710",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2248,12 +2232,11 @@
     ],
     "phase": "NA",
     "sample_size": 40,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "* Diagnosis of migraine (ICHD-3)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7733",
+        "entity_code": "CODE_3055",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2263,7 +2246,7 @@
       {
         "raw_entity": "* Age 18-55 years",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1068",
+        "entity_code": "CODE_5340",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2273,7 +2256,7 @@
       {
         "raw_entity": "* Right-handedness",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2457",
+        "entity_code": "CODE_8479",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2283,7 +2266,7 @@
       {
         "raw_entity": "* Be able to read and sign written informed consent in Greek",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2399",
+        "entity_code": "CODE_0916",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2293,7 +2276,7 @@
       {
         "raw_entity": "* Absence of migraine attack during the experiment",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7636",
+        "entity_code": "CODE_8323",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2303,7 +2286,7 @@
       {
         "raw_entity": "* Diagnosis of chronic migraine",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4507",
+        "entity_code": "CODE_5834",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2313,7 +2296,7 @@
       {
         "raw_entity": "* Cognitive disorders requiring medication",
         "entity_type": "medication",
-        "entity_code": "CODE_4461",
+        "entity_code": "CODE_3193",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2323,7 +2306,7 @@
       {
         "raw_entity": "* Pregnancy or breastfeeding",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9594",
+        "entity_code": "CODE_0135",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2333,7 +2316,7 @@
       {
         "raw_entity": "* Presence of any metallic objects in the eyes or central nervous system",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8844",
+        "entity_code": "CODE_7532",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2343,7 +2326,7 @@
       {
         "raw_entity": "* Implanted metallic or electronic devices (e.g. cardiac pacemaker, metallic cardiac valve, cochlear implant, orthopedic implants",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5006",
+        "entity_code": "CODE_7408",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2353,7 +2336,7 @@
       {
         "raw_entity": "* History of claustrophobia",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5206",
+        "entity_code": "CODE_2442",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2363,7 +2346,7 @@
       {
         "raw_entity": "* Use of prophylactic anti-migraine treatment during recruitment",
         "entity_type": "medication",
-        "entity_code": "CODE_2650",
+        "entity_code": "CODE_2760",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2381,12 +2364,11 @@
     ],
     "phase": "NA",
     "sample_size": 10,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Adult patients who have lumbar fusion surgery, who consent to participate",
         "entity_type": "procedure",
-        "entity_code": "CODE_8442",
+        "entity_code": "CODE_8274",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2396,7 +2378,7 @@
       {
         "raw_entity": "* Pediatric patients 18 years old and under",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8323",
+        "entity_code": "CODE_8874",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2415,12 +2397,11 @@
     ],
     "phase": "NA",
     "sample_size": 164,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Age between 21 and 65 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3988",
+        "entity_code": "CODE_9561",
         "operator": "BETWEEN",
         "value": 21.0,
         "max_value": null,
@@ -2430,7 +2411,7 @@
       {
         "raw_entity": "* American Society of Anesthesiologists (ASA) physical status I or II.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4418",
+        "entity_code": "CODE_3967",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2440,7 +2421,7 @@
       {
         "raw_entity": "* Body mass index (BMI) less than 30 kg/m\u00b2.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0289",
+        "entity_code": "CODE_2151",
         "operator": "LT",
         "value": 30.0,
         "max_value": null,
@@ -2450,7 +2431,7 @@
       {
         "raw_entity": "* Scheduled for elective laparoscopic upper abdominal surgery under general anesthesia.",
         "entity_type": "procedure",
-        "entity_code": "CODE_8978",
+        "entity_code": "CODE_2233",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2460,7 +2441,7 @@
       {
         "raw_entity": "* Refusal to participate in the study.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4972",
+        "entity_code": "CODE_5155",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2470,7 +2451,7 @@
       {
         "raw_entity": "* Known allergy or hypersensitivity to any of the study drugs.",
         "entity_type": "medication",
-        "entity_code": "CODE_2784",
+        "entity_code": "CODE_8472",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2480,7 +2461,7 @@
       {
         "raw_entity": "* Infection at the planned block insertion site.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9330",
+        "entity_code": "CODE_9784",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2490,7 +2471,7 @@
       {
         "raw_entity": "* Severe uncontrolled cardiac, renal, hepatic, neurological, or respiratory disease.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8833",
+        "entity_code": "CODE_4348",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2500,7 +2481,7 @@
       {
         "raw_entity": "* Pre-existing chronic pain.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3088",
+        "entity_code": "CODE_3574",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2510,7 +2491,7 @@
       {
         "raw_entity": "* Immunodeficiency.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5911",
+        "entity_code": "CODE_0533",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2520,7 +2501,7 @@
       {
         "raw_entity": "* Coagulation abnormalities, anticoagulant therapy, or platelet count less than 80,000/\u00b5L.",
         "entity_type": "medication",
-        "entity_code": "CODE_3966",
+        "entity_code": "CODE_0144",
         "operator": "LT",
         "value": 80.0,
         "max_value": null,
@@ -2530,7 +2511,7 @@
       {
         "raw_entity": "* Emergency surgery.",
         "entity_type": "procedure",
-        "entity_code": "CODE_0681",
+        "entity_code": "CODE_6277",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2551,12 +2532,11 @@
     ],
     "phase": "NA",
     "sample_size": 1050,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "1. Diagnosis of a Central Nervous System neurological disease (inflammatory diseases such as Multiple Sclerosis; neurodegenerative diseases such as Alzheimer's disease and Parkinson's disease; migrain",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9421",
+        "entity_code": "G35",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2566,7 +2546,7 @@
       {
         "raw_entity": "2. Age greater than 18 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4943",
+        "entity_code": "CODE_6596",
         "operator": "GT",
         "value": 2.0,
         "max_value": null,
@@ -2576,7 +2556,7 @@
       {
         "raw_entity": "3. Signed informed consent to study participation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2043",
+        "entity_code": "CODE_7379",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2586,7 +2566,7 @@
       {
         "raw_entity": "4. Willingness and ability to undergo all study visits and procedures.",
         "entity_type": "procedure",
-        "entity_code": "CODE_7563",
+        "entity_code": "CODE_4164",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2596,7 +2576,7 @@
       {
         "raw_entity": "1. Absence of neurological disease.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7917",
+        "entity_code": "CODE_6117",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2606,7 +2586,7 @@
       {
         "raw_entity": "2. Age greater than 18 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4943",
+        "entity_code": "CODE_6596",
         "operator": "GT",
         "value": 2.0,
         "max_value": null,
@@ -2616,7 +2596,7 @@
       {
         "raw_entity": "3. Signed informed consent to study participation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2043",
+        "entity_code": "CODE_7379",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2626,7 +2606,7 @@
       {
         "raw_entity": "4. Willingness and ability to undergo all study visits and procedures.",
         "entity_type": "procedure",
-        "entity_code": "CODE_7563",
+        "entity_code": "CODE_4164",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2636,7 +2616,7 @@
       {
         "raw_entity": "1. Refusal to participate or withdrawal of informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1854",
+        "entity_code": "CODE_7699",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2646,7 +2626,7 @@
       {
         "raw_entity": "2. Known or confirmed ocular pathology identified during examination (ophthalmological evaluation may be requested at the investigators' discretion).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1231",
+        "entity_code": "CODE_8304",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2656,7 +2636,7 @@
       {
         "raw_entity": "3. Inability to understand instructions given by investigators.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0743",
+        "entity_code": "CODE_5881",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2666,7 +2646,7 @@
       {
         "raw_entity": "4. Presence of any condition that, in the investigators' opinion, renders the subject unsuitable for the study.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7052",
+        "entity_code": "CODE_0799",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2676,7 +2656,7 @@
       {
         "raw_entity": "5. For specific imaging modes using clearly visible light sources (MultiColor, FA, BAF): diagnosis of epilepsy or history of previous epileptic seizures.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1438",
+        "entity_code": "CODE_1130",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2686,7 +2666,7 @@
       {
         "raw_entity": "1. Refusal to participate or withdrawal of informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1854",
+        "entity_code": "CODE_7699",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2696,7 +2676,7 @@
       {
         "raw_entity": "2. Known or confirmed ocular pathology identified during examination.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6747",
+        "entity_code": "CODE_1000",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2706,7 +2686,7 @@
       {
         "raw_entity": "3. Inability to understand instructions given by investigators.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0743",
+        "entity_code": "CODE_5881",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2716,7 +2696,7 @@
       {
         "raw_entity": "4. Presence of any condition that, in the investigators' opinion, renders the subject unsuitable for the study.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7052",
+        "entity_code": "CODE_0799",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2734,12 +2714,11 @@
     ],
     "phase": "NA",
     "sample_size": 75,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "American Society of Anesthesiologists (ASA) physical status I, II, or III. Intact cognitive ability to comprehend study procedures, use the Numeric Rating Scale (NRS) accurately, and provide informed ",
         "entity_type": "procedure",
-        "entity_code": "CODE_6881",
+        "entity_code": "CODE_4329",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2749,7 +2728,7 @@
       {
         "raw_entity": "Known allergy or severe hypersensitivity to local anesthetics or morphine. Chronic pain conditions requiring daily opioid consumption for \\>3 months preoperatively.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1893",
+        "entity_code": "CODE_7208",
         "operator": "GT",
         "value": 3.0,
         "max_value": null,
@@ -2759,7 +2738,7 @@
       {
         "raw_entity": "Documented history of substance use disorder. Severe chronic respiratory disease (e.g., COPD requiring home oxygen therapy, or severe obstructive sleep apnea not managed with CPAP).",
         "entity_type": "medication",
-        "entity_code": "CODE_8017",
+        "entity_code": "G4733",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2769,7 +2748,7 @@
       {
         "raw_entity": "Neurological or psychiatric conditions that compromise sensory perception or communication.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1700",
+        "entity_code": "CODE_8008",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2779,7 +2758,7 @@
       {
         "raw_entity": "Surgical incisions planned to extend significantly past the midline. Severe spinal deformities or a history of spinal surgery at the targeted block/injection interspaces.",
         "entity_type": "procedure",
-        "entity_code": "CODE_1240",
+        "entity_code": "CODE_8378",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2789,7 +2768,7 @@
       {
         "raw_entity": "Concurrent enrollment in any other interventional clinical trial.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8848",
+        "entity_code": "CODE_3881",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2808,12 +2787,11 @@
     ],
     "phase": "NA",
     "sample_size": 0,
-    "overall_status": "WITHDRAWN",
     "criteria": [
       {
         "raw_entity": "1. Age 18 years or older",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8040",
+        "entity_code": "CODE_6265",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2823,7 +2801,7 @@
       {
         "raw_entity": "2. Undergoing isolated CABG surgery with median sternotomy and a planned LIMA-LAD graft",
         "entity_type": "procedure",
-        "entity_code": "CODE_0102",
+        "entity_code": "CODE_9751",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2833,7 +2811,7 @@
       {
         "raw_entity": "3. Provision of written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8913",
+        "entity_code": "CODE_8960",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2843,7 +2821,7 @@
       {
         "raw_entity": "1. Non-sternotomy surgical approach (e.g., minimally invasive, thoracotomy)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5121",
+        "entity_code": "CODE_8338",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2853,7 +2831,7 @@
       {
         "raw_entity": "2. Emergency surgery (defined as surgery required within 24 hours of presentation)",
         "entity_type": "procedure",
-        "entity_code": "CODE_9511",
+        "entity_code": "CODE_2789",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2863,7 +2841,7 @@
       {
         "raw_entity": "3. History of prior sternotomy",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6735",
+        "entity_code": "CODE_7692",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2873,7 +2851,7 @@
       {
         "raw_entity": "4. Currently receiving systemic antibiotics or with an active bacterial infection at the time of surgery",
         "entity_type": "procedure",
-        "entity_code": "CODE_6858",
+        "entity_code": "CODE_0949",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2883,7 +2861,7 @@
       {
         "raw_entity": "5. History of chronic sternal pain prior to the index surgery",
         "entity_type": "procedure",
-        "entity_code": "CODE_3562",
+        "entity_code": "CODE_4031",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2893,7 +2871,7 @@
       {
         "raw_entity": "6. Known left subclavian artery stenosis (\\>50%)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8834",
+        "entity_code": "CODE_5840",
         "operator": "GT",
         "value": 6.0,
         "max_value": null,
@@ -2903,7 +2881,7 @@
       {
         "raw_entity": "7. Previous radiation therapy to the chest",
         "entity_type": "medication",
-        "entity_code": "CODE_2653",
+        "entity_code": "CODE_5779",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2913,7 +2891,7 @@
       {
         "raw_entity": "8. Known allergy or contraindication to iodinated contrast media that cannot be managed with premedication",
         "entity_type": "medication",
-        "entity_code": "CODE_8801",
+        "entity_code": "CODE_9996",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2923,7 +2901,7 @@
       {
         "raw_entity": "9. Estimated glomerular filtration rate (eGFR) \\<30 mL/min/1.73m\u00b2 at baseline (relative contraindication to CTA contrast) as determined based on each centre's laboratory standard.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6074",
+        "entity_code": "CODE_7368",
         "operator": "LT",
         "value": 9.0,
         "max_value": null,
@@ -2933,7 +2911,7 @@
       {
         "raw_entity": "10. Known pregnancy or plans for pregnancy during the study period",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0169",
+        "entity_code": "CODE_6748",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2943,7 +2921,7 @@
       {
         "raw_entity": "11. Life expectancy less than 1.5 years due to non-cardiac conditions",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1884",
+        "entity_code": "CODE_1141",
         "operator": "LT",
         "value": 11.0,
         "max_value": null,
@@ -2953,7 +2931,7 @@
       {
         "raw_entity": "12. Inability or unwillingness to comply with follow-up procedures including CTA at 1.5 years",
         "entity_type": "procedure",
-        "entity_code": "CODE_9678",
+        "entity_code": "CODE_3483",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2973,12 +2951,11 @@
     ],
     "phase": "NA",
     "sample_size": 150,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Aged \u2265 18 years old.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0760",
+        "entity_code": "CODE_1180",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2988,7 +2965,7 @@
       {
         "raw_entity": "* Clinically diagnosed with symptomatic paroxysmal atrial fibrillation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9186",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -2998,7 +2975,7 @@
       {
         "raw_entity": "* Atrial fibrillation documented by surface electrocardiogram (ECG), or ambulatory electrocardiogram (including single-lead ECG recorder).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5153",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3008,7 +2985,7 @@
       {
         "raw_entity": "* Poor response or intolerance to at least one Class I or Class III antiarrhythmic drug.",
         "entity_type": "medication",
-        "entity_code": "CODE_5879",
+        "entity_code": "CODE_4314",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3018,7 +2995,7 @@
       {
         "raw_entity": "* Fully informed of the treatment regimen, voluntarily signed the informed consent form, and agreed to undergo all examinations, procedures and follow-up visits specified in the study protocol.",
         "entity_type": "medication",
-        "entity_code": "CODE_5202",
+        "entity_code": "CODE_4247",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3028,7 +3005,7 @@
       {
         "raw_entity": "* Patients with a history of atrial fibrillation ablation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1524",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3038,7 +3015,7 @@
       {
         "raw_entity": "* Left atrial thrombus.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8373",
+        "entity_code": "CODE_0912",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3048,7 +3025,7 @@
       {
         "raw_entity": "* Left atrial anteroposterior diameter \u2265 60 mm, and left ventricular ejection fraction (LVEF) \u2264 40%.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9335",
+        "entity_code": "CODE_1406",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3058,7 +3035,7 @@
       {
         "raw_entity": "* Patients with active implantable devices in situ (e.g., cardiac pacemaker, ICD, etc.).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0129",
+        "entity_code": "CODE_3475",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3068,7 +3045,7 @@
       {
         "raw_entity": "* Women of childbearing potential who cannot use effective contraception throughout the 12-month study period after enrollment.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8985",
+        "entity_code": "CODE_0319",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3078,7 +3055,7 @@
       {
         "raw_entity": "* Atrial fibrillation caused by hyperthyroidism or other transient factors.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1386",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3088,7 +3065,7 @@
       {
         "raw_entity": "* Patients with prior atrial septal repair, atrial septal occlusion, or left atrial myxoma.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6068",
+        "entity_code": "CODE_4723",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3098,7 +3075,7 @@
       {
         "raw_entity": "* Patients with confirmed cerebrovascular diseases within the past 6 months (including cerebral hemorrhage, stroke and transient ischaemic attack).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7245",
+        "entity_code": "CODE_5667",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3108,7 +3085,7 @@
       {
         "raw_entity": "* Patients with cardiovascular events within the past 3 months (including acute myocardial infarction, coronary intervention, coronary artery bypass grafting, prosthetic valve replacement or repair, a",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5642",
+        "entity_code": "CODE_8841",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3118,7 +3095,7 @@
       {
         "raw_entity": "* Patients deemed ineligible for this trial by the investigator for any other reason.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9474",
+        "entity_code": "CODE_8498",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3137,12 +3114,11 @@
     ],
     "phase": "NA",
     "sample_size": 60,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "* Female patients undergoing elective cesarean section under general anesthesia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7425",
+        "entity_code": "CODE_2147",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3152,7 +3128,7 @@
       {
         "raw_entity": "* Ability to provide written informed consent.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7872",
+        "entity_code": "CODE_7444",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3162,7 +3138,7 @@
       {
         "raw_entity": "* Refusal to participate.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4367",
+        "entity_code": "CODE_9230",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3172,7 +3148,7 @@
       {
         "raw_entity": "* Emergency cesarean section.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7494",
+        "entity_code": "CODE_7258",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3182,7 +3158,7 @@
       {
         "raw_entity": "* High-risk pregnancy (including hypertensive disorders of pregnancy, diabetes mellitus, preterm labor, or fetal growth restriction).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6283",
+        "entity_code": "CODE_3094",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3192,7 +3168,7 @@
       {
         "raw_entity": "* Placental abnormalities.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2936",
+        "entity_code": "CODE_8275",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3202,7 +3178,7 @@
       {
         "raw_entity": "* History of allergy to any study medication.",
         "entity_type": "medication",
-        "entity_code": "CODE_1834",
+        "entity_code": "CODE_4402",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3212,7 +3188,7 @@
       {
         "raw_entity": "* History of malignant hyperthermia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6634",
+        "entity_code": "T883XXA",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3222,7 +3198,7 @@
       {
         "raw_entity": "* Alcohol or substance abuse.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4722",
+        "entity_code": "CODE_8249",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3232,7 +3208,7 @@
       {
         "raw_entity": "* Severe cardiac disease or severe arrhythmia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3428",
+        "entity_code": "CODE_3077",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3242,7 +3218,7 @@
       {
         "raw_entity": "* Peripheral vascular disease.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2384",
+        "entity_code": "CODE_8597",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3252,7 +3228,7 @@
       {
         "raw_entity": "* Renal or hepatic failure.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4124",
+        "entity_code": "CODE_5246",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3262,7 +3238,7 @@
       {
         "raw_entity": "* Contraindication to corticosteroid administration.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1463",
+        "entity_code": "CODE_3973",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3279,12 +3255,11 @@
     ],
     "phase": "NA",
     "sample_size": 30,
-    "overall_status": "COMPLETED",
     "criteria": [
       {
         "raw_entity": "* A school or medical record of holding an autism diagnosis",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0571",
+        "entity_code": "CODE_0200",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3294,7 +3269,7 @@
       {
         "raw_entity": "* Did not follow 1 to 2-step instructions at the pretest.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9402",
+        "entity_code": "CODE_1823",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3311,12 +3286,11 @@
     ],
     "phase": "NA",
     "sample_size": 15,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Age 10 - 20 years old",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1894",
+        "entity_code": "CODE_8115",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3326,7 +3300,7 @@
       {
         "raw_entity": "* Diagnosis of type 1 diabetes",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5541",
+        "entity_code": "CODE_4418",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3336,7 +3310,7 @@
       {
         "raw_entity": "* Self-identify as Latino/Hispanic (determined via self-report and/or electronic health record)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4633",
+        "entity_code": "CODE_1841",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3346,7 +3320,7 @@
       {
         "raw_entity": "* Currently managing diabetes using any regimen, including multiple daily injections (MDI) or any non-Medtronic automated insulin delivery system",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1366",
+        "entity_code": "CODE_9324",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3356,7 +3330,7 @@
       {
         "raw_entity": "* Willing to transition to and use the Medtronic MiniMed 780G system for the duration of the study",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3872",
+        "entity_code": "CODE_4344",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3366,7 +3340,7 @@
       {
         "raw_entity": "* Current use of any Medtronic technology",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3330",
+        "entity_code": "CODE_8845",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3376,7 +3350,7 @@
       {
         "raw_entity": "* More than 1 episode of diabetic ketoacidosis (DKA) within 12 months of study enrollment",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4326",
+        "entity_code": "E872",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3386,7 +3360,7 @@
       {
         "raw_entity": "* Current pregnancy (self-reported), due to limited safety data for use of the Medtronic MiniMed 780G system during pregnancy",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4213",
+        "entity_code": "CODE_7614",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3396,7 +3370,7 @@
       {
         "raw_entity": "* Presence of any significant medical condition that, in the opinion of the investigator, would interfere with study participation or data interpretation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2954",
+        "entity_code": "CODE_3018",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3406,7 +3380,7 @@
       {
         "raw_entity": "* Inability or unwillingness to use the Medtronic MiniMed 780G system for the duration of the study",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9368",
+        "entity_code": "CODE_5579",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3424,12 +3398,11 @@
     ],
     "phase": "NA",
     "sample_size": 25,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "1. Adult females or males age \u2265 18 years",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2938",
+        "entity_code": "CODE_5284",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3439,7 +3412,7 @@
       {
         "raw_entity": "2. At least moderate gastrointestinal distress, defined as a score of \u2265 4 on any domain of the Gastrointestinal Symptoms Rating Scale (GSRS) at screening",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9819",
+        "entity_code": "CODE_7763",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3449,7 +3422,7 @@
       {
         "raw_entity": "3. Ability to read and speak English",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8253",
+        "entity_code": "CODE_2342",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3459,7 +3432,7 @@
       {
         "raw_entity": "4. Ability and willingness to collect an at-home stool sample for GI-MAP testing",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6455",
+        "entity_code": "CODE_4657",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3469,7 +3442,7 @@
       {
         "raw_entity": "1. Current or recent (within the prior 90 days) use of a probiotic dietary supplement",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7117",
+        "entity_code": "CODE_2970",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3479,7 +3452,7 @@
       {
         "raw_entity": "2. Current or recent (within the prior 90 days) use of systemic antibiotics, antifungals, or antiparasitic medications",
         "entity_type": "medication",
-        "entity_code": "CODE_1802",
+        "entity_code": "CODE_1380",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3489,7 +3462,7 @@
       {
         "raw_entity": "3. Known allergies to any ingredients in the product",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5011",
+        "entity_code": "CODE_4231",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3499,7 +3472,7 @@
       {
         "raw_entity": "4. Currently pregnant or lactating women or women planning to become pregnant in the next 8 weeks",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2994",
+        "entity_code": "CODE_1560",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3509,7 +3482,7 @@
       {
         "raw_entity": "5. Current diagnosis of inflammatory bowel disease (Crohn's disease or ulcerative colitis), celiac disease, active gastrointestinal malignancy, or other chronic health condition (e.g., cancer, heart f",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0128",
+        "entity_code": "K900",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3519,7 +3492,7 @@
       {
         "raw_entity": "6. Severely immunocompromised status (e.g., active chemotherapy, post-transplant immunosuppression, advanced HIV)",
         "entity_type": "medication",
-        "entity_code": "CODE_9150",
+        "entity_code": "CODE_1888",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3529,7 +3502,7 @@
       {
         "raw_entity": "7. Participants unable to provide consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7064",
+        "entity_code": "CODE_3605",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3547,12 +3520,11 @@
     ],
     "phase": "NA",
     "sample_size": 120,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Nausea present for more than 2 months. Age 18 years or older. Able to understand English. Receiving care at The Ohio State University. Able to complete online surveys using a smartphone or computer",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5955",
+        "entity_code": "CODE_2377",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3562,7 +3534,7 @@
       {
         "raw_entity": "* Active treatment for cancer Current treatment for inflammatory bowel disease Cirrhosis End-stage renal disease Prior use of a wearable TENS unit for nausea Abdominal surgery within the previous 3 mo",
         "entity_type": "medication",
-        "entity_code": "CODE_5219",
+        "entity_code": "CODE_1434",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3583,12 +3555,11 @@
     ],
     "phase": "NA",
     "sample_size": 574,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Hong Kong residents self-reported age of 25-65 years;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5068",
+        "entity_code": "CODE_3075",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3598,7 +3569,7 @@
       {
         "raw_entity": "* Possesses a smartphone capable of running mobile apps (e.g. Android or iPhone) and;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5804",
+        "entity_code": "Y9302",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3608,7 +3579,7 @@
       {
         "raw_entity": "* Able to read either English or Chinese.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2029",
+        "entity_code": "CODE_8726",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3618,7 +3589,7 @@
       {
         "raw_entity": "* Individuals having any symptoms or feeling unwell in anyways as detailed in the Disclaimer at the launch of the app; or",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7299",
+        "entity_code": "CODE_1954",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3628,7 +3599,7 @@
       {
         "raw_entity": "* Individuals reporting a current diagnosis of cardiovascular disease, lung cancer, hepatitis B, colorectal cancer, diabetes, sexually transmitted diseases, depression, anxiety and mild cognitive impa",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9003",
+        "entity_code": "CODE_1802",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3647,12 +3618,11 @@
     ],
     "phase": "PHASE4",
     "sample_size": 180,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "1. Meet at least two of the three characteristic criteria for AP:\u2460 Acute onset of persistent upper abdominal pain;\u2461 Serum amylase and/or lipase activity at least three times above the upper limit of n",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4493",
+        "entity_code": "CODE_6667",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3662,7 +3632,7 @@
       {
         "raw_entity": "3. Admission within 72 hours of symptom onset.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8664",
+        "entity_code": "CODE_4443",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3672,7 +3642,7 @@
       {
         "raw_entity": "4. Disease severity assessed as mild acute pancreatitis (MAP) within 48 hours of admission, defined by absence of organ dysfunction and absence of local or systemic complications.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7716",
+        "entity_code": "K859",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3682,7 +3652,7 @@
       {
         "raw_entity": "5. Age between 18 and 65 years.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5813",
+        "entity_code": "CODE_1028",
         "operator": "BETWEEN",
         "value": 5.0,
         "max_value": null,
@@ -3692,7 +3662,7 @@
       {
         "raw_entity": "6. No history of allergy to microbiological agents.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2476",
+        "entity_code": "CODE_2405",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3702,7 +3672,7 @@
       {
         "raw_entity": "7. Signed informed consent obtained.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5112",
+        "entity_code": "CODE_1123",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3712,7 +3682,7 @@
       {
         "raw_entity": "1. Concurrent biliary, alcoholic, or other etiologies of acute pancreatitis;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8820",
+        "entity_code": "K859",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3722,7 +3692,7 @@
       {
         "raw_entity": "2. Acute exacerbation of chronic pancreatitis or pancreatic tumor;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9291",
+        "entity_code": "K861",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3732,7 +3702,7 @@
       {
         "raw_entity": "3. Severe hypertriglyceridemia-associated acute pancreatitis, defined as: \u2460 patients classified as moderately severe or severe AP according to the Expert Consensus on the Diagnosis and Treatment of Hy",
         "entity_type": "medication",
-        "entity_code": "CODE_5346",
+        "entity_code": "K859",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3742,7 +3712,7 @@
       {
         "raw_entity": "4. Severe hepatic or renal dysfunction (serum creatinine \\>177 \u03bcmol/L or ALT \\>150 U/L);",
         "entity_type": "lab",
-        "entity_code": "CODE_3324",
+        "entity_code": "CODE_6553",
         "operator": "GT",
         "value": 4.0,
         "max_value": null,
@@ -3752,7 +3722,7 @@
       {
         "raw_entity": "5. Active infection, malignancy, immunodeficiency, or requiring long-term use of immunosuppressants;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9688",
+        "entity_code": "CODE_9340",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3762,7 +3732,7 @@
       {
         "raw_entity": "6. Diagnosed diabetes mellitus;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7015",
+        "entity_code": "CODE_4298",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3772,7 +3742,7 @@
       {
         "raw_entity": "7. Pregnancy or breastfeeding;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1835",
+        "entity_code": "CODE_2223",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3782,7 +3752,7 @@
       {
         "raw_entity": "8. History of lactose intolerance;",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2233",
+        "entity_code": "CODE_4178",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3792,7 +3762,7 @@
       {
         "raw_entity": "9. Use within 4 weeks prior to enrollment of antibiotics, probiotics, prebiotics, synbiotics, or other microbiological agents, as well as gastrointestinal motility drugs (e.g., domperidone, mosapride)",
         "entity_type": "medication",
-        "entity_code": "CODE_3429",
+        "entity_code": "CODE_9230",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3815,12 +3785,11 @@
     ],
     "phase": "NA",
     "sample_size": 180,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Age 18 years or older.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7780",
+        "entity_code": "CODE_8640",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3830,7 +3799,7 @@
       {
         "raw_entity": "* Elective open repair planned for a complex ventral hernia (primary or incisional) in which at least one margin of the fascial defect is formed by bone - that is, a subxiphoid or costal-margin, supra",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4960",
+        "entity_code": "CODE_6620",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3840,7 +3809,7 @@
       {
         "raw_entity": "* A hernial sac of sufficient quality and surface area to raise a pedicled flap adequate to cover the planned mesh, as judged at operation.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0854",
+        "entity_code": "CODE_1340",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3850,7 +3819,7 @@
       {
         "raw_entity": "* Planned retromuscular (sublay) synthetic mesh repair, with or without posterior component separation (transversus abdominis release).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3072",
+        "entity_code": "CODE_9505",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3860,7 +3829,7 @@
       {
         "raw_entity": "* Able to give written informed consent and to attend scheduled follow-up for 12 months.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5233",
+        "entity_code": "CODE_0921",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3870,7 +3839,7 @@
       {
         "raw_entity": "* Emergency or urgent operation (incarceration with strangulation, obstruction, or perforation).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9431",
+        "entity_code": "CODE_5015",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3880,7 +3849,7 @@
       {
         "raw_entity": "* Active intra-abdominal infection, or a contaminated or dirty operative field (CDC wound class III-IV) at the time of randomization.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0806",
+        "entity_code": "CODE_3800",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3890,7 +3859,7 @@
       {
         "raw_entity": "* Planned use of biologic or composite intraperitoneal mesh, or a bridged (non-fascial-closure) repair as the primary plan.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6818",
+        "entity_code": "Y048XXA",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3900,7 +3869,7 @@
       {
         "raw_entity": "* Hernial sac absent, destroyed, densely scarred, or too small to raise a viable covering flap.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7906",
+        "entity_code": "CODE_9886",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3910,7 +3879,7 @@
       {
         "raw_entity": "* Concurrent bowel resection or stoma creation expected to alter the wound-contamination class.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7600",
+        "entity_code": "CODE_9912",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3920,7 +3889,7 @@
       {
         "raw_entity": "* ASA physical status V.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1854",
+        "entity_code": "CODE_7602",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3930,7 +3899,7 @@
       {
         "raw_entity": "* Life expectancy less than 12 months, or active malignancy under treatment with anticipated short survival.",
         "entity_type": "medication",
-        "entity_code": "CODE_7077",
+        "entity_code": "CODE_7309",
         "operator": "LT",
         "value": 12.0,
         "max_value": null,
@@ -3940,7 +3909,7 @@
       {
         "raw_entity": "* Pregnancy.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1095",
+        "entity_code": "CODE_7306",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3950,7 +3919,7 @@
       {
         "raw_entity": "* Inability or unwillingness to provide informed consent or to comply with follow-up",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8904",
+        "entity_code": "CODE_9201",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3971,12 +3940,11 @@
     ],
     "phase": "NA",
     "sample_size": 66,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "-Surgeons who perform abdominal surgery for cancer at the study institution",
         "entity_type": "procedure",
-        "entity_code": "CODE_3440",
+        "entity_code": "CODE_9434",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3986,7 +3954,7 @@
       {
         "raw_entity": "* Surgeons who do not perform abdominal surgery for cancer",
         "entity_type": "procedure",
-        "entity_code": "CODE_5771",
+        "entity_code": "CODE_5165",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -3996,7 +3964,7 @@
       {
         "raw_entity": "* Surgeons who are external to the study institution",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2112",
+        "entity_code": "CODE_5920",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4014,12 +3982,11 @@
     ],
     "phase": "PHASE4",
     "sample_size": 1200,
-    "overall_status": "RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Individuals with type 2 diabetes mellitus were eligible if they were aged \u226519 years",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7619",
+        "entity_code": "CODE_7894",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4029,7 +3996,7 @@
       {
         "raw_entity": "* Carotid intima-media thickness \u2265 1 mm",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3455",
+        "entity_code": "CODE_4856",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4039,7 +4006,7 @@
       {
         "raw_entity": "* Ankle-brachial index \\< 0.9 - Pulse wave velocity \u2265 9 m/s",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6282",
+        "entity_code": "CODE_6021",
         "operator": "LT",
         "value": 0.9,
         "max_value": null,
@@ -4049,7 +4016,7 @@
       {
         "raw_entity": "* Flow-mediated vasodilatation \\< 5%",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6122",
+        "entity_code": "CODE_5031",
         "operator": "LT",
         "value": 5.0,
         "max_value": null,
@@ -4059,7 +4026,7 @@
       {
         "raw_entity": "* Coronary artery calcium score \u2265 40",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7249",
+        "entity_code": "CODE_5574",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4069,7 +4036,7 @@
       {
         "raw_entity": "* Coronary artery stenosis \u2265 20% or \u2264 70%",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5410",
+        "entity_code": "CODE_7695",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4079,7 +4046,7 @@
       {
         "raw_entity": "* Peripheral artery occlusive disease \u2265 20%",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4893",
+        "entity_code": "CODE_1099",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4089,7 +4056,7 @@
       {
         "raw_entity": "* Metabolic syndrome",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3484",
+        "entity_code": "CODE_1657",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4099,7 +4066,7 @@
       {
         "raw_entity": "* Individuals with HbA1c \u2264 9.9%",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6567",
+        "entity_code": "CODE_0722",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4109,7 +4076,7 @@
       {
         "raw_entity": "* Individuals who voluntarily agree to participate in the study and provide written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6112",
+        "entity_code": "CODE_4332",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4119,7 +4086,7 @@
       {
         "raw_entity": "* Patients with a history of major cardiovascular events, including myocardial infarction, stroke, or heart failure",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9673",
+        "entity_code": "CODE_7151",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4129,7 +4096,7 @@
       {
         "raw_entity": "* Patients with heart failure (NYHA I\\~IV)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2069",
+        "entity_code": "CODE_9597",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4139,7 +4106,7 @@
       {
         "raw_entity": "* Patients with current active bleeding or suspected bleeding",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4329",
+        "entity_code": "CODE_3036",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4149,7 +4116,7 @@
       {
         "raw_entity": "* Patients with suspected bleeding tendency or hematologic disorder, such as hemophilia or thrombocytopenia",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6970",
+        "entity_code": "CODE_0519",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4159,7 +4126,7 @@
       {
         "raw_entity": "* Patients recently diagnosed with gastrointestinal ulcerative disease",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5274",
+        "entity_code": "CODE_4951",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4169,7 +4136,7 @@
       {
         "raw_entity": "* Patients with inadequately controlled hypertension, defined as systolic blood pressure \u2265 180 mmHg or diastolic blood pressure \u2265 110 mmHg",
         "entity_type": "lab",
-        "entity_code": "CODE_0870",
+        "entity_code": "CODE_3599",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4179,7 +4146,7 @@
       {
         "raw_entity": "* Patients with severe renal dysfunction, defined as estimated glomerular filtration rate \\< 30 mL/min/1.73 m\u00b2",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7264",
+        "entity_code": "CODE_1850",
         "operator": "LT",
         "value": 30.0,
         "max_value": null,
@@ -4189,7 +4156,7 @@
       {
         "raw_entity": "* Patients with liver enzyme levels greater than 3 times the upper limit of normal or chronic liver disease",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6883",
+        "entity_code": "CODE_1554",
         "operator": "GT",
         "value": 3.0,
         "max_value": null,
@@ -4199,7 +4166,7 @@
       {
         "raw_entity": "* Individuals currently taking antiplatelet or antithrombotic agents",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5137",
+        "entity_code": "CODE_2230",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4209,7 +4176,7 @@
       {
         "raw_entity": "* Individuals who are pregnant or breastfeeding",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3882",
+        "entity_code": "CODE_3309",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4219,7 +4186,7 @@
       {
         "raw_entity": "* Patients with a history of hypersensitivity to any component of the study drugs",
         "entity_type": "medication",
-        "entity_code": "CODE_1537",
+        "entity_code": "CODE_6479",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4229,7 +4196,7 @@
       {
         "raw_entity": "* Patients with complications of coronary artery stenosis",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6922",
+        "entity_code": "CODE_8003",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4239,7 +4206,7 @@
       {
         "raw_entity": "* Patients with QT prolongation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9850",
+        "entity_code": "CODE_0592",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4249,7 +4216,7 @@
       {
         "raw_entity": "* Patients with a sigmoid-shaped ventricular septum or risk of sigmoid-shaped ventricular septum",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2873",
+        "entity_code": "CODE_7846",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4259,7 +4226,7 @@
       {
         "raw_entity": "* Individuals with alcohol addiction",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7640",
+        "entity_code": "CODE_5866",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4269,7 +4236,7 @@
       {
         "raw_entity": "* Patients with asthma",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8358",
+        "entity_code": "CODE_8156",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4279,7 +4246,7 @@
       {
         "raw_entity": "* Patients deemed unsuitable for participation in the study based on the investigator's judgment",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0392",
+        "entity_code": "CODE_2636",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4297,12 +4264,11 @@
     ],
     "phase": "NA",
     "sample_size": 120,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Male participant aged 18 years or older.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8976",
+        "entity_code": "CODE_0118",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4312,7 +4278,7 @@
       {
         "raw_entity": "* Confirmed diagnosis of hypertension.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0474",
+        "entity_code": "CODE_6030",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4322,7 +4288,7 @@
       {
         "raw_entity": "* Receiving pharmacological antihypertensive treatment.",
         "entity_type": "medication",
-        "entity_code": "CODE_8968",
+        "entity_code": "CODE_7162",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4332,7 +4298,7 @@
       {
         "raw_entity": "* Consecutively admitted to the hypertension day-hospital unit for assessment of hypertension-mediated organ damage.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9402",
+        "entity_code": "CODE_0349",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4342,7 +4308,7 @@
       {
         "raw_entity": "* No history of cardiovascular disease, particularly coronary artery disease, and asymptomatic for coronary artery disease.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4401",
+        "entity_code": "CODE_0904",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4352,7 +4318,7 @@
       {
         "raw_entity": "* Affiliated with a French social security scheme.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4518",
+        "entity_code": "CODE_1713",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4362,7 +4328,7 @@
       {
         "raw_entity": "* Having received the study information and not expressed opposition to participating.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8339",
+        "entity_code": "CODE_4337",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4372,7 +4338,7 @@
       {
         "raw_entity": "* Permanent atrial fibrillation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3321",
+        "entity_code": "I4891",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4382,7 +4348,7 @@
       {
         "raw_entity": "* Recurrent cardiac arrhythmias",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5014",
+        "entity_code": "CODE_6540",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4392,7 +4358,7 @@
       {
         "raw_entity": "* Not affiliated with a French social security scheme",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9220",
+        "entity_code": "CODE_3480",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4402,7 +4368,7 @@
       {
         "raw_entity": "* Opposition to participation",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2410",
+        "entity_code": "CODE_5290",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4422,12 +4388,11 @@
     ],
     "phase": "NA",
     "sample_size": 60,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Patients with medical (non-surgical) conditions admitted to the ICU.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4899",
+        "entity_code": "CODE_1521",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4437,7 +4402,7 @@
       {
         "raw_entity": "* ICU admission within the previous 48 hours at the study site.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3330",
+        "entity_code": "CODE_4061",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4447,7 +4412,7 @@
       {
         "raw_entity": "* Initiation of enteral nutrition within the first 48 hours after ICU admission.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9443",
+        "entity_code": "CODE_5937",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4457,7 +4422,7 @@
       {
         "raw_entity": "* Written informed consent obtained for participation in the study.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1905",
+        "entity_code": "CODE_0613",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4467,7 +4432,7 @@
       {
         "raw_entity": "* Surgical ICU patients.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_6793",
+        "entity_code": "CODE_0618",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4477,7 +4442,7 @@
       {
         "raw_entity": "* Patients in whom enteral nutrition was not initiated within the first 48 hours after - ICU admission.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0509",
+        "entity_code": "CODE_6237",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4487,7 +4452,7 @@
       {
         "raw_entity": "* Patients with galactosemia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0644",
+        "entity_code": "E7421",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4497,7 +4462,7 @@
       {
         "raw_entity": "* Patients with major contraindications to enteral nutrition, including: intestinal obstruction, intestinal ischemia, intestinal perforation, severe hemodynamic instability, patients who refuse partic",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0071",
+        "entity_code": "CODE_5969",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4518,12 +4483,11 @@
     ],
     "phase": "NA",
     "sample_size": 120,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Blood pressure measurements can be performed on at least one arm, for example no amputation, dialysis shunt, or obstructive dressing",
         "entity_type": "lab",
-        "entity_code": "CODE_0577",
+        "entity_code": "CODE_9120",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4533,7 +4497,7 @@
       {
         "raw_entity": "* Ability to understand the study information and provide written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7075",
+        "entity_code": "CODE_0484",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4543,7 +4507,7 @@
       {
         "raw_entity": "* For participants in the intensive care unit: an arterial line placed for clinical reasons",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9726",
+        "entity_code": "CODE_7589",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4553,7 +4517,7 @@
       {
         "raw_entity": "* Wrist circumference exceeds the size range of the investigated wearable devices",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1974",
+        "entity_code": "CODE_7628",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4563,7 +4527,7 @@
       {
         "raw_entity": "* Physical or medical conditions preventing placement of the wearable devices, including relevant skin lesions, wounds, severe edema, or patient restraint",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1591",
+        "entity_code": "R600",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4573,7 +4537,7 @@
       {
         "raw_entity": "* Inability to provide written informed consent",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2311",
+        "entity_code": "CODE_5588",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4590,12 +4554,11 @@
     ],
     "phase": "NA",
     "sample_size": 150,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Adult (\u226518 years old) with congenital mild hemophilia, defined as historical coagulation factor level \\>5% and \\<40% (FVIII or FIX).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1536",
+        "entity_code": "CODE_4542",
         "operator": "GT",
         "value": 18.0,
         "max_value": null,
@@ -4605,7 +4568,7 @@
       {
         "raw_entity": "* Affiliated with a social security system.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_3579",
+        "entity_code": "CODE_8500",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4615,7 +4578,7 @@
       {
         "raw_entity": "* Provided written informed consent to participate in the study.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2193",
+        "entity_code": "CODE_4903",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4625,7 +4588,7 @@
       {
         "raw_entity": "o. \u22655 factor concentrate injections per month for a period of more than 6 months o. Treatment with emicizumab o. Last factor concentrate injection within the past 28 days",
         "entity_type": "medication",
-        "entity_code": "CODE_9102",
+        "entity_code": "CODE_7745",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4635,7 +4598,7 @@
       {
         "raw_entity": "* Patient with acquired hemophilia.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0048",
+        "entity_code": "D68311",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4645,7 +4608,7 @@
       {
         "raw_entity": "* Patient with uncontrolled chronic rheumatologic disease, such as rheumatoid arthritis, inflammatory spondyloarthropathies, or microcrystalline arthritis.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_8180",
+        "entity_code": "M069",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4655,7 +4618,7 @@
       {
         "raw_entity": "* Known pregnancy or breastfeeding.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_2439",
+        "entity_code": "CODE_4651",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4665,7 +4628,7 @@
       {
         "raw_entity": "* Patient deprived of liberty or under legal guardianship or conservatorship.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0966",
+        "entity_code": "CODE_5003",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4683,12 +4646,11 @@
     ],
     "phase": "NA",
     "sample_size": 50000,
-    "overall_status": "NOT_YET_RECRUITING",
     "criteria": [
       {
         "raw_entity": "* Patients with chronic kidney disease (eGFR 30-90 ml/min/1.73 m\u00b2)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_4151",
+        "entity_code": "CODE_7721",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4698,7 +4660,7 @@
       {
         "raw_entity": "* Persistent albuminuria (UACR 100-5000 mg/g)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_7309",
+        "entity_code": "CODE_6848",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4708,7 +4670,7 @@
       {
         "raw_entity": "* Type 2 diabetes mellitus (T2D) under stable blockade of the renin-angiotensin system (ACEi/ARB)",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_5000",
+        "entity_code": "CODE_0139",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4718,7 +4680,7 @@
       {
         "raw_entity": "* Participants with type 1 diabetes (T1D).",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_9189",
+        "entity_code": "CODE_3785",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4728,7 +4690,7 @@
       {
         "raw_entity": "* Participant with hepatic insufficiency classified as Child-Pugh C.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_1674",
+        "entity_code": "CODE_9915",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,
@@ -4738,7 +4700,7 @@
       {
         "raw_entity": "* Participants currently treated or who were treated with Finerenone (Kerendia\u00a9) within 8 weeks prior to the screening visit.",
         "entity_type": "diagnosis",
-        "entity_code": "CODE_0057",
+        "entity_code": "CODE_4468",
         "operator": "EXISTS",
         "value": null,
         "max_value": null,

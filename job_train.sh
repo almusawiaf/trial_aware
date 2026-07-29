@@ -5,8 +5,8 @@
 #SBATCH --error=logs/run_%j.err        # Standard error log
 #SBATCH --nodes=1                      # Run all tasks on a single node
 #SBATCH --ntasks=1                     # Run a single task
-#SBATCH --cpus-per-task=8              # Number of CPU cores per task
-#SBATCH --mem=128G                      # Total memory (e.g., 32GB, adjust based on graph size)
+#SBATCH --cpus-per-task=32              # Number of CPU cores per task
+#SBATCH --mem=256G                      # Total memory (e.g., 32GB, adjust based on graph size)
 #SBATCH --time=4-00:00:00                # Time limit hrs:min:sec (e.g., 4 hours)
 #SBATCH --partition=gpu                # Partition/queue name (e.g., gpu, compute, etc.)
 #SBATCH --gres=gpu:1                   # Request 1 GPU (remove if running strictly on CPU)

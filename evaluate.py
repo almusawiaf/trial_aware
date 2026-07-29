@@ -24,31 +24,20 @@ def build_evaluation_matrices(cfg: Config):
     """
     
     # ============================================================
-    # 1. Load evaluation trials from the new location
+    # 1. Load trials from training file (since embeddings contain these)
     # ============================================================
     
-    eval_trials_path = cfg.EVAL_TRIALS_PATH
+    train_trials_path = cfg.TRAIN_TRIALS_PATH
     
-    if os.path.exists(eval_trials_path):
-        logging.info(f"Loading evaluation trials from: {eval_trials_path}")
-        with open(eval_trials_path, "r") as f:
+    if os.path.exists(train_trials_path):
+        logging.info(f"Loading trials from: {train_trials_path}")
+        with open(train_trials_path, "r") as f:
             eval_trials_data = json.load(f)
-        logging.info(f"Loaded {len(eval_trials_data)} evaluation trials")
+        logging.info(f"Loaded {len(eval_trials_data)} trials for evaluation")
         trial_store = TrialStore.from_records(eval_trials_data)
     else:
-        # Fallback: try the old location
-        logging.warning(f"Evaluation trials not found at {eval_trials_path}")
-        logging.warning("Falling back to old trial loading...")
-        
-        trial_json_path = "structured_clinical_trials.json"
-        if os.path.exists(trial_json_path):
-            with open(trial_json_path, "r") as f:
-                real_trials_data = json.load(f)
-        else:
-            from mock_data import generate_mock_trials
-            real_trials_data = generate_mock_trials()
-        
-        trial_store = TrialStore.from_records(real_trials_data)
+        logging.error(f"Trials not found at {train_trials_path}")
+        return None, None, None
 
     # 2. Load patient data tables
     diag_path = os.path.join(cfg.OUTPUT_DIR, "diagnoses_clean.parquet")

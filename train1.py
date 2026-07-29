@@ -13,22 +13,10 @@ from alignment import AlignmentLoss, similarity
 from config import Config
 from gcl_framework import HeteroGNNEncoder
 from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials
-
-# NEW: Import from matching_engine for M_inc/M_exc
-from matching_engine import (
-    ICD10Hierarchy,
-    compute_matching_indices,
-    softmax_exclusion,
-    match_with_hierarchy_single,
-    PatientState as MatchingPatientState,
-    Criterion as MatchingCriterion,
-    Trial as MatchingTrial,
-)
-
-# OLD: Keep for data loading only
 from trial_graph import (
     PatientClinicalState,
     TrialStore,
+    compute_matching_indices,
     derive_weak_positive_pairs,
 )
 
@@ -65,66 +53,6 @@ def pretrain_contrastive(cfg: Config, base_graph, device, encoder):
     return encoder
 
 
-def build_patient_states_for_matching(diag_df, rx_df, labs_df):
-    """
-    Build PatientState objects for matching_engine.
-    Converts MIMIC data to matching_engine format.
-    """
-    states = {}
-    all_sids = set(diag_df['SUBJECT_ID'].unique())
-    all_sids.update(rx_df['SUBJECT_ID'].unique())
-    all_sids.update(labs_df['SUBJECT_ID'].unique())
-    
-    for sid in all_sids:
-        # Build diagnosis codes
-        p_diag = diag_df[diag_df['SUBJECT_ID'] == sid]
-        diagnosis_codes = set()
-        if 'ICD10_CODE' in p_diag.columns:
-            diagnosis_codes = set(p_diag['ICD10_CODE'].astype(str).unique())
-        elif 'ICD9_CODE' in p_diag.columns:
-            diagnosis_codes = set(p_diag['ICD9_CODE'].astype(str).unique())
-        
-        # Build medication codes
-        p_rx = rx_df[rx_df['SUBJECT_ID'] == sid]
-        medication_codes = set()
-        if 'NDC' in p_rx.columns:
-            medication_codes = set(p_rx['NDC'].astype(str).unique())
-        
-        # Build lab values (latest)
-        p_labs = labs_df[labs_df['SUBJECT_ID'] == sid]
-        lab_values = {}
-        if not p_labs.empty:
-            latest = p_labs.groupby('ITEMID').last()
-            for itemid, row in latest.iterrows():
-                if 'IMPUTED_VALUE_DECAYED' in row:
-                    lab_values[str(itemid)] = float(row['IMPUTED_VALUE_DECAYED'])
-        
-        states[int(sid)] = MatchingPatientState(
-            patient_id=str(sid),
-            diagnosis_codes=diagnosis_codes,
-            medication_codes=medication_codes,
-            lab_values=lab_values
-        )
-    
-    return states
-
-
-def load_hierarchy(cfg: Config):
-    """Load ICD-10 hierarchy for matching."""
-    hierarchy_paths = [
-        "icd10_hierarchy.csv",
-        os.path.join(cfg.DATA_DIR, "icd10_hierarchy.csv"),
-        os.path.join(cfg.OUTPUT_DIR, "icd10_hierarchy.csv"),
-    ]
-    for path in hierarchy_paths:
-        if os.path.exists(path):
-            logging.info(f"[Hierarchy] Loading from: {path}")
-            return ICD10Hierarchy(path)
-    
-    logging.warning("[Hierarchy] No hierarchy file found. Using exact-match only.")
-    return None
-
-
 def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
                        trial_store: TrialStore, patient_states, p_map, entity_maps, device):
     """Stage B: Trial-aware alignment fine-tuning."""
@@ -148,22 +76,9 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
             base_graph_dev.edge_index_dict
         )['patient'].detach().clone()
 
-    # Load hierarchy
-    hierarchy = load_hierarchy(cfg)
-
-    # Build matching patient states
-    matching_states = {}
-    for sid, state in patient_states.items():
-        matching_states[sid] = MatchingPatientState(
-            patient_id=str(sid),
-            diagnosis_codes=state.diagnosis_codes,
-            medication_codes=state.medication_codes,
-            lab_values=state.lab_last_values
-        )
-
-    # Optimizer with different learning rates
+    # FIX 1: Increase encoder learning rate
     optimizer = torch.optim.Adam([
-        {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.5},
+        {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.5},  # Changed from 0.1 to 0.5
         {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
         {'params': trial_encoder.parameters(), 'lr': cfg.ALIGN_LR},
     ])
@@ -185,86 +100,17 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
     trial_ids = list(trial_store.trials.keys())
     idx_to_subject = {v: k for k, v in p_map.items()}
 
-    # --- PRECOMPUTE MATCHING INDICES CACHE USING MATCHING_ENGINE ---
+    # --- PRECOMPUTE MATCHING INDICES CACHE ---
     logging.info("[Stage B] Precomputing static patient-trial matching indices...")
     match_cache = {}
-    
     for pid_idx, trial_id in weak_pairs:
         subject_id = idx_to_subject.get(pid_idx)
-        if subject_id is None:
-            continue
-        
-        state = matching_states.get(int(subject_id))
+        state = patient_states.get(int(subject_id)) if subject_id is not None else None
         if state is None:
             continue
-        
-        trial = trial_store[trial_id]
-        # Convert trial to matching_engine format
-        matching_trial = MatchingTrial(
-            nct_id=trial.trial_id,
-            inclusion_criteria=[
-                MatchingCriterion(
-                    raw_entity=getattr(c, 'raw_entity', ''),
-                    entity_type=c.entity_type,
-                    entity_code=c.entity_code,
-                    operator=c.operator.value if hasattr(c.operator, 'value') else str(c.operator),
-                    value=c.value,
-                    is_inclusion=c.is_inclusion,
-                    severity_weight=c.severity_weight,
-                    confidence=getattr(c, 'confidence', 1.0)
-                )
-                for c in trial.inclusion_criteria
-            ],
-            exclusion_criteria=[
-                MatchingCriterion(
-                    raw_entity=getattr(c, 'raw_entity', ''),
-                    entity_type=c.entity_type,
-                    entity_code=c.entity_code,
-                    operator=c.operator.value if hasattr(c.operator, 'value') else str(c.operator),
-                    value=c.value,
-                    is_inclusion=c.is_inclusion,
-                    severity_weight=c.severity_weight,
-                    confidence=getattr(c, 'confidence', 1.0)
-                )
-                for c in trial.exclusion_criteria
-            ]
-        )
-        
         for cand_id in trial_ids:
             if (pid_idx, cand_id) not in match_cache:
-                cand_trial = trial_store[cand_id]
-                # Convert candidate trial
-                matching_cand = MatchingTrial(
-                    nct_id=cand_trial.trial_id,
-                    inclusion_criteria=[
-                        MatchingCriterion(
-                            raw_entity=getattr(c, 'raw_entity', ''),
-                            entity_type=c.entity_type,
-                            entity_code=c.entity_code,
-                            operator=c.operator.value if hasattr(c.operator, 'value') else str(c.operator),
-                            value=c.value,
-                            is_inclusion=c.is_inclusion,
-                            severity_weight=c.severity_weight,
-                            confidence=getattr(c, 'confidence', 1.0)
-                        )
-                        for c in cand_trial.inclusion_criteria
-                    ],
-                    exclusion_criteria=[
-                        MatchingCriterion(
-                            raw_entity=getattr(c, 'raw_entity', ''),
-                            entity_type=c.entity_type,
-                            entity_code=c.entity_code,
-                            operator=c.operator.value if hasattr(c.operator, 'value') else str(c.operator),
-                            value=c.value,
-                            is_inclusion=c.is_inclusion,
-                            severity_weight=c.severity_weight,
-                            confidence=getattr(c, 'confidence', 1.0)
-                        )
-                        for c in cand_trial.exclusion_criteria
-                    ]
-                )
-                m_inc, m_exc = compute_matching_indices(state, matching_cand, hierarchy)
-                match_cache[(pid_idx, cand_id)] = (m_inc, m_exc)
+                match_cache[(pid_idx, cand_id)] = compute_matching_indices(state, trial_store[cand_id])
 
     logging.info(f"[Stage B] Trial-alignment fine-tuning for {cfg.EPOCHS_ALIGN} epochs...")
 
@@ -296,10 +142,7 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
 
         for pid_idx, trial_id in weak_pairs:
             subject_id = idx_to_subject.get(pid_idx)
-            if subject_id is None:
-                continue
-            
-            state = matching_states.get(int(subject_id))
+            state = patient_states.get(int(subject_id)) if subject_id is not None else None
             if state is None:
                 continue
 
@@ -334,22 +177,24 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
         # Compute average alignment loss
         avg_align_loss = total_align_loss / n_terms
         
-        # Compute anchor loss with proper scaling
+        # FIX 2: Compute anchor loss with proper scaling
         anchor_loss = F.mse_loss(h_dict['patient'], h_a_anchor)
-        anchor_weight = getattr(cfg, 'LAMBDA_ANCHOR', 0.1)
+        
+        # FIX 3: Reduce anchor weight to allow more flexibility
+        anchor_weight = getattr(cfg, 'LAMBDA_ANCHOR', 0.1)  # Reduced from 0.5 to 0.1
         composite_loss = avg_align_loss + anchor_weight * anchor_loss
 
         # Backward pass
         composite_loss.backward()
         
-        # Gradient clipping
-        torch.nn.utils.clip_grad_norm_(encoder.parameters(), max_norm=0.5)
+        # Gradient clipping with adjusted thresholds
+        torch.nn.utils.clip_grad_norm_(encoder.parameters(), max_norm=0.5)  # Reduced from 1.0
         torch.nn.utils.clip_grad_norm_(criterion_encoder.parameters(), max_norm=0.5)
         torch.nn.utils.clip_grad_norm_(trial_encoder.parameters(), max_norm=0.5)
         
         optimizer.step()
 
-        # Gradient monitoring
+        # FIX 4: Add gradient monitoring for debugging
         if epoch % 5 == 0 or epoch == 1:
             total_grad_norm = 0
             for p in encoder.parameters():
@@ -374,8 +219,8 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder,
             'total_loss': composite_loss.item()
         })
         
-        # Early stopping
-        if epoch > 10:
+        # Early stopping with relaxed tolerance
+        if epoch > 10:  # Increased from 5 to 10
             recent_losses = [l['total_loss'] for l in loss_history[-5:]]
             if all(abs(recent_losses[i] - recent_losses[i-1]) < 1e-5 for i in range(1, len(recent_losses))):
                 logging.info(f"[Stage B] Early stopping at epoch {epoch} - loss converged.")
@@ -416,6 +261,7 @@ def load_processed_tables(cfg: Config):
 def build_patient_states(diag_df, rx_df, labs_df):
     """Build patient clinical states."""
     states = {}
+    # Get all unique subject IDs from all tables
     all_sids = set(diag_df['SUBJECT_ID'].unique())
     all_sids.update(rx_df['SUBJECT_ID'].unique())
     all_sids.update(labs_df['SUBJECT_ID'].unique())
@@ -482,7 +328,10 @@ def main():
     patient_states = build_patient_states(diag_df, rx_df, labs_df)
     logging.info(f"Built clinical states for {len(patient_states)} patients")
 
+    # ============================================================
     # Load trials from the new location
+    # ============================================================
+    
     train_trials_path = cfg.TRAIN_TRIALS_PATH
     
     if os.path.exists(train_trials_path):
@@ -532,7 +381,6 @@ def main():
         h_dict = encoder.encode(graph_dev.x_dict, graph_dev.edge_index_dict)
     torch.save(h_dict['patient'].cpu(), cfg.PATIENT_EMBED_PATH)
     logging.info(f"[Stage B] Saved trial-aware patient embeddings to {cfg.PATIENT_EMBED_PATH}")
-
 
 if __name__ == "__main__":
     main()
