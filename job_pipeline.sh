@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name=full_pipeline          # Full pipeline job name
-#SBATCH --output=logs/full_pipeline_%j.out   # Standard output log
-#SBATCH --error=logs/full_pipeline_%j.err    # Standard error log
+#SBATCH --job-name=full_pipeline_10000_trials          # Full pipeline job name
+#SBATCH --output=logs/pipeline_%j.out   # Standard output log
+#SBATCH --error=logs/pipeline_%j.err    # Standard error log
 #SBATCH --nodes=1                         # Run all tasks on a single node
 #SBATCH --ntasks=1                        # Run a single task
-#SBATCH --cpus-per-task=8                 # Number of CPU cores
-#SBATCH --mem=128G                        # Total memory
+#SBATCH --cpus-per-task=32                 # Number of CPU cores
+#SBATCH --mem=500G                        # Total memory
 #SBATCH --time=4-00:00:00                 # Time limit (days-hours:min:sec)
 #SBATCH --partition=gpu                   # GPU partition
 #SBATCH --gres=gpu:1                      # 1 GPU requested
@@ -46,7 +46,12 @@ echo "Step 1: Running Preprocessing & Graph Construction"
 echo "Started at: $(date)"
 echo "=================================================="
 
-python run.py
+if [ -f "processed_data/hetero_graph.pt" ]; then
+    echo "✅ Graph exists - skipping Phase 1+2"
+else
+    echo "🔨 Graph not found - running preprocessing..."
+    python run.py
+fi
 
 RUN_EXIT_CODE=$?
 

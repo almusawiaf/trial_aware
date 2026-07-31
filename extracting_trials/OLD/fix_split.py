@@ -9,7 +9,7 @@ import hashlib
 
 def process_all_trials():
     """Process all 1000 trials from the downloaded JSON file."""
-    file_name = 'ctg-studies_1000.json'
+    file_name = 'ctg-studies_10000.json'
     # Load the original downloaded file
     with open(file_name, 'r', encoding='utf-8-sig') as f:
         all_trials = json.load(f)

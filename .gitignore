@@ -1,4 +1,12 @@
 /logs/
 /old/
 /processed_data/
-structured_clinical_trials.json
+# Logs and Error files
+*.log
+*.err
+*.out
+
+# Data files
+*.json
+*.csv
+
