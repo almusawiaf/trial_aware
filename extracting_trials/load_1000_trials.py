@@ -21,6 +21,34 @@ from typing import List, Dict, Set, Optional
 
 from ontology_loader import DynamicOntologyMapper
 
+# ------------------------------------------------------------------
+# ICD-9 -> ICD-10 crosswalk. Without this, any diagnosis code resolved
+# through the MIMIC ontology table (as opposed to the manual mapping)
+# comes back as a raw ICD-9 code, which will NEVER match your ICD-10
+# patient data downstream. Try to reuse the same crosswalk
+# generate_trial_json.py already builds via MIMICDataPreprocessor.
+# ------------------------------------------------------------------
+def load_icd9_to_icd10_crosswalk() -> Dict[str, str]:
+    try:
+        from preprocessor import MIMICDataPreprocessor
+        from config import Config
+        cfg = Config()
+        pp = MIMICDataPreprocessor(cfg)
+        crosswalk = getattr(pp, 'icd9_to_icd10_map', {})
+        if not crosswalk:
+            print("⚠️  MIMICDataPreprocessor loaded but icd9_to_icd10_map is EMPTY. "
+                  "Diagnosis codes from the MIMIC ontology table will remain as raw "
+                  "ICD-9 and won't match ICD-10 patient data.")
+        else:
+            print(f"✅ Loaded ICD-9->ICD-10 crosswalk: {len(crosswalk)} mappings")
+        return crosswalk
+    except Exception as e:
+        print(f"⚠️  Could not load ICD9->ICD10 crosswalk from preprocessor.py/config.py: {e}")
+        print("   Diagnosis codes from the MIMIC ontology table will remain as raw ICD-9 "
+              "and won't match ICD-10 patient data. Either fix this import, or supply an "
+              "ICD9->ICD10 CSV mapping some other way before proceeding to training.")
+        return {}
+
 # ============================================================
 # CONFIGURATION
 # ============================================================
@@ -332,7 +360,8 @@ def main():
     print("=" * 60)
 
     # --- Build the ontology mapper ONCE (this was previously never done here) ---
-    mapper = DynamicOntologyMapper()
+    icd9_to_icd10_map = load_icd9_to_icd10_crosswalk()
+    mapper = DynamicOntologyMapper(icd9_to_icd10_map=icd9_to_icd10_map)
     abs_dir = os.path.abspath(MIMIC_DATA_DIR)
     print(f"🔎 Looking for MIMIC CSVs in: {abs_dir}")
     if os.path.exists(MIMIC_DATA_DIR):

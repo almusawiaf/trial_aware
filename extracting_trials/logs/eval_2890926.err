@@ -1,9 +1,0 @@
-2026-07-31 06:39:14,173 - INFO -   D_ICD_DIAGNOSES.csv: read 14567 rows, columns=['ROW_ID', 'ICD9_CODE', 'SHORT_TITLE', 'LONG_TITLE']
-2026-07-31 06:39:14,689 - INFO -   D_ICD_DIAGNOSES: 14567 diagnosis terms loaded
-2026-07-31 06:39:14,713 - INFO -   PRESCRIPTIONS.csv: read 10398 rows, columns=['ROW_ID', 'SUBJECT_ID', 'HADM_ID', 'ICUSTAY_ID', 'STARTDATE', 'ENDDATE', 'DRUG_TYPE', 'DRUG', 'DRUG_NAME_POE', 'DRUG_NAME_GENERIC', 'FORMULARY_DRUG_CD', 'GSN', 'NDC', 'PROD_STRENGTH', 'DOSE_VAL_RX', 'DOSE_UNIT_RX', 'FORM_VAL_DISP', 'FORM_UNIT_DISP', 'ROUTE']
-2026-07-31 06:39:15,054 - INFO -   PRESCRIPTIONS: 8920 medication terms loaded (1478 skipped as placeholder NDC=0)
-2026-07-31 06:39:15,057 - INFO -   D_LABITEMS.csv: read 753 rows, columns=['ROW_ID', 'ITEMID', 'LABEL', 'FLUID', 'CATEGORY', 'LOINC_CODE']
-2026-07-31 06:39:15,083 - INFO -   D_LABITEMS: 753 lab terms loaded
-2026-07-31 06:39:15,086 - INFO - Loaded 28368 concepts into dynamic ontology mapper.
-2026-07-31 06:39:15,087 - INFO - Manual mapping covers 48 common conditions (checked first).
-2026-07-31 06:39:15,087 - INFO -   [module check] ontology_loader loaded from: /lustre/home/almusawiaf/PhD_Projects/Trial_Aware_2/extracting_trials/ontology_loader.py

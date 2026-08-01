@@ -14,7 +14,7 @@ mkdir -p logs
 
 find . -type d -name "__pycache__" -exec rm -r {} +
 
+python load_1000_trials.py
 
 # python fix_split.py
 # python test_medcat.py
-python load_1000_trials.py

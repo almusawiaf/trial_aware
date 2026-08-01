@@ -1,5 +1,4 @@
 """
-matching_engine.py
 Trial-Aware Patient-Trial Matching: Core Matching Pipeline
 ============================================================
 
@@ -7,18 +6,16 @@ This module implements the M_inc / M_exc computation pipeline discussed
 in the design doc: ICD-10 hierarchy matching, negation-aware criteria,
 and soft (rather than hard-max) exclusion scoring.
 
-FIX APPLIED IN THIS VERSION
-----------------------------
-compute_matching_indices() now skips criteria with entity_type ==
-"administrative" entirely, instead of scoring them through
-match_with_hierarchy_single() (which falls through to 0.0 for any
-entity_type it doesn't recognize, treating them as FAILED criteria).
-Administrative/logistics text (informed consent, caregiver availability,
-etc.) appears in nearly every trial's inclusion criteria, so scoring it
-as a failure was systematically depressing M_inc across the entire
-dataset -- verified concretely: a patient who perfectly matches every
-real clinical criterion in a trial that also has one administrative
-line scored M_inc=0.5 instead of 1.0 before this fix.
+WHAT THIS FILE DOES SOLVE
+--------------------------
+- The engineering bugs identified across review rounds:
+  * softmax_exclusion is a genuine soft-max, not a disguised hard max
+  * negation detection uses word boundaries + sentence-boundary clipping
+  * ICD10Hierarchy has one canonical data model, loads from CSV correctly,
+    handles duplicate/conflicting rows without silently corrupting data,
+    and is unit-tested against its actual file-loading path
+  * M_inc is a true weighted average (sum(weighted) / sum(weights))
+  * hierarchy matching takes the MAX over all patient codes, not the first
 
 WHAT THIS FILE DOES NOT SOLVE
 -------------------------------
@@ -31,27 +28,12 @@ WHAT THIS FILE DOES NOT SOLVE
     3. Measuring precision/recall of that pipeline specifically on trial
        eligibility text, since MedCAT's off-the-shelf tuning is usually on
        clinical notes, a different register
-  This file proves the *matching math* is correct once you have real
-  structured criteria and real patient codes -- it does not prove that
-  MedCAT-on-trial-text will produce enough real code overlap with MIMIC
-  ICD-10 codes to give you a useful training signal. That is a separate,
-  empirical, unresolved question.
-- "procedure"-type criteria are also unhandled by _match_single() (falls
-  through to 0.0, same as administrative used to). Unlike administrative
-  text, this isn't a case where skipping is obviously correct -- procedure
-  criteria (e.g. "history of cardiac surgery") ARE clinically meaningful
-  and arguably SHOULD be matched, but PatientState has no procedure_codes
-  field and nothing in your preprocessing pipeline (MIMICDataPreprocessor)
-  extracts patient procedure codes from PROCEDURES_ICD.csv. Right now any
-  inclusion criterion tagged "procedure" will ALWAYS score 0 (fail) for
-  every patient, regardless of whether they actually had that procedure --
-  this is a missing feature, not a deliberate design choice. Decide
-  explicitly whether to (a) add real procedure_codes support to
-  PatientState + a matching branch, using MIMIC's PROCEDURES_ICD.csv, or
-  (b) skip "procedure" criteria the same way "administrative" is now
-  skipped, accepting that procedure-based eligibility signal is lost.
-  Silently leaving it as "always fails" is the one option NOT reviewed
-  or endorsed here.
+  None of that can be verified in this sandbox (no UMLS/MedCAT access,
+  no network to clinicaltrials.gov, no MIMIC-III access). This file proves
+  the *matching math* is correct once you have real structured criteria and
+  real patient codes -- it does not prove that MedCAT-on-trial-text will
+  produce enough real code overlap with MIMIC ICD-10 codes to give you a
+  useful training signal. That is a separate, empirical, unresolved question.
 """
 
 from __future__ import annotations
@@ -100,6 +82,12 @@ class PatientState:
 # ---------------------------------------------------------------------------
 
 class ICD10Hierarchy:
+    """
+    Canonical data model: parent_to_children (dict[str, list[str]]) built
+    directly from file rows, plus a derived child_to_parent (dict[str, str])
+    built once at load time. Ancestor lookups are memoized.
+    """
+
     def __init__(self, hierarchy_file: Optional[str] = None,
                  log_duplicates: bool = True, has_header: bool = True):
         self.parent_to_children: Dict[str, List[str]] = {}
@@ -114,6 +102,7 @@ class ICD10Hierarchy:
 
     def load_from_file(self, file_path: str, log_duplicates: bool = True,
                         has_header: bool = True) -> None:
+        """Load hierarchy from a CSV of (parent_code, child_code) rows."""
         with open(file_path, "r") as f:
             reader = csv.reader(f)
             for i, row in enumerate(reader):
@@ -165,6 +154,8 @@ class ICD10Hierarchy:
         return ancestor_code in self.get_ancestors(descendant_code)
 
     def get_match_score(self, code1: str, code2: str) -> float:
+        """1.0 exact, 0.8 if code1 is a broader ancestor of code2,
+        0.6 if code2 is a broader ancestor of code1, else 0.0."""
         if code1 == code2:
             return 1.0
         if self.is_ancestor(code1, code2):
@@ -207,6 +198,9 @@ def detect_negation(full_text: str, span_start: int, span_end: Optional[int] = N
 # ---------------------------------------------------------------------------
 
 def softmax_exclusion(matches: List[float], temperature: float = 0.5) -> float:
+    """Softmax-weighted average of match scores. temperature -> 0 approaches
+    hard max (most sensitive to a single violation); temperature -> inf
+    approaches the plain mean (least sensitive)."""
     arr = np.asarray(matches, dtype=float)
     if arr.size == 0 or np.all(arr == 0):
         return 0.0
@@ -263,28 +257,15 @@ def match_with_hierarchy_single(state: PatientState, criterion: Criterion,
 def compute_matching_indices(state: PatientState, trial: Trial,
                               hierarchy: Optional[ICD10Hierarchy] = None,
                               temperature: float = 0.5) -> (float, float):
-    # FIX: administrative/logistics criteria (informed consent, caregiver
-    # availability, etc.) are not clinical facts and cannot be "matched"
-    # against patient data. _match_single() falls through its if/elif chain
-    # for any entity_type it doesn't recognize -- including "administrative"
-    # -- and returns 0.0, which was being scored as a FAILED criterion rather
-    # than skipped. Since administrative text (informed consent especially)
-    # appears in nearly every trial's inclusion criteria, this systematically
-    # depressed M_inc across the whole dataset: a patient who perfectly
-    # matches every real clinical criterion in a trial that also has one
-    # administrative line would score M_inc=0.5 instead of 1.0. Verified with
-    # a concrete before/after test. Filter these out before scoring.
     inc_scores, inc_weights = [], []
     for c in trial.inclusion_criteria:
-        if c.entity_type == "administrative":
-            continue
         score = match_with_hierarchy_single(state, c, hierarchy)
         inc_scores.append(score * c.severity_weight)
         inc_weights.append(c.severity_weight)
     m_inc = (sum(inc_scores) / sum(inc_weights)) if inc_weights and sum(inc_weights) > 0 else 1.0
 
     exc_scores = [match_with_hierarchy_single(state, c, hierarchy)
-                  for c in trial.exclusion_criteria if c.entity_type != "administrative"]
+                  for c in trial.exclusion_criteria]
     m_exc = softmax_exclusion(exc_scores, temperature) if exc_scores else 0.0
 
     return m_inc, m_exc
@@ -362,6 +343,7 @@ def test_hierarchy_from_file():
         assert h.get_match_score("I509", "I50") == 0.6
         assert h.get_match_score("I509", "I509") == 1.0
         assert h.get_match_score("I50", "E119") == 0.0
+        # header row must not leak in as a bogus edge
         assert "parent" not in h.child_to_parent
         print("PASS test_hierarchy_from_file")
     finally:
@@ -373,8 +355,8 @@ def test_hierarchy_duplicate_handling():
     path = _write_temp_csv([["I50", "I509"], ["I51", "I509"], ["I50", "I509"]])
     try:
         h = ICD10Hierarchy(path, log_duplicates=False, has_header=False)
-        assert h.child_to_parent["I509"] == "I50"
-        assert h.parent_to_children["I50"].count("I509") == 1
+        assert h.child_to_parent["I509"] == "I50"          # kept first parent
+        assert h.parent_to_children["I50"].count("I509") == 1  # no dup entry
         assert h.duplicate_count == 2
         assert h.conflicting_count == 1
         print("PASS test_hierarchy_duplicate_handling")
@@ -391,10 +373,12 @@ def test_negation():
     idx2 = text2.lower().find("heart failure")
     assert detect_negation(text2, idx2) is False
 
+    # negation from a PRIOR sentence should not leak across the boundary
     text3 = "Patient denies chest pain. History of heart failure noted."
     idx3 = text3.lower().find("heart failure")
     assert detect_negation(text3, idx3) is False
 
+    # substring false-positive guard: "abnormal" contains "no" but isn't negation
     text4 = "Patients with abnormal LVEF are eligible"
     idx4 = text4.lower().find("lvef")
     assert detect_negation(text4, idx4) is False
@@ -419,6 +403,7 @@ def test_softmax_exclusion():
 
 
 def test_matching_indices_end_to_end():
+    """Exercises the full path: hierarchy + criteria + patient -> M_inc, M_exc."""
     import os
     hpath = _write_temp_csv([["I50", "I509"]], header=["parent", "child"])
     try:
@@ -429,6 +414,7 @@ def test_matching_indices_end_to_end():
             exclusion_text="Patients with severe renal impairment (creatinine > 2.0 mg/dL)",
         )
 
+        # Patient A: exact diagnosis match, meets LVEF, fails exclusion (high creatinine)
         patient_a = PatientState(
             patient_id="A", diagnosis_codes={"I509"},
             lab_values={"LVEF": 30.0, "50912": 2.5},
@@ -437,6 +423,8 @@ def test_matching_indices_end_to_end():
         assert m_inc_a > 0.5, f"expected strong inclusion match, got {m_inc_a}"
         assert m_exc_a > 0.5, f"expected strong exclusion violation, got {m_exc_a}"
 
+        # Patient B: only has the PARENT code I50 (broader), should partially
+        # match via hierarchy (0.8), not fail exclusion (normal creatinine)
         patient_b = PatientState(
             patient_id="B", diagnosis_codes={"I50"},
             lab_values={"LVEF": 35.0, "50912": 1.0},
@@ -445,6 +433,7 @@ def test_matching_indices_end_to_end():
         assert 0.0 < m_inc_b < 1.0, f"expected partial hierarchy match, got {m_inc_b}"
         assert m_exc_b < 0.3, f"expected low exclusion score, got {m_exc_b}"
 
+        # Patient C: unrelated diagnosis entirely, no code overlap at all
         patient_c = PatientState(
             patient_id="C", diagnosis_codes={"E119"},
             lab_values={"LVEF": 55.0, "50912": 0.9},
@@ -460,33 +449,10 @@ def test_matching_indices_end_to_end():
         os.unlink(hpath)
 
 
-def test_administrative_criteria_skipped():
-    """Regression test for the fix: administrative criteria must not be
-    scored as failed criteria -- a patient who perfectly matches every real
-    clinical criterion should get M_inc=1.0 even if the trial also has an
-    administrative inclusion line like informed consent."""
-    patient = PatientState(patient_id="P1", diagnosis_codes={"I509"})
-    trial = Trial(
-        nct_id="DEMO",
-        inclusion_criteria=[
-            Criterion(raw_entity="heart failure", entity_type="diagnosis",
-                      entity_code="I509", operator="EXISTS", value=None,
-                      is_inclusion=True, severity_weight=1.0),
-            Criterion(raw_entity="informed consent", entity_type="administrative",
-                      entity_code="NON_CLINICAL", operator="EXISTS", value=None,
-                      is_inclusion=True, severity_weight=1.0),
-        ],
-    )
-    m_inc, m_exc = compute_matching_indices(patient, trial)
-    assert m_inc == 1.0, f"administrative criterion should be skipped, not scored as a failure; got m_inc={m_inc}"
-    print(f"PASS test_administrative_criteria_skipped (m_inc={m_inc:.2f})")
-
-
 if __name__ == "__main__":
     test_hierarchy_from_file()
     test_hierarchy_duplicate_handling()
     test_negation()
     test_softmax_exclusion()
     test_matching_indices_end_to_end()
-    test_administrative_criteria_skipped()
     print("\nAll tests passed.")
