@@ -4,6 +4,7 @@ Vectorized Trial and Criterion Encoders for Fast Batch GPU Computation
 """
 
 from typing import Dict, List, Tuple
+import re
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,7 +15,7 @@ class CriterionEncoder(nn.Module):
     def __init__(self, embed_dim: int):
         super().__init__()
         self.embed_dim = embed_dim
-        meta_dim = len(Operator) + 2  # 8 + 2 = 10
+        meta_dim = len(Operator) + 3  # 8 + 2 original + 1 new is_inclusion flag
         self.mlp = nn.Sequential(
             nn.Linear(embed_dim + meta_dim, embed_dim),
             nn.ReLU(),
@@ -50,22 +51,76 @@ class TrialEncoder(nn.Module):
 def extract_criterion_meta(criterion, device) -> torch.Tensor:
     weight_val = float(getattr(criterion, 'severity_weight', 1.0))
     value_val = float(getattr(criterion, 'value', 0.0) or 0.0)
-    
+
     weight = torch.tensor([weight_val], dtype=torch.float32, device=device)
     value_norm = torch.tensor([value_val / 100.0], dtype=torch.float32, device=device)
-    
+
     op_val = getattr(criterion, 'operator', None)
     op_idx = op_val.to_numeric() if hasattr(op_val, 'to_numeric') else (int(op_val) if isinstance(op_val, int) else 0)
-    
+
     op_one_hot = F.one_hot(torch.tensor(op_idx, device=device), num_classes=len(Operator)).float()
-    return torch.cat([weight, value_norm, op_one_hot], dim=-1)
+
+    # NEW: explicit flag so the encoder always knows "this is an
+    # inclusion criterion" vs "this is an exclusion criterion", even if
+    # the concept embedding itself is weak or missing (OOV -> zero vector).
+    is_inc_val = 1.0 if getattr(criterion, 'is_inclusion', True) else 0.0
+    is_inclusion_flag = torch.tensor([is_inc_val], dtype=torch.float32, device=device)
+
+    return torch.cat([weight, value_norm, op_one_hot, is_inclusion_flag], dim=-1)
+
+
+def normalize_entity_code(entity_type: str, entity_code: str) -> str:
+    """
+    Makes a trial criterion's code comparable to the codes in entity_maps.
+
+    Diagnoses: your ICD9->ICD10 crosswalk strips dots when building the
+    vocabulary (K76.9 -> K769), but trial criteria still have dots.
+
+    Medications: NDC codes in the trial JSON were apparently stored/read as
+    floats at some point upstream (e.g. '10019095601.0' instead of
+    '10019095601') -- strip that artifact. Some also lost leading zeros in
+    the process (floats don't preserve them), so if the digit count is short
+    of the standard 11-digit NDC length, left-pad with zeros. This is a
+    heuristic -- NDC leading-zero placement technically depends on which of
+    3 formats (4-4-2 / 5-3-2 / 5-4-1) the original code used, so it won't be
+    100% correct, but it recovers a real chunk of otherwise-lost matches.
+    """
+    code = str(entity_code).strip()
+    if entity_type == 'diagnosis':
+        code = code.replace('.', '').upper()
+    elif entity_type == 'medication':
+        code = re.sub(r'\.0+$', '', code)  # drop float-artifact suffix
+        code = re.sub(r'[^0-9]', '', code)  # drop stray dashes/spaces if any
+        if code.isdigit() and len(code) < 11:
+            code = code.zfill(11)
+    return code
+
+
+def is_resolvable_code(entity_type: str, entity_code: str, entity_maps: Dict[str, Dict[str, int]]) -> bool:
+    """
+    True only if this criterion has a real code we can actually look up.
+    Filters out two different kinds of "nothing to look up here":
+      - placeholder codes like 'UNMATCHED_47327' (upstream extraction never
+        found a real code -- these are not failed matches, they're not codes)
+      - genuinely OOV codes not present in entity_maps for this entity_type
+    """
+    code = str(entity_code)
+    if code.startswith('UNMATCHED_') or code.strip() == '' or code.lower() == 'none':
+        return False
+    node_map = entity_maps.get(entity_type)
+    if node_map is None:
+        return False
+    return normalize_entity_code(entity_type, code) in node_map
 
 
 def get_concept_embedding(entity_type: str, entity_code: str, entity_maps: Dict[str, Dict[str, int]], post_gnn_embeddings: Dict[str, torch.Tensor], embed_dim: int, device) -> torch.Tensor:
     node_map = entity_maps.get(entity_type)
-    if node_map is None or entity_code not in node_map:
+    if node_map is None:
         return torch.zeros(embed_dim, device=device)
-    node_idx = node_map[entity_code]
+    norm_code = normalize_entity_code(entity_type, entity_code)
+    if norm_code not in node_map:
+        return torch.zeros(embed_dim, device=device)
+    node_idx = node_map[norm_code]
     return post_gnn_embeddings[entity_type][node_idx]
 
 def encode_all_trials(trials: List[Trial], entity_maps, post_gnn_embeddings, criterion_encoder, trial_encoder, embed_dim, device):
@@ -82,11 +137,19 @@ def encode_all_trials(trials: List[Trial], entity_maps, post_gnn_embeddings, cri
 
     for t in trials:
         t_info = {}
-        
+
+        # NEW: keep only criteria we can actually resolve to a real code.
+        # Feeding in zero vectors for unresolvable criteria (old behavior)
+        # made most criteria across most trials look nearly identical --
+        # that's what was flattening z_inc/z_exc into near-duplicates.
+        # Dropping them means only real signal reaches the pooling step.
+        inc_criteria = [c for c in t.inclusion_criteria if is_resolvable_code(c.entity_type, c.entity_code, entity_maps)]
+        exc_criteria = [c for c in t.exclusion_criteria if is_resolvable_code(c.entity_type, c.entity_code, entity_maps)]
+
         # Inclusion criteria tracking
-        inc_len = len(t.inclusion_criteria)
+        inc_len = len(inc_criteria)
         if inc_len > 0:
-            for c in t.inclusion_criteria:
+            for c in inc_criteria:
                 c_emb = get_concept_embedding(c.entity_type, c.entity_code, entity_maps, post_gnn_embeddings, embed_dim, device)
                 meta = extract_criterion_meta(c, device)
                 all_c_embs.append(c_emb)
@@ -97,9 +160,9 @@ def encode_all_trials(trials: List[Trial], entity_maps, post_gnn_embeddings, cri
             t_info['inc_slice'] = None
 
         # Exclusion criteria tracking
-        exc_len = len(t.exclusion_criteria)
+        exc_len = len(exc_criteria)
         if exc_len > 0:
-            for c in t.exclusion_criteria:
+            for c in exc_criteria:
                 c_emb = get_concept_embedding(c.entity_type, c.entity_code, entity_maps, post_gnn_embeddings, embed_dim, device)
                 meta = extract_criterion_meta(c, device)
                 all_c_embs.append(c_emb)

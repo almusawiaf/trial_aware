@@ -62,12 +62,8 @@ def build_evaluation_matrices(cfg: Config):
     }
 
     # 4. Load patient and trial embeddings
-    if "_seed" in cfg.PATIENT_EMBED_PATH:
-        baseline_path = cfg.PATIENT_EMBED_PATH.replace("patient_embeddings_", "patient_embeddings_baseline_")
-    else:
-        baseline_path = cfg.PATIENT_EMBED_PATH.replace(".pt", "_baseline.pt")    
-
-
+    baseline_path = cfg.PATIENT_EMBED_PATH.replace(".pt", "_baseline.pt")
+    
     if not os.path.exists(baseline_path):
         logging.error(f"Baseline embeddings not found at {baseline_path}")
         return None, None, None
@@ -79,37 +75,20 @@ def build_evaluation_matrices(cfg: Config):
     if not os.path.exists(cfg.TRIAL_EMBED_PATH):
         logging.error(f"Trial embeddings not found at {cfg.TRIAL_EMBED_PATH}")
         return None, None, None
-
-    if not os.path.exists(cfg.TRIAL_EMBED_BASELINE_PATH):
-        logging.error(
-            f"Baseline trial embeddings not found at {cfg.TRIAL_EMBED_BASELINE_PATH}. "
-            "Re-run train.py (it now saves this file) before evaluating."
-        )
-        return None, None, None
-
+    
     h_baseline = torch.load(baseline_path, map_location='cpu')
     h_full = torch.load(cfg.PATIENT_EMBED_PATH, map_location='cpu')
     trial_embeds = torch.load(cfg.TRIAL_EMBED_PATH, map_location='cpu')
-    # NEW: separate, honest "before training" trial embeddings -- paired with
-    # h_baseline in the same pre-alignment embedding space. Do NOT reuse
-    # `trial_embeds` (Stage B) for the baseline score; that was the bug.
-    trial_embeds_baseline = torch.load(cfg.TRIAL_EMBED_BASELINE_PATH, map_location='cpu')
     
-    # 5. Debug: Print trial embedding information (baseline vs full model)
+    # 5. Debug: Print trial embedding information
     for tid, (z_inc, z_exc) in trial_embeds.items():
-        z_inc_b, z_exc_b = trial_embeds_baseline.get(tid, (None, None))
         logging.info(f"Trial {tid}:")
-        logging.info(f"  [Stage B] z_inc norm: {z_inc.norm().item():.4f}  z_exc norm: {z_exc.norm().item():.4f}  "
-                     f"cos(z_inc,z_exc): {F.cosine_similarity(z_inc, z_exc, dim=0).item():.4f}")
-        if z_inc_b is not None:
-            logging.info(f"  [Baseline] z_inc norm: {z_inc_b.norm().item():.4f}  z_exc norm: {z_exc_b.norm().item():.4f}  "
-                         f"cos(z_inc,z_exc): {F.cosine_similarity(z_inc_b, z_exc_b, dim=0).item():.4f}")
+        logging.info(f"  z_inc norm: {z_inc.norm().item():.4f}")
+        logging.info(f"  z_exc norm: {z_exc.norm().item():.4f}")
+        logging.info(f"  z_inc-z_exc cosine sim: {F.cosine_similarity(z_inc, z_exc, dim=0).item():.4f}")
 
-    # 6. Filter to trials that have BOTH baseline and full embeddings
-    trial_ids = [
-        tid for tid in trial_store.trials.keys()
-        if tid in trial_embeds and tid in trial_embeds_baseline
-    ]
+    # 6. Filter to trials that have embeddings
+    trial_ids = [tid for tid in trial_store.trials.keys() if tid in trial_embeds]
     
     if not trial_ids:
         logging.error("No matching trial IDs found between trial store and embeddings")
@@ -155,27 +134,23 @@ def build_evaluation_matrices(cfg: Config):
     logging.info(f"Using exclusion penalty eta = {eta}")
     
     for t_idx, tid in enumerate(trial_ids):
-        # Baseline trial vectors come from the pre-Stage-B space (matches h_baseline)
-        z_inc_base, z_exc_base = trial_embeds_baseline[tid]
-        z_inc_base = z_inc_base.squeeze().cpu()
-        z_exc_base = z_exc_base.squeeze().cpu()
-
-        # Full-model trial vectors come from the trained Stage B space (matches h_full)
-        z_inc_full, z_exc_full = trial_embeds[tid]
-        z_inc_full = z_inc_full.squeeze().cpu()
-        z_exc_full = z_exc_full.squeeze().cpu()
-
+        z_inc, z_exc = trial_embeds[tid]
+        
+        # Ensure tensors are on CPU and properly shaped
+        z_inc = z_inc.squeeze().cpu()
+        z_exc = z_exc.squeeze().cpu()
+        
         for p_idx in range(num_patients):
-            # Stage A (Baseline) score -- both sides from the pre-alignment space
+            # Stage A (Baseline) score
             z_patient_base = h_baseline[p_idx].squeeze().cpu()
-            inc_sim_base = F.cosine_similarity(z_patient_base.unsqueeze(0), z_inc_base.unsqueeze(0)).item()
-            exc_sim_base = F.cosine_similarity(z_patient_base.unsqueeze(0), z_exc_base.unsqueeze(0)).item()
+            inc_sim_base = F.cosine_similarity(z_patient_base.unsqueeze(0), z_inc.unsqueeze(0)).item()
+            exc_sim_base = F.cosine_similarity(z_patient_base.unsqueeze(0), z_exc.unsqueeze(0)).item()
             scores_baseline[p_idx, t_idx] = inc_sim_base - eta * exc_sim_base
-
-            # Stage B (Full Model) score -- both sides from the trained space
+            
+            # Stage B (Full Model) score
             z_patient_full = h_full[p_idx].squeeze().cpu()
-            inc_sim_full = F.cosine_similarity(z_patient_full.unsqueeze(0), z_inc_full.unsqueeze(0)).item()
-            exc_sim_full = F.cosine_similarity(z_patient_full.unsqueeze(0), z_exc_full.unsqueeze(0)).item()
+            inc_sim_full = F.cosine_similarity(z_patient_full.unsqueeze(0), z_inc.unsqueeze(0)).item()
+            exc_sim_full = F.cosine_similarity(z_patient_full.unsqueeze(0), z_exc.unsqueeze(0)).item()
             scores_full[p_idx, t_idx] = inc_sim_full - eta * exc_sim_full
 
     # 9. Debug: Print score statistics

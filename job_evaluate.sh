@@ -23,4 +23,4 @@ find . -type d -name "__pycache__" -exec rm -r {} +
 # conda activate your_env_name
 
 # 4. Run the evaluation script
-python evaluate.py
+RUN_SEED=0 python evaluate.py

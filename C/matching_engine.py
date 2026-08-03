@@ -113,16 +113,45 @@ def _sigmoid(x: float, k: float = 1.0) -> float:
     return 1.0 / (1.0 + np.exp(-k * x))
 
 
-def match_with_hierarchy_single(state: PatientState, criterion: Criterion, hierarchy: Optional[ICD10Hierarchy] = None) -> float:
+def _normalize_code(entity_type: str, code: str) -> str:
+    """Same fix as trial_embedding.py: diagnosis dots stripped to match the
+    crosswalk, and medication float-artifact '.0' + lost leading zeros
+    recovered heuristically (see trial_embedding.normalize_entity_code)."""
+    c = str(code).strip()
+    if entity_type == "diagnosis":
+        c = c.replace(".", "").upper()
+    elif entity_type == "medication":
+        c = re.sub(r'\.0+$', '', c)
+        c = re.sub(r'[^0-9]', '', c)
+        if c.isdigit() and len(c) < 11:
+            c = c.zfill(11)
+    return c
+
+
+def _is_placeholder_code(code: str) -> bool:
+    """True for criteria the upstream extractor never resolved to a real
+    code (e.g. 'UNMATCHED_47327'). These should be excluded from scoring
+    entirely -- they are not failed matches, they were never real codes."""
+    c = str(code)
+    return c.startswith("UNMATCHED_") or c.strip() == "" or c.lower() == "none"
+
+
+def match_with_hierarchy_single(state: PatientState, criterion: Criterion, hierarchy: Optional[ICD10Hierarchy] = None) -> Optional[float]:
+    """Returns None (meaning: exclude from scoring) for criteria we cannot
+    actually assess, instead of silently scoring them as failed."""
+    if _is_placeholder_code(criterion.entity_code):
+        return None
+
     c_type = criterion.entity_type
-    c_code = criterion.entity_code
+    c_code = _normalize_code(c_type, criterion.entity_code)
 
     if c_type == "diagnosis":
-        if c_code in state.diagnosis_codes:
+        patient_codes = {_normalize_code(c_type, d) for d in state.diagnosis_codes}
+        if c_code in patient_codes:
             return 1.0
         if hierarchy is not None:
             best = 0.0
-            for p_code in state.diagnosis_codes:
+            for p_code in patient_codes:
                 score = hierarchy.get_match_score(p_code, c_code)
                 if score > best:
                     best = score
@@ -157,6 +186,10 @@ def compute_matching_indices(state: PatientState, trial: Trial, hierarchy: Optio
         if c.entity_type == "administrative":
             continue
         score = match_with_hierarchy_single(state, c, hierarchy)
+        if score is None:
+            # Unresolvable criterion (e.g. placeholder code) -- exclude
+            # entirely rather than silently counting it as a failed match.
+            continue
         inc_scores.append(score * c.severity_weight)
         inc_weights.append(c.severity_weight)
     
@@ -164,9 +197,9 @@ def compute_matching_indices(state: PatientState, trial: Trial, hierarchy: Optio
     m_inc = (sum(inc_scores) / total_w) if total_w > 0 else 1.0
 
     exc_scores = [
-        match_with_hierarchy_single(state, c, hierarchy)
-        for c in trial.exclusion_criteria
+        score for c in trial.exclusion_criteria
         if c.entity_type != "administrative"
+        and (score := match_with_hierarchy_single(state, c, hierarchy)) is not None
     ]
     m_exc = softmax_exclusion(exc_scores, temperature) if exc_scores else 0.0
 

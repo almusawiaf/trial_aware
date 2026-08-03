@@ -20,16 +20,6 @@ class Config:
     ICD9_TO_ICD10_CSV = os.path.join(DATA_DIR, "icd9toicd10cmgem.csv")  
     
     # ------------------------------------------------------------------
-    # Reproducibility
-    # ------------------------------------------------------------------
-    # NEW: without this, every run used whatever random state PyTorch/numpy
-    # happened to start in -- there was no way to tell if a change in AUC
-    # was real or just run-to-run noise. Set from the RUN_SEED environment
-    # variable so a multi-seed sweep can override it per-run without editing
-    # this file each time (see run_multi_seed.py).
-    SEED = int(os.environ.get("RUN_SEED", 42))
-
-    # ------------------------------------------------------------------
     # Cohort Selection Rules (Phase 1)
     # ------------------------------------------------------------------
     MIN_ENCOUNTERS = 2
@@ -76,20 +66,13 @@ class Config:
     # Trial-aware alignment (Phase 4)
     # ------------------------------------------------------------------
     EPOCHS_ALIGN = 60
-    # NEW: overridable via env vars, same pattern as SEED. This lets
-    # run_anchor_sweep.py test several values without editing this file
-    # for every combination.
-    ALIGN_LR = float(os.environ.get("RUN_ALIGN_LR", 1e-4))
+    ALIGN_LR = 1e-4
     LAMBDA_1 = 1.0
     LAMBDA_2 = 2.5
-    LAMBDA_ANCHOR = float(os.environ.get("RUN_LAMBDA_ANCHOR", 0.5))
+    LAMBDA_ANCHOR = 0.5
     MARGIN_HARD = 0.4
     MARGIN_RAND = 0.2
-    # Reverted from 0.3 -- that cut usable trials (>=1 eligible patient) from
-    # 193 down to 59 without fixing the collapse, so it wasn't the real cause.
-    # Splitting the difference from the original 0.05 while we investigate
-    # concept coverage as the more likely root cause.
-    HARD_NEG_INC_THRESHOLD = 0.15
+    HARD_NEG_INC_THRESHOLD = 0.05
     HARD_NEG_EXC_THRESHOLD = 0.8
     N_RANDOM_NEGATIVES = 5
     ELIGIBILITY_THRESHOLD_GAMMA = 0.8
@@ -104,24 +87,19 @@ class Config:
     # ------------------------------------------------------------------
     @property
     def GRAPH_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, "hetero_graph.pt")  # graph itself doesn't depend on seed
+        return os.path.join(self.OUTPUT_DIR, "hetero_graph.pt")
 
     @property
     def PATIENT_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, "patient_embeddings.pt")
 
     @property
     def TRIAL_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, "trial_embeddings.pt")
     
     @property
     def BASELINE_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_baseline_seed{self.SEED}.pt")
-
-    @property
-    def TRIAL_EMBED_BASELINE_PATH(self):
-        """Pre-Stage-B trial embeddings, saved so Stage A vs Stage B is a fair comparison."""
-        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_baseline_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, "patient_embeddings_baseline.pt")
     
     @property
     def LOSS_HISTORY_PATH(self):

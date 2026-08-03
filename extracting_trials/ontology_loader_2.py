@@ -24,12 +24,6 @@ try:
 except ImportError:
     _HAS_AHOCORASICK = False
 
-try:
-    from rapidfuzz import process as _fuzz_process, fuzz as _fuzz_scorers
-    _HAS_RAPIDFUZZ = True
-except ImportError:
-    _HAS_RAPIDFUZZ = False
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -111,36 +105,10 @@ def is_administrative(text: str) -> bool:
     return any(kw in text_lower for kw in ADMIN_KEYWORDS)
 
 
-# Common suffix patterns for generic drug names (not exhaustive, but covers
-# most major drug classes). Used to spot a likely drug-name WORD inside a
-# sentence, so we can fuzzy-match just that word instead of the whole
-# sentence -- much more precise, since matching a short specific token
-# against the drug dictionary has far fewer ways to go wrong than matching
-# an entire unrelated sentence via partial_ratio.
-DRUG_NAME_SUFFIXES = (
-    "cillin", "mycin", "statin", "olol", "pril", "sartan", "azole",
-    "oxetine", "mab", "nib", "tinib", "parin", "floxacin", "dipine",
-    "zosin", "triptan", "prazole", "glitazone", "gliptin", "formin",
-    "caine", "barbital", "zepam", "codone", "profen", "cycline",
-)
-
-# Common English words that happen to be capitalized at the start of a
-# sentence/bullet -- these should NOT be treated as drug-name candidates
-# just because they're capitalized.
-_CAPITALIZATION_STOPWORDS = {
-    "the", "this", "these", "those", "patient", "patients", "subject",
-    "subjects", "no", "not", "none", "any", "all", "must", "may", "will",
-    "history", "current", "prior", "known", "age", "aged", "presence",
-    "absence", "diagnosis", "diagnosed", "evidence", "participant",
-    "participants", "female", "male", "women", "men", "adult", "adults",
-}
-
-
 class DynamicOntologyMapper:
     def __init__(self, icd9_to_icd10_map: Optional[Dict[str, str]] = None):
         self.concept_table: Dict[str, Tuple[str, str]] = {}
         self.search_keys = []
-        self.medication_keys = []  # subset of concept_table keys that are medications, for fuzzy fallback
         self.icd9_to_icd10_map = icd9_to_icd10_map or {}
         self.automaton = None  # built once ontology tables are loaded
 
@@ -234,34 +202,9 @@ class DynamicOntologyMapper:
                 logging.error(f"  FAILED to load D_LABITEMS.csv: {type(e).__name__}: {e}")
 
         self.search_keys = sorted(self.concept_table.keys(), key=len, reverse=True)
-        # NEW: exclude short medication names from the FUZZY matching pool.
-        # Same failure mode as the exact-match automaton's MIN_KEY_LENGTH
-        # fix, but worse here: fuzzy partial_ratio on a short string can hit
-        # 90%+ "similarity" against almost any longer sentence purely by
-        # character coincidence, regardless of actual meaning. A 3-5 char
-        # drug abbreviation (e.g. common IV fluid/vitamin shorthand) was
-        # confidently matching completely unrelated criteria this way.
-        # Exact/substring matching (the automaton, checked first) is
-        # unaffected by this and still finds short names correctly when
-        # they genuinely appear -- this only restricts the LAST-RESORT
-        # fuzzy fallback, which needs a stricter floor because it's
-        # inherently less precise than exact matching.
-        MIN_FUZZY_MED_KEY_LENGTH = 6
-        self.medication_keys = [
-            k for k, (t, _c) in self.concept_table.items()
-            if t == 'medication' and len(k) >= MIN_FUZZY_MED_KEY_LENGTH
-        ]
         logging.info(f"Loaded {len(self.concept_table)} concepts into dynamic ontology mapper.")
         logging.info(f"Manual mapping covers {len(MANUAL_MAPPING)} common conditions (checked first).")
         logging.info(f"  [module check] ontology_loader loaded from: {os.path.abspath(__file__)}")
-        if _HAS_RAPIDFUZZ:
-            n_excluded_short = sum(1 for k, (t, _c) in self.concept_table.items() if t == 'medication') - len(self.medication_keys)
-            logging.info(f"  Fuzzy medication fallback ENABLED ({len(self.medication_keys)} medication names indexed, "
-                         f"{n_excluded_short} short names excluded to prevent false-positive matches).")
-        else:
-            logging.warning("  rapidfuzz not installed -- fuzzy medication fallback DISABLED. "
-                             "Run `pip install rapidfuzz` to catch medications that don't exact-match "
-                             "(brand names, dosage-form variants, etc).")
 
         self._build_automaton()
 
@@ -297,88 +240,6 @@ class DynamicOntologyMapper:
                       f"({n_excluded} concept keys < {MIN_KEY_LENGTH} chars excluded "
                       f"to prevent false-positive mid-word matches).")
 
-    def _extract_medication_candidates(self, original_text: str) -> list:
-        """
-        Pulls out words that LOOK like they could be a drug name, from the
-        ORIGINAL (not lowercased) text, using two simple signals:
-          1. The word ends in a common generic-drug suffix (e.g. '...pril',
-             '...statin', '...mab').
-          2. The word is capitalized mid-sentence (a common convention for
-             brand/generic drug names in trial text), excluding ordinary
-             capitalized words that just happen to start a sentence/bullet.
-        This is a heuristic, not a real NER model -- it will miss some real
-        drug names and occasionally flag a non-drug word. Its only job is to
-        narrow down WHAT to fuzzy-match, so a few misses/false starts here
-        are fine as long as the fuzzy step's score cutoff catches them.
-        """
-        words = re.findall(r"[A-Za-z][A-Za-z\-]{3,}", original_text)
-        candidates = []
-        for i, word in enumerate(words):
-            lower = word.lower()
-            if lower in _CAPITALIZATION_STOPWORDS:
-                continue
-            ends_in_drug_suffix = lower.endswith(DRUG_NAME_SUFFIXES)
-            # "mid-sentence capitalized" -- skip i==0 since that's just normal
-            # sentence-starting capitalization, not a naming convention signal.
-            is_capitalized_midsentence = (i > 0 and word[0].isupper())
-            if ends_in_drug_suffix or is_capitalized_midsentence:
-                candidates.append(lower)
-        return candidates
-
-    def _fuzzy_match_medication(self, text_lower: str, original_text: str = "") -> Optional[Tuple[str, str, str]]:
-        """
-        Last-resort fallback for medication names that don't exact-match your
-        MIMIC drug list -- e.g. a brand name, a dosage-form variant, or minor
-        spelling differences. Two passes:
-          1. PRECISE: extract likely drug-name candidate words and fuzzy-match
-             just those against the medication dictionary. Preferred, because
-             matching a short specific word has far fewer ways to accidentally
-             go wrong than matching an entire sentence.
-          2. FALLBACK: if no candidates were found, fuzzy-match the whole
-             sentence (the original, less precise behavior) so we don't lose
-             recall on cases the candidate heuristic missed.
-
-        NOTE: score_cutoff values are starting points, not validated
-        thresholds. If you see obviously wrong matches in practice, raise
-        them; if real medications are still being missed, lower slightly --
-        but do this by spot-checking real examples, not by feel.
-        """
-        if not _HAS_RAPIDFUZZ or not self.medication_keys:
-            return None
-
-        candidates = self._extract_medication_candidates(original_text) if original_text else []
-        if candidates:
-            for candidate in candidates:
-                result = _fuzz_process.extractOne(
-                    candidate, self.medication_keys,
-                    scorer=_fuzz_scorers.partial_ratio,
-                    score_cutoff=87,  # slightly looser than the whole-sentence pass,
-                                      # since candidates are already pre-filtered to
-                                      # look drug-name-like, reducing false-positive risk.
-                )
-                if result is not None:
-                    matched_key, score, _idx = result
-                    e_type, e_code = self.concept_table[matched_key]
-                    return matched_key, e_type, e_code
-            # Candidates existed but none matched well enough -- don't fall
-            # through to whole-sentence matching in this case; if we found
-            # specific drug-shaped words and still couldn't match them, a
-            # whole-sentence match is unlikely to be more reliable.
-            return None
-
-        # No candidates found at all -- fall back to the original,
-        # less-precise whole-sentence fuzzy match so we don't lose recall.
-        result = _fuzz_process.extractOne(
-            text_lower, self.medication_keys,
-            scorer=_fuzz_scorers.partial_ratio,
-            score_cutoff=92,
-        )
-        if result is None:
-            return None
-        matched_key, score, _idx = result
-        e_type, e_code = self.concept_table[matched_key]
-        return matched_key, e_type, e_code
-
     def match_entity(self, text: str) -> Tuple[Optional[str], Optional[str], Optional[str]]:
         text_lower = text.lower()
 
@@ -410,11 +271,6 @@ class DynamicOntologyMapper:
                 key = best[1]
                 e_type, e_code = self.concept_table[key]
                 return key, e_type, e_code
-            # NEW: exact/substring matching found nothing -- try fuzzy
-            # matching against medication names specifically before giving up.
-            fuzzy_result = self._fuzzy_match_medication(text_lower, original_text=text)
-            if fuzzy_result is not None:
-                return fuzzy_result
             return None, None, None
 
         # Fallback: brute-force exact substring scan with word-boundary check
@@ -426,10 +282,5 @@ class DynamicOntologyMapper:
             if match:
                 e_type, e_code = self.concept_table[key]
                 return key, e_type, e_code
-
-        # NEW: same fuzzy medication fallback as the automaton path above.
-        fuzzy_result = self._fuzzy_match_medication(text_lower, original_text=text)
-        if fuzzy_result is not None:
-            return fuzzy_result
 
         return None, None, None

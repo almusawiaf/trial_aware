@@ -11,6 +11,7 @@ import json
 import logging
 import math
 import os
+import random
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
 from typing import Dict, List, Tuple
@@ -23,7 +24,7 @@ import torch_geometric.transforms as T
 from alignment import AlignmentLoss
 from config import Config
 from gcl_framework import HeteroGNNEncoder
-from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials
+from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials, get_concept_embedding, is_resolvable_code
 
 from matching_engine import (
     ICD10Hierarchy,
@@ -138,6 +139,36 @@ def precompute_matching_cache_parallel(unique_pairs, matching_states, trial_stor
     return match_cache
 
 
+def build_naive_baseline_trial_embeds(trial_store: TrialStore, entity_maps, post_gnn_embeddings, embed_dim, device):
+    """
+    Builds a 'before training' trial embedding for every trial using plain
+    averaging of concept embeddings -- no learned pooling weights at all.
+
+    Why: evaluate.py needs a fair Stage A comparison point. It cannot reuse
+    the Stage B trial embeddings (those only exist *after* the criterion/trial
+    encoders are trained), and comparing pre-training patient vectors against
+    post-training trial vectors is comparing two unrelated spaces. This gives
+    an honest, zero-parameter baseline that lives in the same "before" space
+    as h_a_anchor.
+    """
+    baseline_embeds = {}
+    for t in trial_store:
+        inc_embs = [
+            get_concept_embedding(c.entity_type, c.entity_code, entity_maps, post_gnn_embeddings, embed_dim, device)
+            for c in t.inclusion_criteria
+            if is_resolvable_code(c.entity_type, c.entity_code, entity_maps)
+        ]
+        exc_embs = [
+            get_concept_embedding(c.entity_type, c.entity_code, entity_maps, post_gnn_embeddings, embed_dim, device)
+            for c in t.exclusion_criteria
+            if is_resolvable_code(c.entity_type, c.entity_code, entity_maps)
+        ]
+        z_inc = torch.stack(inc_embs).mean(dim=0) if inc_embs else torch.zeros(embed_dim, device=device)
+        z_exc = torch.stack(exc_embs).mean(dim=0) if exc_embs else torch.zeros(embed_dim, device=device)
+        baseline_embeds[t.trial_id] = (z_inc.detach().cpu(), z_exc.detach().cpu())
+    return baseline_embeds
+
+
 def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_store: TrialStore, patient_states, p_map, entity_maps, device):
     """Stage B: Accelerated Trial-aware alignment fine-tuning with Gradient Accumulation (No Graph Inplace Conflicts)."""
     criterion_encoder = CriterionEncoder(cfg.OUT_CHANNELS).to(device)
@@ -151,7 +182,19 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
 
     encoder.eval()
     with torch.no_grad():
-        h_a_anchor = encoder.encode(base_graph_dev.x_dict, base_graph_dev.edge_index_dict)['patient'].detach().clone()
+        pre_align_dict = encoder.encode(base_graph_dev.x_dict, base_graph_dev.edge_index_dict)
+        h_a_anchor = pre_align_dict['patient'].detach().clone()
+
+        # --- NEW: build and save an honest "before Stage B" pair ---------
+        pre_align_post_gnn = {nt: pre_align_dict[nt] for nt in ('diagnosis', 'medication', 'lab') if nt in pre_align_dict}
+        baseline_trial_embeds = build_naive_baseline_trial_embeds(
+            trial_store, entity_maps, pre_align_post_gnn, cfg.OUT_CHANNELS, device,
+        )
+        torch.save(h_a_anchor.detach().cpu(), cfg.BASELINE_EMBED_PATH)
+        torch.save(baseline_trial_embeds, cfg.TRIAL_EMBED_BASELINE_PATH)
+        logging.info(f"[Stage A baseline] Saved pre-alignment patient embeddings to {cfg.BASELINE_EMBED_PATH}")
+        logging.info(f"[Stage A baseline] Saved pre-alignment trial embeddings to {cfg.TRIAL_EMBED_BASELINE_PATH}")
+        # -------------------------------------------------------------------
 
     hierarchy_path = "icd10_hierarchy.csv" if os.path.exists("icd10_hierarchy.csv") else None
 
@@ -194,12 +237,20 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
     p_indices = torch.tensor([p[0] for p in valid_weak_pairs], dtype=torch.long, device=device)
     t_target_indices = torch.tensor([trial_to_idx[p[1]] for p in valid_weak_pairs], dtype=torch.long, device=device)
     m_inc_targets = torch.tensor([match_cache.get((p[0], p[1]), (1.0, 0.0))[0] for p in valid_weak_pairs], dtype=torch.float32, device=device)
+    # NEW: exclusion targets -- these were computed by the matching engine all
+    # along (match_cache stores (m_inc, m_exc) tuples) but m_exc was silently
+    # dropped on the floor before. Without this, the exclusion pooling head
+    # never sees a training signal at all.
+    m_exc_targets = torch.tensor([match_cache.get((p[0], p[1]), (1.0, 0.0))[1] for p in valid_weak_pairs], dtype=torch.float32, device=device)
     
     rand_neg_matrix = []
     for pid_idx, trial_id in valid_weak_pairs:
         candidates = [trial_to_idx[cid] for cid in trial_ids if cid != trial_id]
         if len(candidates) >= cfg.N_RANDOM_NEGATIVES:
-            sampled = candidates[:cfg.N_RANDOM_NEGATIVES]
+            # FIX: was candidates[:N] -- same negatives every time, every epoch.
+            # random.sample gives a genuinely different set of negative trials
+            # for each patient, which is what "random negatives" is supposed to mean.
+            sampled = random.sample(candidates, cfg.N_RANDOM_NEGATIVES)
         else:
             sampled = candidates + [candidates[0]] * (cfg.N_RANDOM_NEGATIVES - len(candidates))
         rand_neg_matrix.append(sampled)
@@ -230,14 +281,25 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         )
 
         z_inc_all = torch.stack([trial_embeds_dict[tid][0] for tid in trial_ids])
+        # NEW: z_exc_all -- was computed by encode_all_trials all along but
+        # never used anywhere in the loss. Without this, the exclusion
+        # pooling head (trial_encoder.W_pool_exc) never learns anything.
+        z_exc_all = torch.stack([trial_embeds_dict[tid][1] for tid in trial_ids])
+
+        # NEW: real anchor loss (kept as a tensor, not .item()'d away) so it
+        # actually participates in backward() instead of only being printed.
+        # This is what stops the encoder from drifting away from the
+        # perfectly-fine Stage-A representations you already measured at 0.77 AUC.
+        anchor_loss_tensor = F.mse_loss(h_dict['patient'], h_a_anchor)
 
         epoch_align_loss = 0.0
         n_batches = 0
         
         perm = torch.randperm(num_pairs, device=device)
+        num_minibatches = math.ceil(num_pairs / batch_size)
 
         # Step 2: Chunked Loss Accumulation across mini-batches
-        for b_start in range(0, num_pairs, batch_size):
+        for batch_i, b_start in enumerate(range(0, num_pairs, batch_size)):
             b_perm = perm[b_start:b_start + batch_size]
             
             b_z_patients = h_dict['patient'][p_indices[b_perm]]
@@ -249,15 +311,28 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
             pos_sim = F.cosine_similarity(b_z_patients, b_z_targets, dim=-1)
             pos_loss = F.mse_loss(pos_sim, b_m_inc)
 
+            # NEW: exclusion term -- trains z_exc against the real m_exc score,
+            # using LAMBDA_1 (previously configured but never actually used).
+            b_z_exc_targets = z_exc_all[t_target_indices[b_perm]]
+            b_m_exc = m_exc_targets[b_perm]
+            exc_sim = F.cosine_similarity(b_z_patients, b_z_exc_targets, dim=-1)
+            exc_loss = F.mse_loss(exc_sim, b_m_exc)
+
             b_z_patients_expanded = b_z_patients.unsqueeze(1)
             neg_sims = F.cosine_similarity(b_z_patients_expanded, b_z_rand_negs, dim=-1)
             neg_loss = torch.mean(F.relu(neg_sims - cfg.MARGIN_RAND))
 
-            batch_loss = pos_loss + cfg.LAMBDA_2 * neg_loss
-            
+            batch_loss = pos_loss + cfg.LAMBDA_1 * exc_loss + cfg.LAMBDA_2 * neg_loss
+
             # Scale loss by total batch count so gradients accumulate correctly
-            scaled_batch_loss = batch_loss / (math.ceil(num_pairs / batch_size))
-            
+            scaled_batch_loss = batch_loss / num_minibatches
+
+            # NEW: add the anchor term to exactly one mini-batch's backward
+            # pass (not all of them) so it contributes its full weight once
+            # per epoch, instead of zero times as before.
+            if batch_i == 0:
+                scaled_batch_loss = scaled_batch_loss + cfg.LAMBDA_ANCHOR * anchor_loss_tensor
+
             # Retain graph for inner backward passes without stepping optimizer
             scaled_batch_loss.backward(retain_graph=True)
 
@@ -273,13 +348,15 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
 
         avg_align_loss = epoch_align_loss / max(1, n_batches)
         
-        # Calculate Anchor Loss
-        anchor_loss = F.mse_loss(h_dict['patient'], h_a_anchor).item()
-        composite_loss = avg_align_loss + getattr(cfg, 'LAMBDA_ANCHOR', 0.1) * anchor_loss
+        # anchor_loss_tensor was already used in backward() above; .item() here is only for logging
+        anchor_loss = anchor_loss_tensor.item()
+        composite_loss = avg_align_loss + cfg.LAMBDA_ANCHOR * anchor_loss
 
         logging.info(
             f"[Stage B] Epoch {epoch:02d}/{cfg.EPOCHS_ALIGN} | Align Loss: {avg_align_loss:.4f} | "
-            f"Anchor Loss: {anchor_loss:.4f} | Total Loss: {composite_loss:.4f}"
+            f"Anchor Loss: {anchor_loss:.4f} | Total Loss: {composite_loss:.4f} | "
+            f"z_inc spread(std): {z_inc_all.std(dim=0).mean().item():.4f} | "
+            f"z_exc spread(std): {z_exc_all.std(dim=0).mean().item():.4f}"
         )
 
         loss_history.append({
