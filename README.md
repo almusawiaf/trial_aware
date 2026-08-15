@@ -165,7 +165,7 @@ DATA_DIR/
 # Place ctg-studies_1000.json in the current directory, then run:
 python load_1000_trials.py
 ```
-This will filter trials for target conditions and save them to `processed_data/1000_trials/`.
+This will filter trials for target conditions and save them to `data/1000_trials/`.
 
 ### Target Conditions
 For optimal performance with MIMIC-III data, filter trials for:
@@ -199,7 +199,7 @@ sbatch job_pipeline.sh
 
 ### Expected Output Directory Structure
 ```text
-processed_data/
+data/
 ├── admissions_clean.parquet
 ├── diagnoses_clean.parquet
 ├── prescriptions_clean.parquet
@@ -314,7 +314,7 @@ Trial_Aware_2/
 ├── ontology_loader.py           # Medical Concept Mapping Tools
 ├── clinical_trials_api.py       # ClinicalTrials.gov API Connector
 ├── criteria_parser.py           # Eligibility Criteria NLP Parser
-├── processed_data/              # Data Output Directory
+├── data/              # Data Output Directory
 │   └── 1000_trials/             # Parsed & Structured Trial Data
 ├── job_pipeline.sh              # SLURM Master Job Script
 └── README.md                    # Project Documentation

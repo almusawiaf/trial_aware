@@ -50,7 +50,7 @@ echo "Step 1: Running Preprocessing & Graph Construction"
 echo "Started at: $(date)"
 echo "=================================================="
 
-if [ -f "processed_data/hetero_graph.pt" ]; then
+if [ -f "data/hetero_graph.pt" ]; then
     echo "✅ Graph exists - skipping Phase 1+2"
 else
     echo "🔨 Graph not found - running preprocessing..."
@@ -123,9 +123,9 @@ echo "============================================================"
 # Print result summary
 echo ""
 echo "📊 Results Summary:"
-if [ -f "processed_data/evaluation_results.json" ]; then
-    echo "  Evaluation results saved to: processed_data/evaluation_results.json"
-    cat processed_data/evaluation_results.json
+if [ -f "data/evaluation_results.json" ]; then
+    echo "  Evaluation results saved to: data/evaluation_results.json"
+    cat data/evaluation_results.json
 else
     echo "  ⚠️ Evaluation results not found"
 fi

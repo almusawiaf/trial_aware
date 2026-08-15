@@ -1,6 +1,6 @@
 /logs/
 /old/
-/processed_data/
+/data/
 # Logs and Error files
 *.log
 *.err

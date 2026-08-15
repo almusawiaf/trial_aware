@@ -29,7 +29,7 @@ import numpy as np
 # NEW: resolve train.py/evaluate.py by absolute path so they're always
 # FOUND regardless of launch directory. Deliberately no cwd override when
 # running them (see run_anchor_sweep.py for the full explanation) --
-# train.py's own relative paths (config.py's ./processed_data) assume it
+# train.py's own relative paths (config.py's ./data) assume it
 # runs from the parent folder, not from wherever this .py file happens to live.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TRAIN_PY = os.path.join(SCRIPT_DIR, "train.py")

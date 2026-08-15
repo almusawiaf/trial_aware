@@ -42,7 +42,7 @@ import numpy as np
 #
 # IMPORTANT: we deliberately do NOT pass cwd=SCRIPT_DIR to subprocess.run
 # below. train.py itself uses relative paths (e.g. config.py's
-# OUTPUT_DIR = "./processed_data") that assume it's being run from the
+# OUTPUT_DIR = "./data") that assume it's being run from the
 # PARENT folder (TRIAL_AWARE_2), even though the .py file lives one level
 # down in C/. Forcing cwd to this script's own folder would find the file
 # correctly but then break every relative path *inside* it. So: absolute

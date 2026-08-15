@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 
-with open("../processed_data/10000_trials/structured_clinical_trials.json") as f:
+with open("../data/10000_trials/structured_clinical_trials.json") as f:
     trials = json.load(f)
 
 code_to_texts = defaultdict(set)

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=graph_cleaning      # Job name
-#SBATCH --output=logs/run_%j.out       # Standard output log (%j inserts job ID)
-#SBATCH --error=logs/run_%j.err        # Standard error log
+#SBATCH --job-name=training      # Job name
+#SBATCH --output=logs/train_%j.out       # Standard output log (%j inserts job ID)
+#SBATCH --error=logs/train_%j.err        # Standard error log
 #SBATCH --nodes=1                      # Run all tasks on a single node
 #SBATCH --ntasks=1                     # Run a single task
 #SBATCH --cpus-per-task=32              # Number of CPU cores per task
@@ -29,4 +29,4 @@ mkdir -p logs
 
 find . -type d -name "__pycache__" -exec rm -r {} +
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-python train.py
+python C/train.py

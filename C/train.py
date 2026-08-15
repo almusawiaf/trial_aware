@@ -196,7 +196,7 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         logging.info(f"[Stage A baseline] Saved pre-alignment trial embeddings to {cfg.TRIAL_EMBED_BASELINE_PATH}")
         # -------------------------------------------------------------------
 
-    hierarchy_path = "icd10_hierarchy.csv" if os.path.exists("icd10_hierarchy.csv") else None
+    hierarchy_path = "data/icd10_hierarchy.csv" if os.path.exists("data/icd10_hierarchy.csv") else None
 
     matching_states = {
         sid: MatchingPatientState(

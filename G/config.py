@@ -10,10 +10,10 @@ class Config:
     # Data / IO
     # ------------------------------------------------------------------
     DATA_DIR = "/lustre/home/almusawiaf/PhD_Projects/MIMIC_resources"
-    OUTPUT_DIR = "./processed_data"
+    OUTPUT_DIR = "./data"
     
     # NEW: Location for the 1000 trials data
-    TRIALS_DATA_DIR = "./processed_data/10000_trials/"
+    TRIALS_DATA_DIR = "./data/10000_trials/"
     
     TRIALS_PATH = "./trial_criteria.json"  # structured trial-criteria file (see trial_graph.py)
     

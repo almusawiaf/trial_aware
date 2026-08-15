@@ -65,7 +65,7 @@ def main():
     print(f"   Total unique codes: {len(all_codes):,}")
     
     # Load trials
-    with open('processed_data/1000_trials/structured_clinical_trials.json', 'r') as f:
+    with open('data/1000_trials/structured_clinical_trials.json', 'r') as f:
         trials = json.load(f)
     print(f"\n📂 Loaded {len(trials)} trials")
     
@@ -73,7 +73,7 @@ def main():
     filtered = filter_trials_by_codes(trials, diagnosis_codes, medication_codes, lab_codes)
     
     # Save filtered trials
-    with open('processed_data/1000_trials/structured_clinical_trials_filtered.json', 'w') as f:
+    with open('data/1000_trials/structured_clinical_trials_filtered.json', 'w') as f:
         json.dump(filtered, f, indent=2)
     print(f"✅ Saved {len(filtered)} filtered trials")
     
@@ -82,9 +82,9 @@ def main():
     train = filtered[:split_idx]
     eval_trials = filtered[split_idx:]
     
-    with open('processed_data/1000_trials/structured_clinical_trials.json', 'w') as f:
+    with open('data/1000_trials/structured_clinical_trials.json', 'w') as f:
         json.dump(train, f, indent=2)
-    with open('processed_data/1000_trials/structured_clinical_trials_eval.json', 'w') as f:
+    with open('data/1000_trials/structured_clinical_trials_eval.json', 'w') as f:
         json.dump(eval_trials, f, indent=2)
     
     print(f"✅ Updated training: {len(train)}, eval: {len(eval_trials)}")

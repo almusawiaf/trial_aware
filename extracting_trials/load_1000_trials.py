@@ -1,7 +1,7 @@
 """
 load_1000_trials.py
 Load trials from ctg-studies_10000.json, filter for target conditions, and save to
-processed_data/10000_trials/.
+data/10000_trials/.
 
 FIX vs. original: parse_criteria() previously never touched the ontology mapper --
 entity_code was `f"CODE_{hash(line) % 10000:04d}"`, a hash of the raw sentence, so no
@@ -54,7 +54,7 @@ def load_icd9_to_icd10_crosswalk() -> Dict[str, str]:
 # ============================================================
 
 INPUT_FILE = "ctg-studies_10000.json"
-OUTPUT_DIR = "../processed_data/10000_trials/"
+OUTPUT_DIR = "../data/10000_trials/"
 
 # Point this at your MIMIC-III CSV directory (D_ICD_DIAGNOSES.csv, PRESCRIPTIONS.csv,
 # D_LABITEMS.csv). Adjust as needed for your environment.

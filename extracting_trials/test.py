@@ -2,7 +2,7 @@
 
 import json, re
 
-with open("../processed_data/10000_trials/structured_clinical_trials.json") as f:
+with open("../data/10000_trials/structured_clinical_trials.json") as f:
     trials = json.load(f)
 
 icd9_shaped = re.compile(r'^\d')

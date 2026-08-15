@@ -26,7 +26,7 @@ def load_mimic_raw_data(data_dir: str):
         raise e
 
 
-def save_processed_data(adm, diag, rx, labs, output_dir: str):
+def save_data(adm, diag, rx, labs, output_dir: str):
     os.makedirs(output_dir, exist_ok=True)
     logging.info(f"Saving processed datasets to: {output_dir}")
     try:
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     labs_clean = preprocessor.process_labs(labs_raw)
     logging.info("PHASE 1 COMPLETED SUCCESSFULLY")
 
-    save_processed_data(adm_clean, diag_clean, rx_clean, labs_clean, config.OUTPUT_DIR)
+    save_data(adm_clean, diag_clean, rx_clean, labs_clean, config.OUTPUT_DIR)
 
     logging.info("\n" + "=" * 50 + "\nRUNNING PHASE 2: GRAPH CONSTRUCTION PIPELINE\n" + "=" * 50)
     hetero_graph = graph_constructor.construct_graph(adm_clean, diag_clean, rx_clean, labs_clean)

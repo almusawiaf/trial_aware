@@ -100,6 +100,16 @@ class Config:
     ETA_EXCLUSION_PENALTY = 1.0
 
     # ------------------------------------------------------------------
+    # Strict/COMPOSE-style trial-level matching (evaluate.py)
+    # ------------------------------------------------------------------
+    # Per-criterion score >= this counts as "matched" when computing the
+    # strict all-or-nothing trial-level match (see
+    # matching_engine.compute_strict_trial_match). This is a real
+    # hyperparameter -- if you tune it, do so on a held-out validation
+    # split, not on the data you report final numbers on.
+    STRICT_MATCH_THRESHOLD = 0.5
+
+    # ------------------------------------------------------------------
     # Path properties
     # ------------------------------------------------------------------
     @property

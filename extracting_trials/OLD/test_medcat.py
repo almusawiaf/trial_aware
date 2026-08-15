@@ -21,10 +21,10 @@ def fix_trial_codes(trials):
                         break # Use the first result
     return trials
 
-with open('../processed_data/10000_trials/structured_clinical_trials.json', 'r') as f:
+with open('../data/10000_trials/structured_clinical_trials.json', 'r') as f:
     trials = json.load(f)
 
 fixed_trials = fix_trial_codes(trials)
 
-with open('../processed_data/10000_trials/structured_clinical_trials_fixed.json', 'w') as f:
+with open('../data/10000_trials/structured_clinical_trials_fixed.json', 'w') as f:
     json.dump(fixed_trials, f, indent=2)
