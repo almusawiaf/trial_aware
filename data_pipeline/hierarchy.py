@@ -182,7 +182,7 @@ def run_sanity_check():
     import json
     import pandas as pd
     from config import Config
-    from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices
+    from models.claude_active.trial_graph import PatientClinicalState, TrialStore, compute_matching_indices
     
     cfg = Config()
     

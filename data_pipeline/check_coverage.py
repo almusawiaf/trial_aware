@@ -19,7 +19,7 @@ from collections import Counter
 import pandas as pd
 
 from config import Config
-from C.trial_graph import TrialStore
+from models.claude_active.trial_graph import TrialStore
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
