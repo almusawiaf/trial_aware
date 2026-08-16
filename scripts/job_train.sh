@@ -13,6 +13,11 @@
 
 mkdir -p logs
 
+# Make sure we're always running from the repo root, regardless of where
+# sbatch was invoked from -- prevents relative-path errors like
+# "can't open file '.../scripts/models/claude_active/train.py'"
+cd "$SLURM_SUBMIT_DIR" || exit 1
+
 # module load cuda/12.1
 # source $(conda info --base)/etc/profile.d/conda.sh
 # conda activate your_env_name

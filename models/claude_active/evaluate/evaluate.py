@@ -2,11 +2,20 @@
 import json
 import logging
 import os
+import sys
 import numpy as np
 import torch
 import pandas as pd
 import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score, average_precision_score
+
+# This file lives in models/claude_active/evaluate/, but config.py and
+# trial_graph.py live one directory up in models/claude_active/. No local
+# copies of those two exist in this folder, so append (not insert(0, ...))
+# is safe here -- but append is also just the safer default in general,
+# since it never lets a parent-directory file shadow a same-named file
+# that might later be added locally.
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import Config
 from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices

@@ -50,7 +50,7 @@ import numpy as np
 # (inherited from however this sweep script itself was launched).
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TRAIN_PY = os.path.join(SCRIPT_DIR, "train.py")
-EVALUATE_PY = os.path.join(SCRIPT_DIR, "evaluate.py")
+EVALUATE_PY = os.path.join(SCRIPT_DIR, "evaluate", "evaluate.py")
 
 from config import Config
 

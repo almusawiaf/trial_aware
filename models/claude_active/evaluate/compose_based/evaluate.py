@@ -2,11 +2,22 @@
 import json
 import logging
 import os
+import sys
 import numpy as np
 import torch
 import pandas as pd
 import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score, average_precision_score
+
+# config.py and matching_engine.py live right next to this file and must
+# win any name collision (compose_based's versions add
+# STRICT_MATCH_THRESHOLD / compute_strict_trial_match that the
+# models/claude_active copies don't have) -- Python already searches this
+# script's own directory first automatically, so we only need to APPEND
+# the parent directory as a fallback for trial_graph.py, which doesn't
+# have a local copy here. Do not insert(0, ...): that would shadow the
+# local config.py/matching_engine.py with the wrong (base) versions.
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from config import Config
 from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices

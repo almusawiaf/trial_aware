@@ -14,6 +14,9 @@
 # 1. Create a logs directory if it doesn't exist
 mkdir -p logs
 
+# Always run from the repo root regardless of where sbatch was invoked from
+cd "$SLURM_SUBMIT_DIR" || exit 1
+
 # 2. Clean PyCache to ensure clean imports
 find . -type d -name "__pycache__" -exec rm -r {} +
 
@@ -22,5 +25,8 @@ find . -type d -name "__pycache__" -exec rm -r {} +
 # source $(conda info --base)/etc/profile.d/conda.sh
 # conda activate your_env_name
 
-# 4. Run the evaluation script
-RUN_SEED=0 python evaluate.py
+# 4. Run the evaluation script (simple evaluator -- ROC-AUC / PR-AUC, baseline vs full model)
+RUN_SEED=0 python models/claude_active/evaluate/evaluate.py
+
+# # For the statistically rigorous version (bootstrap CI + p-value), run instead/also:
+# RUN_SEED=0 python models/claude_active/evaluate/compose_based/evaluate.py

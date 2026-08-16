@@ -33,7 +33,7 @@ import numpy as np
 # runs from the parent folder, not from wherever this .py file happens to live.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TRAIN_PY = os.path.join(SCRIPT_DIR, "train.py")
-EVALUATE_PY = os.path.join(SCRIPT_DIR, "evaluate.py")
+EVALUATE_PY = os.path.join(SCRIPT_DIR, "evaluate", "evaluate.py")
 
 from config import Config
 
