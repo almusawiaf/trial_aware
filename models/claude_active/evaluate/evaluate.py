@@ -250,7 +250,7 @@ def evaluate_retrieval():
         'num_positive_pairs': int(y_true.sum()),
     }
     
-    results_path = os.path.join(cfg.OUTPUT_DIR, 'evaluation_results.json')
+    results_path = os.path.join(cfg.OUTPUT_DIR, f'evaluation_results_seed{cfg.SEED}.json')
     with open(results_path, 'w') as f:
         json.dump(results, f, indent=2)
     

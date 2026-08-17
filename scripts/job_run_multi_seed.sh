@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name=anchor_sweep         # Job name
-#SBATCH --output=logs/sweep_%j.out      # Standard output log (%j inserts job ID)
-#SBATCH --error=logs/sweep_%j.err       # Standard error log
+#SBATCH --job-name=multi_seed           # Job name
+#SBATCH --output=logs/multiseed_%j.out  # Standard output log (%j inserts job ID)
+#SBATCH --error=logs/multiseed_%j.err   # Standard error log
 #SBATCH --nodes=1                       # Run all tasks on a single node
 #SBATCH --ntasks=1                      # Run a single task
 #SBATCH --cpus-per-task=32              # Number of CPU cores per task
 #SBATCH --mem=256G                      # Total memory
-#SBATCH --time=1-00:00:00               # 1 day -- adjust based on how many combos you run
+#SBATCH --time=08:00:00                 # 8 hours -- 5 seeds x (~13 min train + ~1 min eval)
 #SBATCH --partition=gpu                 # Partition/queue name
 #SBATCH --gres=gpu:1                    # Request 1 GPU
 
@@ -23,10 +23,4 @@ cd "$SLURM_SUBMIT_DIR" || exit 1
 find . -type d -name "__pycache__" -exec rm -r {} +
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-# Default sweep: 3 lambda_anchor x 2 align_lr x 3 seeds = 18 full train+eval runs.
-# Start smaller (fewer values / fewer seeds) if you're unsure of total runtime --
-# see the note in the chat about estimating this before committing to 18 runs.
-python models/claude_active/run_anchor_sweep.py \
-    --lambda-anchor 0.1 0.3 0.5 \
-    --align-lr 1e-4 3e-4 \
-    --seeds 0 1 2
+python models/claude_active/run_multi_seed.py --seeds 0 1 2 3 4

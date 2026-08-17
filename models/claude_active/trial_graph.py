@@ -85,6 +85,18 @@ class PatientClinicalState:
         self.medication_codes: Set[str] = set()
         self.lab_last_values: Dict[str, float] = {}
 
+    @property
+    def lab_values(self) -> Dict[str, float]:
+        """
+        Alias for lab_last_values. matching_engine.py's PatientState class
+        (a separate, similarly-named class used by the strict/COMPOSE-style
+        trial matcher in evaluate/compose_based/matching_engine.py) expects
+        a `.lab_values` attribute -- this property lets that code work
+        against a PatientClinicalState instance too, without duplicating
+        the underlying data or renaming it everywhere it's already used.
+        """
+        return self.lab_last_values
+
     @classmethod
     def build_from_tables(cls, subject_id: int, diag_df, rx_df, labs_df):
         state = cls(subject_id)

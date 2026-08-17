@@ -45,7 +45,10 @@ def bootstrap_ci_and_pvalue(y_true, scores_base, scores_full, n_bootstrap=1000, 
     auc_base_samples, auc_full_samples, auc_diff_samples = [], [], []
     pr_base_samples, pr_full_samples, pr_diff_samples = [], [], []
 
-    for _ in range(n_bootstrap):
+    for i in range(n_bootstrap):
+        if i > 0 and i % 50 == 0:
+            logging.info(f"[Bootstrap] {i}/{n_bootstrap} resamples done...")
+
         idx = rng.integers(0, num_patients, size=num_patients)
         yt = y_true[idx].ravel()
         sb = scores_base[idx].ravel()
