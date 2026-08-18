@@ -8,8 +8,8 @@
 #SBATCH --cpus-per-task=32              # Number of CPU cores per task
 #SBATCH --mem=256G                      # Total memory
 #SBATCH --time=08:00:00                 # 8 hours -- 5 seeds x (~13 min train + ~1 min eval)
-#SBATCH --partition=gpu                 # Partition/queue name
-#SBATCH --gres=gpu:1                    # Request 1 GPU
+#SBATCH --partition=cpu                 # Partition/queue name
+# SBATCH --gres=gpu:1                    # Request 1 GPU
 
 mkdir -p logs
 
