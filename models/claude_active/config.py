@@ -122,7 +122,38 @@ class Config:
     def TRIAL_EMBED_BASELINE_PATH(self):
         """Pre-Stage-B trial embeddings, saved so Stage A vs Stage B is a fair comparison."""
         return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_baseline_seed{self.SEED}.pt")
-    
+
+    # ------------------------------------------------------------------
+    # NEW: needed to encode genuinely held-out trials at evaluation time.
+    # TRIAL_EMBED_PATH / TRIAL_EMBED_BASELINE_PATH only ever contain
+    # embeddings for the TRAINING trials (they're computed by calling
+    # encode_all_trials on TRAIN_TRIALS_PATH inside train.py). Evaluating
+    # generalization requires re-running encode_all_trials on the held-out
+    # trial set, which requires: (a) the GNN's per-entity-type output
+    # embeddings for diagnosis/medication/lab codes (both pre- and
+    # post-Stage-B, since these differ), and (b) the trained
+    # CriterionEncoder/TrialEncoder weights themselves, since encode_all_trials
+    # calls their forward methods on new criterion data -- none of these
+    # four were previously persisted to disk.
+    # ------------------------------------------------------------------
+    @property
+    def PRE_ALIGN_POST_GNN_PATH(self):
+        """GNN's diagnosis/medication/lab embeddings BEFORE Stage B fine-tuning."""
+        return os.path.join(self.OUTPUT_DIR, f"pre_align_post_gnn_seed{self.SEED}.pt")
+
+    @property
+    def POST_ALIGN_POST_GNN_PATH(self):
+        """GNN's diagnosis/medication/lab embeddings AFTER Stage B fine-tuning."""
+        return os.path.join(self.OUTPUT_DIR, f"post_align_post_gnn_seed{self.SEED}.pt")
+
+    @property
+    def CRITERION_ENCODER_STATE_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"criterion_encoder_seed{self.SEED}.pt")
+
+    @property
+    def TRIAL_ENCODER_STATE_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"trial_encoder_seed{self.SEED}.pt")
+
     @property
     def LOSS_HISTORY_PATH(self):
         return os.path.join(self.OUTPUT_DIR, "training_loss_history.csv")

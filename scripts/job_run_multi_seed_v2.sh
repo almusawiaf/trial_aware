@@ -1,14 +1,15 @@
 #!/bin/bash
 
 #SBATCH --job-name=multi_seed_v2        # Job name
-#SBATCH --output=logs/multiseed_v2_%j.out
-#SBATCH --error=logs/multiseed_v2_%j.err
+#SBATCH --output=logs/multiseed_v2_gpu_%j.out
+#SBATCH --error=logs/multiseed_v2_gpu_%j.err
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=256G
 #SBATCH --time=3-00:00:00                 # 5 seeds x (~20-35 min train+eval on CPU) -- generous buffer
-#SBATCH --partition=cpu                 # CPU partition -- check exact name with `sinfo` on your cluster
+#SBATCH --partition=gpu             # Partition name (use 'gpu' if required by your system)
+#SBATCH --gres=gpu:1                  # Uncomment only if your environment strictly requires a GPU
 
 mkdir -p logs
 

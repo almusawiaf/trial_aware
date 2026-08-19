@@ -192,6 +192,11 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         )
         torch.save(h_a_anchor.detach().cpu(), cfg.BASELINE_EMBED_PATH)
         torch.save(baseline_trial_embeds, cfg.TRIAL_EMBED_BASELINE_PATH)
+        # NEW: persist the pre-fine-tuning diag/med/lab embeddings themselves,
+        # so evaluate.py can encode held-out trials against the SAME Stage A
+        # representation, not just look up trial embeddings that only exist
+        # for the training trial set.
+        torch.save({k: v.detach().cpu() for k, v in pre_align_post_gnn.items()}, cfg.PRE_ALIGN_POST_GNN_PATH)
         logging.info(f"[Stage A baseline] Saved pre-alignment patient embeddings to {cfg.BASELINE_EMBED_PATH}")
         logging.info(f"[Stage A baseline] Saved pre-alignment trial embeddings to {cfg.TRIAL_EMBED_BASELINE_PATH}")
         # -------------------------------------------------------------------
@@ -374,6 +379,19 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
             list(trial_store), entity_maps, post_gnn_embeddings,
             criterion_encoder, trial_encoder, cfg.OUT_CHANNELS, device,
         )
+
+    # NEW: persist everything needed to encode a DIFFERENT (held-out) trial
+    # set later in evaluate.py -- the post-fine-tuning diag/med/lab
+    # embeddings, and the trained CriterionEncoder/TrialEncoder weights
+    # themselves (encode_all_trials calls their forward methods on new
+    # criterion data, so the trained weights generalize; only the specific
+    # trial_embeds tensor computed here does not, since it's tied to
+    # whichever trial_store was passed in -- the training trials).
+    torch.save({k: v.detach().cpu() for k, v in post_gnn_embeddings.items()}, cfg.POST_ALIGN_POST_GNN_PATH)
+    torch.save(criterion_encoder.state_dict(), cfg.CRITERION_ENCODER_STATE_PATH)
+    torch.save(trial_encoder.state_dict(), cfg.TRIAL_ENCODER_STATE_PATH)
+    logging.info(f"[Stage B] Saved post-alignment GNN entity embeddings, "
+                 f"CriterionEncoder, and TrialEncoder weights for held-out evaluation.")
 
     return encoder, criterion_encoder, trial_encoder, final_trial_embeds
 

@@ -22,6 +22,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from config import Config
 from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices
 from matching_engine import compute_strict_trial_match
+# trial_embedding.py has no local copy here, so it resolves via the
+# appended models/claude_active path -- same reasoning as trial_graph.py.
+from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials
+# build_naive_baseline_trial_embeds is defined in train.py; safe to import
+# since train.py's real work is gated behind `if __name__ == "__main__":`.
+from train import build_naive_baseline_trial_embeds
 
 
 def bootstrap_ci_and_pvalue(y_true, scores_base, scores_full, n_bootstrap=1000, seed=0):
@@ -115,19 +121,25 @@ def build_evaluation_matrices(cfg: Config):
     """
     
     # ============================================================
-    # 1. Load trials from training file (since embeddings contain these)
+    # 1. Load HELD-OUT trials for evaluation (never seen during Stage B
+    #    training / weak-supervision derivation). Loading TRAIN_TRIALS_PATH
+    #    here was a real bug: it silently evaluated on the same trials the
+    #    model trained on, producing in-sample numbers that look far
+    #    stronger than genuine held-out generalization performance.
     # ============================================================
     
-    train_trials_path = cfg.TRAIN_TRIALS_PATH
+    eval_trials_path = cfg.EVAL_TRIALS_PATH
     
-    if os.path.exists(train_trials_path):
-        logging.info(f"Loading trials from: {train_trials_path}")
-        with open(train_trials_path, "r") as f:
+    if os.path.exists(eval_trials_path):
+        logging.info(f"Loading held-out trials from: {eval_trials_path}")
+        with open(eval_trials_path, "r") as f:
             eval_trials_data = json.load(f)
-        logging.info(f"Loaded {len(eval_trials_data)} trials for evaluation")
+        logging.info(f"Loaded {len(eval_trials_data)} held-out trials for evaluation")
         trial_store = TrialStore.from_records(eval_trials_data)
     else:
-        logging.error(f"Trials not found at {train_trials_path}")
+        logging.error(f"Held-out eval trials not found at {eval_trials_path}. "
+                       f"Run data_pipeline/run.py (or generate_trial_json.py) first "
+                       f"to produce the train/eval split.")
         return None, None, None, None
 
     # 2. Load patient data tables
@@ -163,24 +175,59 @@ def build_evaluation_matrices(cfg: Config):
         logging.error(f"Patient embeddings not found at {cfg.PATIENT_EMBED_PATH}")
         return None, None, None, None
     
-    if not os.path.exists(cfg.TRIAL_EMBED_PATH):
-        logging.error(f"Trial embeddings not found at {cfg.TRIAL_EMBED_PATH}")
+    if not os.path.exists(cfg.PRE_ALIGN_POST_GNN_PATH):
+        logging.error(
+            f"Pre-alignment GNN entity embeddings not found at {cfg.PRE_ALIGN_POST_GNN_PATH}. "
+            "Re-run train.py (it now saves this file) before evaluating."
+        )
         return None, None, None, None
 
-    if not os.path.exists(cfg.TRIAL_EMBED_BASELINE_PATH):
+    if not os.path.exists(cfg.POST_ALIGN_POST_GNN_PATH) or \
+       not os.path.exists(cfg.CRITERION_ENCODER_STATE_PATH) or \
+       not os.path.exists(cfg.TRIAL_ENCODER_STATE_PATH):
         logging.error(
-            f"Baseline trial embeddings not found at {cfg.TRIAL_EMBED_BASELINE_PATH}. "
-            "Re-run train.py (it now saves this file) before evaluating."
+            "Post-alignment GNN entity embeddings / CriterionEncoder / TrialEncoder "
+            "weights not found. Re-run train.py (it now saves these) before evaluating."
         )
         return None, None, None, None
 
     h_baseline = torch.load(baseline_path, map_location='cpu')
     h_full = torch.load(cfg.PATIENT_EMBED_PATH, map_location='cpu')
-    trial_embeds = torch.load(cfg.TRIAL_EMBED_PATH, map_location='cpu')
-    # NEW: separate, honest "before training" trial embeddings -- paired with
-    # h_baseline in the same pre-alignment embedding space. Do NOT reuse
-    # `trial_embeds` (Stage B) for the baseline score; that was the bug.
-    trial_embeds_baseline = torch.load(cfg.TRIAL_EMBED_BASELINE_PATH, map_location='cpu')
+
+    # --- Re-encode the HELD-OUT trials fresh -- see models/claude_active/
+    # evaluate/evaluate.py for the full explanation of why this replaced
+    # loading cfg.TRIAL_EMBED_PATH / TRIAL_EMBED_BASELINE_PATH directly.
+    d_map = {str(c): i for i, c in enumerate(sorted(diag_df['ICD10_CODE'].unique()))}
+    m_map = {str(c): i for i, c in enumerate(sorted(rx_df['NDC'].unique()))}
+    l_map = {str(c): i for i, c in enumerate(sorted(labs_df['ITEMID'].unique()))}
+    entity_maps = {'diagnosis': d_map, 'medication': m_map, 'lab': l_map, 'procedure': {}}
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    pre_align_post_gnn = {
+        k: v.to(device) for k, v in torch.load(cfg.PRE_ALIGN_POST_GNN_PATH, map_location='cpu').items()
+    }
+    post_align_post_gnn = {
+        k: v.to(device) for k, v in torch.load(cfg.POST_ALIGN_POST_GNN_PATH, map_location='cpu').items()
+    }
+
+    criterion_encoder_model = CriterionEncoder(cfg.OUT_CHANNELS).to(device)
+    criterion_encoder_model.load_state_dict(torch.load(cfg.CRITERION_ENCODER_STATE_PATH, map_location=device))
+    criterion_encoder_model.eval()
+
+    trial_encoder_model = TrialEncoder(cfg.OUT_CHANNELS).to(device)
+    trial_encoder_model.load_state_dict(torch.load(cfg.TRIAL_ENCODER_STATE_PATH, map_location=device))
+    trial_encoder_model.eval()
+
+    held_out_trials = list(trial_store)
+    with torch.no_grad():
+        trial_embeds_baseline = build_naive_baseline_trial_embeds(
+            trial_store, entity_maps, pre_align_post_gnn, cfg.OUT_CHANNELS, device,
+        )
+        trial_embeds = encode_all_trials(
+            held_out_trials, entity_maps, post_align_post_gnn,
+            criterion_encoder_model, trial_encoder_model, cfg.OUT_CHANNELS, device,
+        )
     
     # 5. Debug: Print trial embedding information (baseline vs full model)
     for tid, (z_inc, z_exc) in trial_embeds.items():

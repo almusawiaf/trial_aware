@@ -132,7 +132,26 @@ class Config:
     def TRIAL_EMBED_BASELINE_PATH(self):
         """Pre-Stage-B trial embeddings, saved so Stage A vs Stage B is a fair comparison."""
         return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_baseline_seed{self.SEED}.pt")
-    
+
+    # NEW: same four artifacts added to models/claude_active/config.py --
+    # needed to re-encode held-out trials at eval time. See the comment
+    # there for the full explanation.
+    @property
+    def PRE_ALIGN_POST_GNN_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"pre_align_post_gnn_seed{self.SEED}.pt")
+
+    @property
+    def POST_ALIGN_POST_GNN_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"post_align_post_gnn_seed{self.SEED}.pt")
+
+    @property
+    def CRITERION_ENCODER_STATE_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"criterion_encoder_seed{self.SEED}.pt")
+
+    @property
+    def TRIAL_ENCODER_STATE_PATH(self):
+        return os.path.join(self.OUTPUT_DIR, f"trial_encoder_seed{self.SEED}.pt")
+
     @property
     def LOSS_HISTORY_PATH(self):
         return os.path.join(self.OUTPUT_DIR, "training_loss_history.csv")

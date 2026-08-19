@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name=evaluate_model_seed2       # Job name
-#SBATCH --output=logs/eval_seed2_%j.out       # Standard output log (%j inserts job ID)
-#SBATCH --error=logs/eval_seed2_%j.err        # Standard error log
+#SBATCH --job-name=evaluate_model_compose       # Job name
+#SBATCH --output=logs/eval_compose_%j.out       # Standard output log (%j inserts job ID)
+#SBATCH --error=logs/eval_compose_%j.err        # Standard error log
 #SBATCH --nodes=1                       # Run all tasks on a single node
 #SBATCH --ntasks=1                      # Run a single task
 #SBATCH --cpus-per-task=4               # CPU cores (evaluation needs modest compute)
 #SBATCH --mem=32G                       # Memory (adjust if evaluating millions of nodes)
-#SBATCH --time=02:00:00                 # Time limit (2 hours is usually plenty)
+#SBATCH --time=2-02:00:00                 # Time limit (2 hours is usually plenty)
 #SBATCH --partition=gpu             # Partition name (use 'gpu' if required by your system)
 #SBATCH --gres=gpu:1                  # Uncomment only if your environment strictly requires a GPU
 
@@ -28,8 +28,8 @@ find . -type d -name "__pycache__" -exec rm -r {} +
 # 4. Run the evaluation script (simple evaluator -- ROC-AUC / PR-AUC, baseline vs full model)
 export RUN_LAMBDA_ANCHOR=0.3
 export RUN_ALIGN_LR=0.0003
-export RUN_SEED=2
-python models/claude_active/evaluate/evaluate.py
+export RUN_SEED=0
+# python models/claude_active/evaluate/evaluate.py
 
 # # For the statistically rigorous version (bootstrap CI + p-value), run instead/also:
-# RUN_SEED=0 python models/claude_active/evaluate/compose_based/evaluate.py
+python models/claude_active/evaluate/compose_based/evaluate.py
