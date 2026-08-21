@@ -14,6 +14,13 @@ class Config:
     
     # NEW: Location for the 1000 trials data
     TRIALS_DATA_DIR = "./data/10000_trials/"
+
+    # NEW: cross-validation fold selector. None (default) = old behavior,
+    # single fixed 80/20 split via TRAIN_TRIALS_PATH/EVAL_TRIALS_PATH below.
+    # Set via RUN_FOLD env var (e.g. "0", "1", ... "4" for 5-fold CV) to
+    # instead use models/claude_active/make_trial_folds.py's per-fold files.
+    FOLD = os.environ.get("RUN_FOLD", None)
+    FOLD = int(FOLD) if FOLD is not None else None
     
     TRIALS_PATH = "./trial_criteria.json"  # structured trial-criteria file (see trial_graph.py)
     
@@ -103,25 +110,35 @@ class Config:
     # Path properties
     # ------------------------------------------------------------------
     @property
+    def _tag(self):
+        """Suffix used on every seed-specific artifact path. Includes the
+        fold number when RUN_FOLD is set, so different folds never
+        overwrite each other's checkpoints -- e.g. seed0 fold2 and seed0
+        fold3 are different training runs and must not collide."""
+        if self.FOLD is not None:
+            return f"seed{self.SEED}_fold{self.FOLD}"
+        return f"seed{self.SEED}"
+
+    @property
     def GRAPH_PATH(self):
         return os.path.join(self.OUTPUT_DIR, "hetero_graph.pt")  # graph itself doesn't depend on seed
 
     @property
     def PATIENT_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_{self._tag}.pt")
 
     @property
     def TRIAL_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_{self._tag}.pt")
     
     @property
     def BASELINE_EMBED_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_baseline_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"patient_embeddings_baseline_{self._tag}.pt")
 
     @property
     def TRIAL_EMBED_BASELINE_PATH(self):
         """Pre-Stage-B trial embeddings, saved so Stage A vs Stage B is a fair comparison."""
-        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_baseline_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"trial_embeddings_baseline_{self._tag}.pt")
 
     # ------------------------------------------------------------------
     # NEW: needed to encode genuinely held-out trials at evaluation time.
@@ -139,20 +156,20 @@ class Config:
     @property
     def PRE_ALIGN_POST_GNN_PATH(self):
         """GNN's diagnosis/medication/lab embeddings BEFORE Stage B fine-tuning."""
-        return os.path.join(self.OUTPUT_DIR, f"pre_align_post_gnn_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"pre_align_post_gnn_{self._tag}.pt")
 
     @property
     def POST_ALIGN_POST_GNN_PATH(self):
         """GNN's diagnosis/medication/lab embeddings AFTER Stage B fine-tuning."""
-        return os.path.join(self.OUTPUT_DIR, f"post_align_post_gnn_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"post_align_post_gnn_{self._tag}.pt")
 
     @property
     def CRITERION_ENCODER_STATE_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"criterion_encoder_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"criterion_encoder_{self._tag}.pt")
 
     @property
     def TRIAL_ENCODER_STATE_PATH(self):
-        return os.path.join(self.OUTPUT_DIR, f"trial_encoder_seed{self.SEED}.pt")
+        return os.path.join(self.OUTPUT_DIR, f"trial_encoder_{self._tag}.pt")
 
     @property
     def LOSS_HISTORY_PATH(self):
@@ -160,12 +177,18 @@ class Config:
 
     @property
     def TRAIN_TRIALS_PATH(self):
-        """Path to training trials JSON."""
+        """Path to training trials JSON. Fold-aware: uses the K-fold split
+        from make_trial_folds.py when RUN_FOLD is set, otherwise falls back
+        to the original single fixed 80/20 split."""
+        if self.FOLD is not None:
+            return os.path.join(self.TRIALS_DATA_DIR, "folds", f"fold{self.FOLD}_train.json")
         return os.path.join(self.TRIALS_DATA_DIR, "structured_clinical_trials.json")
     
     @property
     def EVAL_TRIALS_PATH(self):
-        """Path to evaluation trials JSON."""
+        """Path to evaluation trials JSON. Fold-aware, see TRAIN_TRIALS_PATH."""
+        if self.FOLD is not None:
+            return os.path.join(self.TRIALS_DATA_DIR, "folds", f"fold{self.FOLD}_eval.json")
         return os.path.join(self.TRIALS_DATA_DIR, "structured_clinical_trials_eval.json")
 
     # ------------------------------------------------------------------

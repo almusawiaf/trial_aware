@@ -1,0 +1,18 @@
+# Core -- everything except the optional extras below is required.
+numpy>=1.24
+pandas>=1.5
+scipy>=1.10
+scikit-learn>=1.2
+xgboost>=1.7
+pyarrow>=11.0          # reading the pipeline's *_clean.parquet outputs
+tabulate>=0.9          # markdown tables in report.py
+
+# Neural + graph models.
+# The GNNs are implemented in plain PyTorch on purpose: no torch_geometric,
+# no torch_scatter, no torch_sparse. Those three are the usual reason a graph
+# benchmark will not build on a cluster, and nothing here needs them.
+torch>=2.0
+
+# Optional
+# lightgbm>=3.3        # drop-in alternative to XGBoost if you want a second GBM
+# matplotlib>=3.6      # only if you add plots to report.py
