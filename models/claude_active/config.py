@@ -69,6 +69,14 @@ class Config:
     # ------------------------------------------------------------------
     # Contrastive pretraining (Phase 3)
     # ------------------------------------------------------------------
+    # NEW: was previously unused -- HeteroGNNEncoder went straight from
+    # random init into Stage B fine-tuning with no self-supervised
+    # pretraining step, despite the paper's Section 3.3 describing this
+    # loss as the intended Stage A objective. Default True now that
+    # gcl_pretrain() (train.py) actually calls this; set the env var to
+    # "0"/"false" to reproduce the old (random-init Stage A) behavior for
+    # comparison.
+    ENABLE_GCL_PRETRAIN = os.environ.get("RUN_ENABLE_GCL", "1").lower() not in ("0", "false")
     TEMPERATURE = 0.1
     GCL_LR = 1e-3
     LR = 1e-3

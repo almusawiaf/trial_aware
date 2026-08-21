@@ -23,7 +23,7 @@ import torch_geometric.transforms as T
 
 from alignment import AlignmentLoss
 from config import Config
-from gcl_framework import HeteroGNNEncoder
+from gcl_framework import HeteroGNNEncoder, GraphAugmentor, InfoNCELoss
 from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials, get_concept_embedding, is_resolvable_code
 
 from matching_engine import (
@@ -396,6 +396,60 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
     return encoder, criterion_encoder, trial_encoder, final_trial_embeds
 
 
+def gcl_pretrain(cfg: Config, base_graph, encoder: HeteroGNNEncoder, device) -> HeteroGNNEncoder:
+    """
+    Self-supervised graph contrastive pretraining (GCL), previously imported
+    (GraphAugmentor, InfoNCELoss) but never actually called anywhere in this
+    file -- meaning "Stage A" was, until now, a randomly-initialized encoder
+    doing a single untrained forward pass, not a pretrained baseline. This
+    fixes that: two augmented views of the graph are contrasted via InfoNCE
+    on the patient node's projected representation, following standard GCL
+    practice (Zhu et al., GRACE; You et al., GraphCL).
+
+    Gated by cfg.ENABLE_GCL_PRETRAIN so both configurations (with and
+    without this pretraining step) can be run and reported side by side --
+    see the paper's Held-Out Cross-Validation Protocol section for why
+    reporting both is preferable to silently swapping one for the other.
+    """
+    if not cfg.ENABLE_GCL_PRETRAIN:
+        logging.info("[GCL] cfg.ENABLE_GCL_PRETRAIN is False -- skipping pretraining, "
+                      "Stage A will be a randomly-initialized encoder (legacy behavior).")
+        return encoder
+
+    logging.info(f"[GCL] Starting self-supervised contrastive pretraining "
+                 f"for {cfg.EPOCHS_GCL} epochs (lr={cfg.GCL_LR})...")
+    encoder.train()
+    optimizer = torch.optim.Adam(encoder.parameters(), lr=cfg.GCL_LR)
+    info_nce = InfoNCELoss(temperature=0.1)
+    base_graph_dev = base_graph.to(device)
+
+    for epoch in range(cfg.EPOCHS_GCL):
+        optimizer.zero_grad()
+
+        # Two independently-augmented views of the same graph -- the model
+        # must learn to agree on a patient's representation despite each
+        # view seeing a different random 20% of edges dropped.
+        view1 = GraphAugmentor.drop_edges(base_graph_dev, drop_rate=cfg.DROP_RATE_V1)
+        view2 = GraphAugmentor.drop_edges(base_graph_dev, drop_rate=cfg.DROP_RATE_V2)
+
+        h1 = encoder.encode(view1.x_dict, view1.edge_index_dict)
+        h2 = encoder.encode(view2.x_dict, view2.edge_index_dict)
+
+        z1 = encoder.project(h1['patient'])
+        z2 = encoder.project(h2['patient'])
+
+        loss = info_nce(z1, z2)
+        loss.backward()
+        optimizer.step()
+
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            logging.info(f"[GCL] Epoch {epoch + 1:03d}/{cfg.EPOCHS_GCL} | InfoNCE Loss: {loss.item():.4f}")
+
+    encoder.eval()
+    logging.info("[GCL] Pretraining complete.")
+    return encoder
+
+
 def load_processed_tables(cfg: Config):
     paths = {
         'diag': os.path.join(cfg.OUTPUT_DIR, "diagnoses_clean.parquet"),
@@ -422,6 +476,11 @@ def main():
         hidden_channels=cfg.HIDDEN_CHANNELS,
         out_channels=cfg.OUT_CHANNELS,
     ).to(device)
+
+    # NEW: run GCL pretraining before anything else touches this encoder --
+    # this is what makes "Stage A" a genuine self-supervised baseline
+    # instead of a random projection. See gcl_pretrain()'s docstring.
+    encoder = gcl_pretrain(cfg, base_graph, encoder, device)
 
     diag_df, rx_df, labs_df = load_processed_tables(cfg)
     p_map = {str(sid): i for i, sid in enumerate(sorted(diag_df['SUBJECT_ID'].unique(), key=int))}
