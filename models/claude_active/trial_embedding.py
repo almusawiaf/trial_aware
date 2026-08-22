@@ -3,12 +3,16 @@ trial_embedding.py
 Vectorized Trial and Criterion Encoders for Fast Batch GPU Computation
 """
 
+import logging
 from typing import Dict, List, Tuple, Optional
 import re
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from trial_graph import Operator, Trial
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 
 class CriterionEncoder(nn.Module):

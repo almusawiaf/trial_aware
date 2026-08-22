@@ -29,32 +29,78 @@ from ontology_loader import DynamicOntologyMapper
 # generate_trial_json.py already builds via MIMICDataPreprocessor.
 # ------------------------------------------------------------------
 def load_icd9_to_icd10_crosswalk() -> Dict[str, str]:
+    """
+    Load the NBER GEMs ICD-9 -> ICD-10 crosswalk directly from CSV.
+
+    Previously this imported preprocessor.MIMICDataPreprocessor + config.Config,
+    which fails when this script is run from data_pipeline/ (config lives under
+    models/claude_active/ and pulls in the whole training-config machinery just
+    to read one CSV). This self-contained version reads the same
+    icd9toicd10cmgem.csv the preprocessor uses, with the SAME cleaning logic
+    (lowercase cols, drop no_map==1, strip dots/whitespace, keep first mapping),
+    so trial diagnosis codes resolved via the MIMIC ontology table come out as
+    ICD-10 and can actually match the ICD-10 patient vocabulary.
+
+    Path resolution order (first hit wins):
+      1. ICD9_TO_ICD10_CSV environment variable, if set
+      2. MIMIC_DATA_DIR/icd9toicd10cmgem.csv  (the module-level constant below)
+    """
+    import pandas as pd
+
+    candidates = []
+    env_path = os.environ.get("ICD9_TO_ICD10_CSV")
+    if env_path:
+        candidates.append(env_path)
+    candidates.append(os.path.join(MIMIC_DATA_DIR, "icd9toicd10cmgem.csv"))
+
+    csv_path = next((p for p in candidates if p and os.path.exists(p)), None)
+    if csv_path is None:
+        print("⚠️  ICD9->ICD10 crosswalk CSV not found. Looked in:")
+        for p in candidates:
+            print(f"     - {p}")
+        print("   Diagnosis codes from the MIMIC ontology table will remain as raw ICD-9 "
+              "and won't match ICD-10 patient data. Set the ICD9_TO_ICD10_CSV env var to "
+              "the icd9toicd10cmgem.csv path, or place it in MIMIC_DATA_DIR, then re-run.")
+        return {}
+
     try:
-        from preprocessor import MIMICDataPreprocessor
-        from config import Config
-        cfg = Config()
-        pp = MIMICDataPreprocessor(cfg)
-        crosswalk = getattr(pp, 'icd9_to_icd10_map', {})
-        if not crosswalk:
-            print("⚠️  MIMICDataPreprocessor loaded but icd9_to_icd10_map is EMPTY. "
-                  "Diagnosis codes from the MIMIC ontology table will remain as raw "
-                  "ICD-9 and won't match ICD-10 patient data.")
-        else:
-            print(f"✅ Loaded ICD-9->ICD-10 crosswalk: {len(crosswalk)} mappings")
+        df = pd.read_csv(csv_path, dtype=str)
+        df.columns = df.columns.str.lower()
+        if 'no_map' in df.columns:
+            df = df[df['no_map'] != '1']
+        df['icd9cm'] = df['icd9cm'].str.strip().str.replace('.', '', regex=False).str.upper()
+        df['icd10cm'] = df['icd10cm'].str.strip().str.replace('.', '', regex=False).str.upper()
+        df = df.drop_duplicates(subset=['icd9cm'], keep='first')
+        crosswalk = dict(zip(df['icd9cm'], df['icd10cm']))
+        print(f"✅ Loaded ICD-9->ICD-10 crosswalk: {len(crosswalk)} mappings from {csv_path}")
         return crosswalk
     except Exception as e:
-        print(f"⚠️  Could not load ICD9->ICD10 crosswalk from preprocessor.py/config.py: {e}")
-        print("   Diagnosis codes from the MIMIC ontology table will remain as raw ICD-9 "
-              "and won't match ICD-10 patient data. Either fix this import, or supply an "
-              "ICD9->ICD10 CSV mapping some other way before proceeding to training.")
+        print(f"⚠️  Failed to parse ICD9->ICD10 crosswalk at {csv_path}: {e}")
+        print("   Proceeding without it -- MIMIC-ontology-resolved diagnosis codes will "
+              "stay ICD-9 and won't match patient ICD-10 data.")
         return {}
 
 # ============================================================
 # CONFIGURATION
 # ============================================================
 
-INPUT_FILE = "ctg-studies_10000.json"
-OUTPUT_DIR = "../data/10000_trials/"
+# Resolve data paths relative to the REPO ROOT (this file lives in
+# data_pipeline/, so the repo root is one directory up), not relative to the
+# current working directory. This makes the script runnable from anywhere --
+# `python data_pipeline/load_1000_trials.py` from the repo root, or
+# `python load_1000_trials.py` from inside data_pipeline/ -- without the
+# input/output paths silently pointing at the wrong place.
+# Override either with the CTG_INPUT_FILE / TRIALS_OUTPUT_DIR env vars.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+INPUT_FILE = os.environ.get(
+    "CTG_INPUT_FILE",
+    os.path.join(_REPO_ROOT, "data", "ctg-studies_10000.json"),
+)
+OUTPUT_DIR = os.environ.get(
+    "TRIALS_OUTPUT_DIR",
+    os.path.join(_REPO_ROOT, "data", "10000_trials"),
+)
 
 # Point this at your MIMIC-III CSV directory (D_ICD_DIAGNOSES.csv, PRESCRIPTIONS.csv,
 # D_LABITEMS.csv). Adjust as needed for your environment.
