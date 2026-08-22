@@ -212,11 +212,33 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         ) for sid, state in patient_states.items()
     }
 
-    optimizer = torch.optim.Adam([
-        {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.5},
-        {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
-        {'params': trial_encoder.parameters(), 'lr': cfg.ALIGN_LR},
-    ])
+    # NEW: FIX for a verified bug -- when FREEZE_BACKBONE is off, the
+    # encoder's parameters were being fine-tuned via a raw, unnormalized
+    # MSE anchor loss (see the fix at anchor_loss_tensor below) alongside
+    # bounded, cosine-similarity-based losses -- a scale mismatch that
+    # caused catastrophic collapse, worse at HIGHER anchor strength, once
+    # Stage A became a genuinely good GCL-pretrained baseline (see
+    # session notes / paper Section on GCL pretraining). FREEZE_BACKBONE
+    # is the stronger, more direct fix: if the encoder never updates,
+    # Stage A's representation is preserved exactly, not just
+    # approximately via a regularizer -- making the anchor loss moot by
+    # construction rather than needing to be perfectly scaled.
+    if cfg.FREEZE_BACKBONE:
+        logging.info("[Stage B] FREEZE_BACKBONE=True -- GNN encoder weights will NOT be "
+                     "updated; only CriterionEncoder/TrialEncoder train on top of the "
+                     "frozen (GCL-pretrained) patient/entity representations.")
+        for p in encoder.parameters():
+            p.requires_grad = False
+        optimizer = torch.optim.Adam([
+            {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
+            {'params': trial_encoder.parameters(), 'lr': cfg.ALIGN_LR},
+        ])
+    else:
+        optimizer = torch.optim.Adam([
+            {'params': encoder.parameters(), 'lr': cfg.ALIGN_LR * 0.5},
+            {'params': criterion_encoder.parameters(), 'lr': cfg.ALIGN_LR},
+            {'params': trial_encoder.parameters(), 'lr': cfg.ALIGN_LR},
+        ])
 
     weak_pairs = derive_weak_positive_pairs(
         patient_states, trial_store,
@@ -272,7 +294,6 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         encoder.train()
         criterion_encoder.train()
         trial_encoder.train()
-        
         # Zero gradients once per epoch
         optimizer.zero_grad()
 
@@ -295,7 +316,23 @@ def align_with_trials(cfg: Config, base_graph, encoder: HeteroGNNEncoder, trial_
         # actually participates in backward() instead of only being printed.
         # This is what stops the encoder from drifting away from the
         # perfectly-fine Stage-A representations you already measured at 0.77 AUC.
-        anchor_loss_tensor = F.mse_loss(h_dict['patient'], h_a_anchor)
+        # FIX: previously raw, unnormalized MSE -- unbounded magnitude,
+        # dependent on embedding dimensionality and whatever scale the
+        # encoder's raw output happens to have. Every OTHER loss term in
+        # this training loop (pos_loss/exc_loss/neg_loss below) operates
+        # on cosine similarities, bounded in [-1, 1]. That scale mismatch
+        # meant increasing LAMBDA_ANCHOR amplified an already-oversized,
+        # poorly-scaled gradient rather than gently pulling embeddings
+        # back toward Stage A -- consistent with higher LAMBDA_ANCHOR
+        # producing MORE catastrophic collapse, not less, once Stage A
+        # became a genuinely good GCL-pretrained baseline (random-init
+        # Stage A had little worth preserving, so this scale problem was
+        # invisible before). Normalizing both sides bounds this term to
+        # the same [0, 4] range MSE-of-unit-vectors always has, matching
+        # the scale of the rest of the loss.
+        h_current_norm = F.normalize(h_dict['patient'], dim=-1)
+        h_anchor_norm = F.normalize(h_a_anchor, dim=-1)
+        anchor_loss_tensor = F.mse_loss(h_current_norm, h_anchor_norm)
 
         epoch_align_loss = 0.0
         n_batches = 0
@@ -488,6 +525,13 @@ def main():
     m_map = {str(c): i for i, c in enumerate(sorted(rx_df['NDC'].unique()))}
     l_map = {str(c): i for i, c in enumerate(sorted(labs_df['ITEMID'].unique()))}
     entity_maps = {'diagnosis': d_map, 'medication': m_map, 'lab': l_map, 'procedure': {}}
+
+    # Activate hierarchical diagnosis alignment so trial diagnosis codes
+    # resolve to clinically-equivalent patient codes in the same ICD-10
+    # category, recovering criteria previously discarded as OOV. Must be
+    # called before any encode_all_trials() so the resolution logic sees it.
+    from trial_embedding import init_diagnosis_aligner
+    init_diagnosis_aligner(entity_maps)
 
     patient_states = {
         int(sid): PatientClinicalState.build_from_tables(int(sid), diag_df, rx_df, labs_df)

@@ -19,7 +19,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import Config
 from trial_graph import PatientClinicalState, TrialStore, compute_matching_indices
-from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials
+from trial_embedding import CriterionEncoder, TrialEncoder, encode_all_trials, init_diagnosis_aligner
+from retrieval_metrics import compute_all_retrieval_metrics
 # build_naive_baseline_trial_embeds is defined in train.py rather than
 # trial_embedding.py -- importing it here is safe because train.py's
 # top-level code is only imports/def statements; its actual work happens
@@ -130,6 +131,10 @@ def build_evaluation_matrices(cfg: Config):
     m_map = {str(c): i for i, c in enumerate(sorted(rx_df['NDC'].unique()))}
     l_map = {str(c): i for i, c in enumerate(sorted(labs_df['ITEMID'].unique()))}
     entity_maps = {'diagnosis': d_map, 'medication': m_map, 'lab': l_map, 'procedure': {}}
+
+    # Activate hierarchical diagnosis alignment (see train.py for rationale).
+    # Must match training exactly, so both call the same init on the same maps.
+    init_diagnosis_aligner(entity_maps)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -294,7 +299,37 @@ def evaluate_retrieval():
     logging.info(f"ROC-AUC Improvement: {auc_improvement:+.2f}%")
     logging.info(f"PR-AUC Improvement: {pr_improvement:+.2f}%")
     logging.info("=" * 60)
-    
+
+    # --- Retrieval metrics: P@k, NDCG@k, Delta-SFR@k ------------------
+    # See retrieval_metrics.py for why these use the same eligibility
+    # definition (y_true) as ROC-AUC/PR-AUC, and why trials with zero
+    # eligible patients are excluded from the average.
+    k_values = getattr(cfg, 'PRECISION_K_VALUES', [10, 20, 50])
+    retrieval_base = compute_all_retrieval_metrics(y_true, scores_base, k_values)
+    retrieval_full = compute_all_retrieval_metrics(y_true, scores_full, k_values)
+
+    logging.info("RETRIEVAL METRICS (per-trial ranking quality)")
+    logging.info("=" * 60)
+    for k in k_values:
+        n_used = retrieval_full[f'n_trials_used_at_{k}']
+        n_skipped = y_true.shape[1] - n_used
+        logging.info(
+            f"  k={k:<3} (n_trials_used={n_used}, {n_skipped} trials skipped -- zero eligible patients)"
+        )
+        logging.info(
+            f"    P@{k}:        Stage A {retrieval_base[f'precision_at_{k}']:.4f}"
+            f"  ->  Stage B {retrieval_full[f'precision_at_{k}']:.4f}"
+        )
+        logging.info(
+            f"    NDCG@{k}:     Stage A {retrieval_base[f'ndcg_at_{k}']:.4f}"
+            f"  ->  Stage B {retrieval_full[f'ndcg_at_{k}']:.4f}"
+        )
+        logging.info(
+            f"    Delta-SFR@{k}: Stage A {retrieval_base[f'delta_sfr_at_{k}']:+.4f}"
+            f"  ->  Stage B {retrieval_full[f'delta_sfr_at_{k}']:+.4f}"
+        )
+    logging.info("=" * 60)
+
     # Save results
     results = {
         'stage_a_roc_auc': float(auc_base),
@@ -306,6 +341,8 @@ def evaluate_retrieval():
         'num_patients': y_true.shape[0],
         'num_trials': y_true.shape[1],
         'num_positive_pairs': int(y_true.sum()),
+        'retrieval_stage_a': retrieval_base,
+        'retrieval_stage_b': retrieval_full,
     }
     
     results_path = os.path.join(cfg.OUTPUT_DIR, f'evaluation_results_seed{cfg.SEED}.json')

@@ -3,7 +3,7 @@ trial_embedding.py
 Vectorized Trial and Criterion Encoders for Fast Batch GPU Computation
 """
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import re
 import torch
 import torch.nn as nn
@@ -96,6 +96,42 @@ def normalize_entity_code(entity_type: str, entity_code: str) -> str:
     return code
 
 
+# ---------------------------------------------------------------------------
+# Optional hierarchical diagnosis alignment (entity_alignment.py). When
+# initialized via init_diagnosis_aligner(entity_maps), a trial diagnosis code
+# that isn't an exact match to any patient code will resolve to a
+# clinically-equivalent patient code in the same ICD-10 category, recovering
+# a large fraction of criteria that were previously discarded as OOV (see
+# diagnose_entity_resolution.py). Left None by default so behavior is
+# unchanged unless a caller explicitly opts in.
+# ---------------------------------------------------------------------------
+_DX_ALIGNER = None
+
+
+def init_diagnosis_aligner(entity_maps: Dict[str, Dict[str, int]]):
+    """Build the module-level diagnosis aligner from the patient vocabulary.
+    Call once (in train.py / evaluate.py) before encoding trials."""
+    global _DX_ALIGNER
+    try:
+        from entity_alignment import DiagnosisAligner
+        _DX_ALIGNER = DiagnosisAligner(set(entity_maps.get('diagnosis', {}).keys()))
+        logging.info(f"[alignment] Hierarchical diagnosis aligner initialized "
+                     f"({len(_DX_ALIGNER.exact)} patient diagnosis codes, "
+                     f"{len(_DX_ALIGNER.by_category)} ICD-10 categories).")
+    except Exception as e:
+        logging.warning(f"[alignment] Could not initialize diagnosis aligner: {e}. "
+                         f"Falling back to exact-match only.")
+        _DX_ALIGNER = None
+
+
+def _aligned_diagnosis_code(entity_code: str, entity_maps: Dict[str, Dict[str, int]]) -> Optional[str]:
+    """Return the patient-vocabulary diagnosis code this trial code aligns to
+    (exact or category-level), or None. Only active if the aligner is set."""
+    if _DX_ALIGNER is None:
+        return None
+    return _DX_ALIGNER.resolve(entity_code)
+
+
 def is_resolvable_code(entity_type: str, entity_code: str, entity_maps: Dict[str, Dict[str, int]]) -> bool:
     """
     True only if this criterion has a real code we can actually look up.
@@ -103,6 +139,10 @@ def is_resolvable_code(entity_type: str, entity_code: str, entity_maps: Dict[str
       - placeholder codes like 'UNMATCHED_47327' (upstream extraction never
         found a real code -- these are not failed matches, they're not codes)
       - genuinely OOV codes not present in entity_maps for this entity_type
+
+    When the hierarchical diagnosis aligner is active, a diagnosis code also
+    counts as resolvable if a clinically-equivalent patient code exists in
+    the same ICD-10 category (recovers crosswalk-granularity mismatches).
     """
     code = str(entity_code)
     if code.startswith('UNMATCHED_') or code.strip() == '' or code.lower() == 'none':
@@ -110,7 +150,11 @@ def is_resolvable_code(entity_type: str, entity_code: str, entity_maps: Dict[str
     node_map = entity_maps.get(entity_type)
     if node_map is None:
         return False
-    return normalize_entity_code(entity_type, code) in node_map
+    if normalize_entity_code(entity_type, code) in node_map:
+        return True
+    if entity_type == 'diagnosis' and _aligned_diagnosis_code(code, entity_maps) is not None:
+        return True
+    return False
 
 
 def get_concept_embedding(entity_type: str, entity_code: str, entity_maps: Dict[str, Dict[str, int]], post_gnn_embeddings: Dict[str, torch.Tensor], embed_dim: int, device) -> torch.Tensor:
@@ -118,6 +162,11 @@ def get_concept_embedding(entity_type: str, entity_code: str, entity_maps: Dict[
     if node_map is None:
         return torch.zeros(embed_dim, device=device)
     norm_code = normalize_entity_code(entity_type, entity_code)
+    if norm_code not in node_map and entity_type == 'diagnosis':
+        # Try hierarchical alignment before giving up on this diagnosis code.
+        aligned = _aligned_diagnosis_code(entity_code, entity_maps)
+        if aligned is not None:
+            norm_code = aligned
     if norm_code not in node_map:
         return torch.zeros(embed_dim, device=device)
     node_idx = node_map[norm_code]

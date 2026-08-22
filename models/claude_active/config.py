@@ -98,6 +98,14 @@ class Config:
     LAMBDA_1 = 1.0
     LAMBDA_2 = 2.5
     LAMBDA_ANCHOR = float(os.environ.get("RUN_LAMBDA_ANCHOR", 0.5))
+
+    # NEW: when True, the GNN encoder's weights are never updated during
+    # Stage B -- only CriterionEncoder/TrialEncoder train on top of the
+    # frozen, GCL-pretrained patient/entity representations. This makes
+    # LAMBDA_ANCHOR moot (the encoder literally cannot drift from Stage A),
+    # so it's a stronger, more direct alternative to anchor regularization
+    # rather than something to combine with a large LAMBDA_ANCHOR value.
+    FREEZE_BACKBONE = os.environ.get("RUN_FREEZE_BACKBONE", "0").lower() in ("1", "true")
     MARGIN_HARD = 0.4
     MARGIN_RAND = 0.2
     # Reverted from 0.3 -- that cut usable trials (>=1 eligible patient) from
@@ -107,7 +115,21 @@ class Config:
     HARD_NEG_INC_THRESHOLD = 0.15
     HARD_NEG_EXC_THRESHOLD = 0.8
     N_RANDOM_NEGATIVES = 5
+    # NOTE: this constant is no longer used by P@k/NDCG@k/Delta-SFR --
+    # those now reuse the SAME eligibility definition as ROC-AUC/PR-AUC
+    # (HARD_NEG_INC_THRESHOLD/HARD_NEG_EXC_THRESHOLD, via y_true), rather
+    # than this separate gamma_elig threshold. Previously P@k's formula
+    # used this constant while ROC-AUC/PR-AUC used the two above --  two
+    # different eligibility definitions applied to the same M_inc/M_exc
+    # quantities. Kept here only so old references don't hard-crash;
+    # do not wire this into any new metric.
     ELIGIBILITY_THRESHOLD_GAMMA = 0.8
+
+    # Precision@k / NDCG@k / Delta-SFR@k are computed at each of these k
+    # values (see retrieval_metrics.py). Chosen to span a plausible range
+    # of manual screening capacity a trial coordinator might realistically
+    # review.
+    PRECISION_K_VALUES = [10, 20, 50]
 
     # ------------------------------------------------------------------
     # Inference-time scoring (Phase 5)

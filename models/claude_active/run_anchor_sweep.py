@@ -57,13 +57,14 @@ from config import Config
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def run_one_combo(lambda_anchor: float, align_lr: float, seed: int):
+def run_one_combo(lambda_anchor: float, align_lr: float, seed: int, freeze_backbone: bool = False):
     env = os.environ.copy()
     env["RUN_SEED"] = str(seed)
     env["RUN_LAMBDA_ANCHOR"] = str(lambda_anchor)
     env["RUN_ALIGN_LR"] = str(align_lr)
+    env["RUN_FREEZE_BACKBONE"] = "1" if freeze_backbone else "0"
 
-    tag = f"anchor{lambda_anchor}_lr{align_lr}_seed{seed}"
+    tag = f"freeze{int(freeze_backbone)}_anchor{lambda_anchor}_lr{align_lr}_seed{seed}"
     logging.info(f"[{tag}] Running train.py ...")
     # Absolute path to WHICH script, but no cwd override -- see the note
     # above SCRIPT_DIR for why.
@@ -85,6 +86,7 @@ def run_one_combo(lambda_anchor: float, align_lr: float, seed: int):
     result["lambda_anchor"] = lambda_anchor
     result["align_lr"] = align_lr
     result["seed"] = seed
+    result["freeze_backbone"] = freeze_backbone
     return result
 
 
@@ -93,16 +95,20 @@ def main():
     parser.add_argument("--lambda-anchor", type=float, nargs="+", default=[0.1, 0.3, 0.5])
     parser.add_argument("--align-lr", type=float, nargs="+", default=[1e-4])
     parser.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
+    parser.add_argument("--freeze-backbone", action="store_true",
+                         help="Freeze the GNN encoder during Stage B (LAMBDA_ANCHOR "
+                              "becomes moot in this mode; still logged for bookkeeping).")
     args = parser.parse_args()
 
     all_results = []
     combos = list(itertools.product(args.lambda_anchor, args.align_lr))
     logging.info(f"Sweeping {len(combos)} config(s) x {len(args.seeds)} seed(s) = "
-                 f"{len(combos) * len(args.seeds)} total runs")
+                 f"{len(combos) * len(args.seeds)} total runs "
+                 f"(freeze_backbone={args.freeze_backbone})")
 
     for lambda_anchor, align_lr in combos:
         for seed in args.seeds:
-            result = run_one_combo(lambda_anchor, align_lr, seed)
+            result = run_one_combo(lambda_anchor, align_lr, seed, args.freeze_backbone)
             all_results.append(result)
 
     # Aggregate: group by (lambda_anchor, align_lr), average across seeds
